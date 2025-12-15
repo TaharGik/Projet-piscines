@@ -1,0 +1,205 @@
+import { Link } from 'react-router-dom';
+import SectionTitle from '../components/SectionTitle';
+import useSEO from '../hooks/useSEO';
+
+/**
+ * Page À propos
+ * Présentation de l'entreprise, équipe et valeurs
+ */
+const About = () => {
+  // SEO - Meta tags pour la page À propos
+  useSEO({
+    title: 'A propos - Notre histoire et nos valeurs',
+    description: 'Aqua Prestige, pisciniste depuis 2009 en Ile-de-France. Decouvrez notre equipe de 12 experts passionnes, nos valeurs et notre savoir-faire unique.',
+    keywords: 'pisciniste Ile-de-France, entreprise piscine Paris, constructeur piscine 78, histoire Aqua Prestige',
+    canonicalUrl: 'https://www.aqua-prestige.fr/a-propos',
+  });
+
+  const values = [
+    {
+      icon: '🎯',
+      title: 'Qualité',
+      description: 'Nous sélectionnons les meilleurs matériaux et travaillons avec des artisans qualifiés pour garantir une finition irréprochable.'
+    },
+    {
+      icon: '🛡️',
+      title: 'Sécurité',
+      description: 'Toutes nos installations sont conformes aux normes en vigueur. Nous assurons la sécurité de votre famille.'
+    },
+    {
+      icon: '🤝',
+      title: 'Proximité',
+      description: 'Une équipe à votre écoute, disponible et réactive. Un interlocuteur unique tout au long de votre projet.'
+    },
+    {
+      icon: '⏱️',
+      title: 'Respect des délais',
+      description: 'Nous nous engageons sur des délais réalistes et mettons tout en œuvre pour les respecter.'
+    }
+  ];
+
+  const stats = [
+    { number: '15+', label: 'Années d\'expérience' },
+    { number: '250+', label: 'Piscines réalisées' },
+    { number: '98%', label: 'Clients satisfaits' },
+    { number: '12', label: 'Experts passionnés' }
+  ];
+
+  return (
+    <>
+      {/* Hero About */}
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
+        <div className="container-custom">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              À propos d'Aqua Prestige
+            </h1>
+            <p className="text-xl text-primary-100">
+              Depuis 2009, nous concevons et réalisons des piscines sur mesure 
+              pour les particuliers exigeants de la région parisienne.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Notre histoire */}
+      <section className="section-padding">
+        <div className="container-custom">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Notre histoire</h2>
+              <div className="space-y-4 text-gray-600">
+                <p>
+                  Fondée en 2009 par deux passionnés du secteur aquatique, Aqua Prestige est née 
+                  de la volonté de proposer une approche différente de la construction de piscines.
+                </p>
+                <p>
+                  Notre philosophie : allier l'excellence technique à un accompagnement humain 
+                  et personnalisé. Chaque projet est unique, et nous mettons un point d'honneur 
+                  à comprendre vos attentes pour les transformer en réalité.
+                </p>
+                <p>
+                  Aujourd'hui, avec plus de 250 piscines réalisées en Île-de-France, nous sommes 
+                  fiers d'être reconnus comme l'un des piscinistes de référence de la région.
+                </p>
+              </div>
+            </div>
+            <div className="bg-gray-200 rounded-2xl h-80 flex items-center justify-center">
+              <span className="text-gray-500">Photo de l'équipe</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Chiffres clés */}
+      <section className="py-16 bg-primary-500 text-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div key={index} className="text-center">
+                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
+                <div className="text-primary-100">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Nos valeurs */}
+      <section className="section-padding bg-gray-50">
+        <div className="container-custom">
+          <SectionTitle
+            title="Nos valeurs"
+            subtitle="Les principes qui guident notre travail au quotidien"
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl shadow-sm text-center">
+                <div className="text-4xl mb-4">{value.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
+                <p className="text-gray-600 text-sm">{value.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Notre équipe */}
+      <section className="section-padding">
+        <div className="container-custom">
+          <SectionTitle
+            title="Notre équipe"
+            subtitle="Des professionnels passionnés à votre service"
+          />
+          <div className="max-w-3xl mx-auto text-center text-gray-600">
+            <p className="mb-6">
+              Notre équipe de 12 collaborateurs réunit des compétences complémentaires : 
+              ingénieurs, conducteurs de travaux, techniciens et conseillers commerciaux. 
+              Tous partagent la même passion pour leur métier et le même souci du détail.
+            </p>
+            <p>
+              Du premier contact à la remise des clés, vous bénéficiez d'un interlocuteur 
+              dédié qui vous accompagne à chaque étape de votre projet.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Garanties */}
+      <section className="section-padding bg-gray-50">
+        <div className="container-custom">
+          <SectionTitle
+            title="Nos garanties"
+            subtitle="Votre tranquillité d'esprit est notre priorité"
+          />
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl">🏗️</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Garantie décennale</h3>
+              <p className="text-gray-600 text-sm">
+                Tous nos travaux sont couverts par une assurance décennale pour une protection optimale.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl">🔧</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">SAV réactif</h3>
+              <p className="text-gray-600 text-sm">
+                Une équipe dédiée pour répondre à toutes vos questions et intervenir rapidement si besoin.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-2xl">📋</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Contrat clair</h3>
+              <p className="text-gray-600 text-sm">
+                Devis détaillé, planning précis, aucune mauvaise surprise. Transparence totale.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="section-padding">
+        <div className="container-custom text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Envie de nous rencontrer ?
+          </h2>
+          <p className="text-xl text-gray-600 mb-8">
+            Prenez rendez-vous pour discuter de votre projet
+          </p>
+          <Link to="/contact" className="btn-primary">
+            Nous contacter
+          </Link>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default About;

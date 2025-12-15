@@ -1,0 +1,13 @@
+# Robots.txt pour Aqua Prestige
+# https://www.aqua-prestige.fr
+
+# Autoriser tous les robots
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.aqua-prestige.fr/sitemap.xml
+
+# Interdire les ressources privées
+Disallow: /api/
+Disallow: /admin/
