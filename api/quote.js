@@ -161,7 +161,7 @@ function validateFormData(data) {
  */
 async function sendEmails(formData) {
   const apiKey = process.env.BREVO_API_KEY;
-  const toEmail = process.env.CONTACT_EMAIL || 'contact@aqua-prestige.fr';
+  const toEmail = process.env.CONTACT_EMAIL || 'bbhservice25@gmail.com';
   
   if (!apiKey) {
     console.error('BREVO_API_KEY non configurée');
@@ -284,7 +284,7 @@ async function sendEmails(formData) {
             </p>
           </div>
           <div style="background: #1e293b; color: #94a3b8; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
-            <p style="margin: 0 0 10px 0;">📞 01 23 45 67 89 | 📧 contact@aqua-prestige.fr</p>
+            <p style="margin: 0 0 10px 0;">📞 06 40 12 34 56 | 📧 bbhservice25@gmail.com</p>
             <p style="margin: 0; font-size: 12px;">
               Cet email a été envoyé suite à votre demande sur notre site web.
             </p>

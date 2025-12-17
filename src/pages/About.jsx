@@ -9,10 +9,10 @@ import useSEO from '../hooks/useSEO';
 const About = () => {
   // SEO - Meta tags pour la page À propos
   useSEO({
-    title: 'A propos - Notre histoire et nos valeurs',
-    description: 'Aqua Prestige, pisciniste depuis 2009 en Ile-de-France. Decouvrez notre equipe de 12 experts passionnes, nos valeurs et notre savoir-faire unique.',
-    keywords: 'pisciniste Ile-de-France, entreprise piscine Paris, constructeur piscine 78, histoire Aqua Prestige',
-    canonicalUrl: 'https://www.aqua-prestige.fr/a-propos',
+    title: 'A propos - Notre histoire et nos valeurs | BBH SERVICE',
+    description: 'BBH SERVICE, pisciniste depuis 2016 en Ile-de-France. Decouvrez notre expertise de 9 ans dans la conception, installation et entretien de piscines.',
+    keywords: 'pisciniste Ile-de-France, entreprise piscine Paris, constructeur piscine, histoire BBH SERVICE',
+    canonicalUrl: 'https://www.bbhservice.fr/a-propos',
   });
 
   const values = [
@@ -39,10 +39,10 @@ const About = () => {
   ];
 
   const stats = [
-    { number: '15+', label: 'Années d\'expérience' },
-    { number: '250+', label: 'Piscines réalisées' },
-    { number: '98%', label: 'Clients satisfaits' },
-    { number: '12', label: 'Experts passionnés' }
+    { number: '9+', label: 'Années d\'expérience' },
+    { number: '100%', label: 'Sur mesure' },
+    { number: 'IDF', label: 'Île-de-France' },
+    { number: '7j/7', label: 'Disponibilité' }
   ];
 
   return (
@@ -52,11 +52,11 @@ const About = () => {
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              À propos d'Aqua Prestige
+              À propos de BBH SERVICE
             </h1>
             <p className="text-xl text-primary-100">
-              Depuis 2009, nous concevons et réalisons des piscines sur mesure 
-              pour les particuliers exigeants de la région parisienne.
+              Depuis 9 ans, nous accompagnons nos clients en Île-de-France et alentours 
+              avec des solutions personnalisées, conçues pour durer.
             </p>
           </div>
         </div>
@@ -70,17 +70,22 @@ const About = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Notre histoire</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  Fondée en 2009 par deux passionnés du secteur aquatique, Aqua Prestige est née 
-                  de la volonté de proposer une approche différente de la construction de piscines.
+                  BBH SERVICE est menée par un entrepreneur dynamique, fort de 9 années d'expérience 
+                  dans la construction et l'installation des piscines d'extérieur et d'intérieur.
                 </p>
                 <p>
-                  Notre philosophie : allier l'excellence technique à un accompagnement humain 
-                  et personnalisé. Chaque projet est unique, et nous mettons un point d'honneur 
-                  à comprendre vos attentes pour les transformer en réalité.
+                  Un pisciniste qui choisit avec soin ses équipes et forme ses techniciens en leur 
+                  transmettant toute son expérience et compétences. Le savoir-faire BBH SERVICE, 
+                  c'est la garantie d'un travail bien fait et une technique unique reconnue pour 
+                  sa qualité et sa durabilité.
                 </p>
                 <p>
-                  Aujourd'hui, avec plus de 250 piscines réalisées en Île-de-France, nous sommes 
-                  fiers d'être reconnus comme l'un des piscinistes de référence de la région.
+                  Avec BBH SERVICE, faites le choix d'un partenaire fiable pour réaliser la piscine 
+                  dont vous rêvez. Étude, installation, entretien : nos spécialistes prennent en charge 
+                  l'ensemble de votre projet pour vous garantir une piscine belle, performante et facile à vivre.
+                </p>
+                <p className="font-semibold text-primary-600">
+                  BBH SERVICE : votre projet mérite la meilleure expertise.
                 </p>
               </div>
             </div>
@@ -133,13 +138,13 @@ const About = () => {
           />
           <div className="max-w-3xl mx-auto text-center text-gray-600">
             <p className="mb-6">
-              Notre équipe de 12 collaborateurs réunit des compétences complémentaires : 
-              ingénieurs, conducteurs de travaux, techniciens et conseillers commerciaux. 
-              Tous partagent la même passion pour leur métier et le même souci du détail.
+              BBH SERVICE réunit des techniciens qualifiés et formés avec soin pour vous garantir 
+              un travail de qualité. Notre entrepreneur transmet son expérience et ses compétences 
+              à chaque membre de l'équipe.
             </p>
             <p>
-              Du premier contact à la remise des clés, vous bénéficiez d'un interlocuteur 
-              dédié qui vous accompagne à chaque étape de votre projet.
+              Du premier contact à la remise des clés, vous bénéficiez d'un accompagnement personnalisé 
+              qui vous guide à chaque étape de votre projet.
             </p>
           </div>
         </div>

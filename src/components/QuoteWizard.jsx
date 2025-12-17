@@ -4,23 +4,48 @@ import { useState, useEffect } from 'react';
  * Composant QuoteWizard - Parcours de demande de devis en étapes
  * 
  * Ce wizard guide l'utilisateur à travers plusieurs étapes pour qualifier
- * sa demande de construction de piscine avant le formulaire de contact.
+ * sa demande avant le formulaire de contact.
  * 
  * Étapes :
- * 1. Type de piscine
- * 2. Dimensions
- * 3. Terrain
- * 4. Budget
- * 5. Délai souhaité
- * 6. Coordonnées
+ * 1. Type de service (Conception, Rénovation, Entretien)
+ * 2. Type de piscine
+ * 3. Dimensions
+ * 4. Terrain
+ * 5. Budget
+ * 6. Délai souhaité
+ * 7. Coordonnées
  * 
  * @param {function} onComplete - Callback appelé avec les données complètes
  * @param {function} onClose - Callback pour fermer le wizard
  */
 
-const TOTAL_STEPS = 6;
+const TOTAL_STEPS = 7;
 
 // Données des options pour chaque étape
+const SERVICE_TYPES = [
+  { 
+    id: 'conception-installation', 
+    label: 'Conception et Installation', 
+    icon: '🏗️',
+    description: 'Créer une nouvelle piscine sur mesure',
+    popular: true
+  },
+  { 
+    id: 'renovation', 
+    label: 'Rénovation de Piscine', 
+    icon: '🔄',
+    description: 'Rénover ou moderniser une piscine existante',
+    popular: false
+  },
+  { 
+    id: 'entretien', 
+    label: 'Entretien de Piscine', 
+    icon: '🧽',
+    description: 'Contrat d\'entretien régulier',
+    popular: false
+  },
+];
+
 const POOL_TYPES = [
   { 
     id: 'beton', 
@@ -89,6 +114,7 @@ const QuoteWizard = ({ onComplete, onClose }) => {
   
   // Données du formulaire
   const [formData, setFormData] = useState({
+    serviceType: '',
     poolType: '',
     dimensions: '',
     terrain: '',
@@ -148,12 +174,13 @@ const QuoteWizard = ({ onComplete, onClose }) => {
    */
   const isStepValid = () => {
     switch (currentStep) {
-      case 1: return formData.poolType !== '';
-      case 2: return formData.dimensions !== '';
-      case 3: return formData.terrain !== '';
-      case 4: return formData.budget !== '';
-      case 5: return formData.timeline !== '';
-      case 6: return formData.name && formData.email && formData.phone && formData.city;
+      case 1: return formData.serviceType !== '';
+      case 2: return formData.poolType !== '';
+      case 3: return formData.dimensions !== '';
+      case 4: return formData.terrain !== '';
+      case 5: return formData.budget !== '';
+      case 6: return formData.timeline !== '';
+      case 7: return formData.name && formData.email && formData.phone && formData.city;
       default: return false;
     }
   };
@@ -174,6 +201,7 @@ const QuoteWizard = ({ onComplete, onClose }) => {
     setSubmitStatus({ type: 'loading', message: 'Envoi en cours...' });
 
     // Construire le message récapitulatif
+    const serviceTypeLabel = SERVICE_TYPES.find(s => s.id === formData.serviceType)?.label || formData.serviceType;
     const poolTypeLabel = POOL_TYPES.find(p => p.id === formData.poolType)?.label || formData.poolType;
     const dimensionsLabel = DIMENSIONS.find(d => d.id === formData.dimensions)?.label || formData.dimensions;
     const terrainLabel = TERRAIN_TYPES.find(t => t.id === formData.terrain)?.label || formData.terrain;
@@ -183,6 +211,7 @@ const QuoteWizard = ({ onComplete, onClose }) => {
     const fullMessage = `
 📋 DEMANDE DE DEVIS QUALIFIÉE
 
+🔧 Service demandé : ${serviceTypeLabel}
 🏊 Type de piscine : ${poolTypeLabel}
 📐 Dimensions : ${dimensionsLabel}
 ⛰️ Terrain : ${terrainLabel}
@@ -302,6 +331,28 @@ ${formData.message || 'Aucun message supplémentaire'}
           <div className="space-y-6">
             <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                Quel service recherchez-vous ?
+              </h2>
+              <p className="text-gray-500">Sélectionnez le type de service dont vous avez besoin</p>
+            </div>
+            <div className="grid gap-4">
+              {SERVICE_TYPES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="serviceType"
+                  selected={formData.serviceType === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 Quel type de piscine souhaitez-vous ?
               </h2>
               <p className="text-gray-500">Choisissez le type qui correspond le mieux à votre projet</p>
@@ -319,7 +370,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         );
 
-      case 2:
+      case 3:
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -341,7 +392,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         );
 
-      case 3:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -363,7 +414,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         );
 
-      case 4:
+      case 5:
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -385,7 +436,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         );
 
-      case 5:
+      case 6:
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -407,7 +458,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         );
 
-      case 6:
+      case 7:
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -421,6 +472,8 @@ ${formData.message || 'Aucun message supplémentaire'}
             <div className="bg-blue-50 rounded-xl p-4 mb-6">
               <h3 className="font-semibold text-blue-800 mb-3">📋 Récapitulatif de votre projet</h3>
               <div className="grid grid-cols-2 gap-2 text-sm">
+                <span className="text-gray-600">Service :</span>
+                <span className="font-medium">{SERVICE_TYPES.find(s => s.id === formData.serviceType)?.label}</span>
                 <span className="text-gray-600">Type :</span>
                 <span className="font-medium">{POOL_TYPES.find(p => p.id === formData.poolType)?.label}</span>
                 <span className="text-gray-600">Dimensions :</span>
@@ -582,12 +635,12 @@ ${formData.message || 'Aucun message supplémentaire'}
         </div>
 
         {/* Contenu scrollable */}
-        <div className="overflow-y-auto p-6" style={{ maxHeight: 'calc(90vh - 140px)' }}>
+        <div className="overflow-y-auto p-6 pb-32" style={{ maxHeight: 'calc(90vh - 140px)' }}>
           {renderStepContent()}
         </div>
 
         {/* Footer avec navigation */}
-        {currentStep < 6 && (
+        {currentStep < 7 && (
           <div className="sticky bottom-0 bg-white border-t border-gray-100 px-6 py-4">
             <div className="flex items-center justify-between">
               <button
@@ -614,8 +667,8 @@ ${formData.message || 'Aucun message supplémentaire'}
           </div>
         )}
 
-        {/* Bouton retour pour l'étape 6 */}
-        {currentStep === 6 && (
+        {/* Bouton retour pour l'étape 7 (finale) */}
+        {currentStep === 7 && (
           <div className="sticky bottom-0 bg-white border-t border-gray-100 px-6 py-4">
             <div className="flex items-center justify-between gap-4">
               <button

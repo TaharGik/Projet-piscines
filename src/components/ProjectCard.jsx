@@ -23,9 +23,18 @@ const ProjectCard = ({ project, onOpenModal }) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
       <div className="h-56 bg-gradient-to-br from-gray-200 to-gray-300 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-gray-500 text-sm">Photo du projet</span>
-        </div>
+        {/* Image du projet */}
+        {project.imageAfter || project.imageBefore ? (
+          <img 
+            src={project.imageAfter || project.imageBefore} 
+            alt={project.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-gray-500 text-sm">Photo du projet</span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/20 transition-colors duration-300"></div>
         {project.featured && (
           <div className="absolute top-4 left-4 bg-amber-500 text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">

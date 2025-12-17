@@ -17,64 +17,60 @@
 export const projects = [
   {
     id: 1,
-    slug: 'villa-méditerranée',
-    name: 'Villa méditerranée',
-    city: 'Saint-Germain-en-Laye',
-    department: 'Yvelines (78)',
-    type: 'Piscine beton a debordement',
-    description: 'Piscine a debordement de 12x5m avec vue panoramique sur le jardin paysager. Finition en carrelage gris anthracite et margelles en pierre naturelle.',
-    longDescription: `Ce projet exceptionnel a ete realise pour une villa de style mediterraneen situee dans un quartier residentiel prisé de Saint-Germain-en-Laye.
+    slug: 'piscine-universite-nantes',
+    name: 'Piscine de l\'université de Nantes',
+    city: 'Nantes',
+    department: 'Loire-Atlantique (44)',
+    type: 'Piscine municipale',
+    description: 'Réalisation d\'une piscine pour l\'université de Nantes. Bassin olympique avec équipements de haute qualité.',
+    longDescription: `Projet d'envergure réalisé pour l'université de Nantes. Ce bassin a été conçu pour répondre aux normes universitaires et sportives les plus strictes.
 
-Le client souhaitait une piscine a debordement offrant une vue degagee sur son jardin paysager de 2000m². Nous avons concu un bassin de 12m x 5m avec un debordement sur toute la longueur, creant un effet miroir spectaculaire.
+La piscine comprend un bassin principal de dimensions olympiques, des vestiaires collectifs, et un système de filtration de dernière génération.
 
-La finition en carrelage gris anthracite 30x30 apporte une touche contemporaine, tandis que les margelles en pierre naturelle de Bourgogne assurent une integration harmonieuse avec l'architecture existante.
-
-Le systeme de filtration au sel garantit une eau douce et agreable, sans les inconvenients du chlore traditionnel.`,
-    tags: ['debordement', 'béton', 'carrelage', 'haut de gamme'],
-    dimensions: '12m x 5m',
-    depth: '1.20m a 2.00m',
-    year: 2023,
-    duration: '4 mois',
-    budget: '80 000 - 100 000 EUR',
-    imageBefore: '/images/projects/villa-med-before.jpg',
-    imageAfter: '/images/projects/villa-med-after.jpg',
+Le projet a été livré dans les délais impartis, permettant aux étudiants de profiter de ces installations de qualité professionnelle.`,
+    tags: ['municipale', 'olympique', 'universitaire', 'professionnel'],
+    dimensions: '25m x 12m',
+    depth: '1.20m à 3.00m',
+    year: 2018,
+    duration: '8 mois',
+    budget: 'Sur devis',
+    imageBefore: '/images/projects/realisation1.png',
+    imageAfter: '/images/projects/realisation1.png',
     featured: true,
     details: {
-      filtration: 'Electrolyseur au sel Zodiac',
-      revetement: 'Carrelage gris anthracite 30x30',
-      margelles: 'Pierre naturelle de Bourgogne',
-      equipements: ['Eclairage LED couleur', 'Volet roulant immerge', 'Nage a contre-courant', 'Pompe a chaleur Inverter']
+      filtration: 'Système de filtration professionnel',
+      revetement: 'Carrelage antidérapant bleu',
+      margelles: 'Margelles béton',
+      equipements: ['Système de chronométrage', 'Plongeoirs', 'Lignes d\'eau professionnelles', 'Traitement automatique']
     }
   },
   {
     id: 2,
-    slug: 'residence-les-music',
-    name: 'Residence Les Music',
-    city: 'Versailles',
-    department: 'Yvelines (78)',
-    type: 'Piscine coque avec pool house',
-    description: 'Installation d\'une piscine coque 8x4m avec construction d\'un pool house en bois. Plage immergee et escalier roman.',
-    longDescription: `Pour cette residence versaillaise, le choix s'est porte sur une piscine coque pour sa rapidite d'installation et son excellent rapport qualite-prix.
+    slug: 'piscine-club-prive-lyon',
+    name: 'Piscine du club privé de Lyon',
+    city: 'Lyon',
+    department: 'Rhône (69)',
+    type: 'Piscine club privé',
+    description: 'Installation d\'une piscine de luxe pour un club privé à Lyon. Design contemporain et équipements haut de gamme.',
+    longDescription: `Ce projet prestigieux a été réalisé pour un club privé huppé de Lyon. Le cahier des charges exigeait un design contemporain et des équipements de très haute qualité.
 
-La coque polyester 8x4m a ete installee en seulement 3 semaines. Elle dispose d'une plage immergee parfaite pour la detente et d'un escalier roman facilitant l'acces.
+La piscine de 15m x 6m dispose d'un système de débordement sur trois côtés, créant un effet visuel saisissant. Les finitions en mosaïque italienne et l'éclairage LED subaquatique apportent une touche luxueuse.
 
-En complement, nous avons concu et realise un pool house en bois de 20m² comprenant un local technique, des vestiaires et un espace detente avec vue sur la piscine.
-
-La terrasse en bois composite entoure l'ensemble, creant un veritable espace de vie exterieur.`,
-    tags: ['coque', 'pool house', 'plage immergee', 'bois'],
-    dimensions: '8m x 4m',
-    depth: '1.10m a 1.60m',
-    year: 2023,
-    duration: '6 semaines',
-    budget: '45 000 - 55 000 EUR',
-    imageBefore: '/images/projects/residence-before.jpg',
-    imageAfter: '/images/projects/residence-after.jpg',
+Le système de chauffage par pompe à chaleur Inverter assure une température constante de 28°C, et le volet roulant automatique garantit sécurité et économies d'énergie.`,
+    tags: ['luxe', 'club privé', 'débordement', 'haut de gamme'],
+    dimensions: '15m x 6m',
+    depth: '1.40m à 2.20m',
+    year: 2018,
+    duration: '5 mois',
+    budget: 'Sur devis',
+    imageBefore: '/images/projects/realisation2.jpg',
+    imageAfter: '/images/projects/realisation3.jpg',
     featured: true,
     details: {
-      filtration: 'Filtration a cartouche',
-      revetement: 'Coque polyester blanc nacre',
-      margelles: 'Bois composite gris',
-      equipements: ['Pool house 20m²', 'Douche exterieure', 'Eclairage LED', 'Bache a barres']
+      filtration: 'Electrolyseur au sel haut de gamme',
+      revetement: 'Mosaïque italienne bleu turquoise',
+      margelles: 'Pierre naturelle de Provence',
+      equipements: ['Volet roulant automatique', 'Pompe à chaleur Inverter', 'Nage à contre-courant', 'Éclairage LED RGB', 'Spa intégré']
     }
   },
   {

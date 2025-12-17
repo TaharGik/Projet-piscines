@@ -62,9 +62,19 @@ const Services = () => {
                 className={`grid md:grid-cols-2 gap-8 items-center scroll-mt-24 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
               >
                 <div className={index % 2 === 1 ? 'md:order-2' : ''}>
-                  <div className="bg-gray-200 rounded-2xl h-64 md:h-80 flex items-center justify-center">
-                    <span className="text-6xl">{getServiceIcon(service.icon)}</span>
-                  </div>
+                  {service.image ? (
+                    <div className="rounded-2xl h-64 md:h-80 overflow-hidden shadow-lg">
+                      <img 
+                        src={service.image} 
+                        alt={service.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  ) : (
+                    <div className="bg-gray-200 rounded-2xl h-64 md:h-80 flex items-center justify-center">
+                      <span className="text-6xl">{getServiceIcon(service.icon)}</span>
+                    </div>
+                  )}
                 </div>
                 <div className={index % 2 === 1 ? 'md:order-1' : ''}>
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">

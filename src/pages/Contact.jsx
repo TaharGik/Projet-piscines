@@ -84,7 +84,7 @@ const Contact = () => {
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Email</div>
-                        <a href="mailto:contact@aqua-prestige.fr" className="text-blue-500 hover:underline">contact@aqua-prestige.fr</a>
+                        <a href="mailto:bbhservice25@gmail.com" className="text-blue-500 hover:underline">bbhservice25@gmail.com</a>
                       </div>
                     </li>
                   </ul>

@@ -1,87 +1,58 @@
 ﻿/**
- * Donnees des services proposes par l'entreprise
+ * Donnees des services proposes par BBH SERVICE
  * Chaque service contient : id, titre, description, avantages, icone
  */
 export const services = [
   {
     id: 1,
-    slug: 'piscines-beton',
-    title: 'Piscines beton sur mesure',
-    shortDescription: 'Construction de piscines en beton arme, entierement personnalisables selon vos envies.',
-    description: 'Notre specialite : la construction de piscines en beton arme, la technique la plus noble et la plus durable. Chaque projet est unique et concu sur mesure selon vos envies, votre terrain et votre budget. Le beton permet toutes les formes, toutes les dimensions et toutes les finitions.',
+    slug: 'conception-installation',
+    title: 'Conception et Installation de Piscines',
+    shortDescription: 'Votre projet sur mesure, cle en main : piscines interieures et exterieures.',
+    description: 'Chez BBH SERVICE, nous donnons vie a vos reves en creant des piscines uniques, adaptees a vos envies, votre espace et votre budget. Specialistes de la conception et de l\'installation de piscines interieures et exterieures, nous vous accompagnons a chaque etape pour garantir un resultat a la fois esthetique, fonctionnel et durable.',
+    longDescription: 'Offrir un espace de detente unique et adapte a vos envies, c\'est la promesse de nos piscines sur mesure. Chaque projet est concu avec soin pour repondre a vos besoins specifiques, que vous reviez d\'une piscine elegante pour sublimer votre jardin ou d\'un bassin fonctionnel pour un usage quotidien.\n\nNous commencons par une etude personnalisee de votre espace, en prenant en compte les contraintes techniques, vos gouts esthetiques et votre budget. Grace a des materiaux de qualite et a une expertise eprouvee, nous creons des piscines qui allient design, performance et durabilite.\n\nForme, taille, revetement, type de filtration ou encore integration d\'elements comme un spa, une cascade ou un eclairage d\'ambiance : chaque detail est pense pour donner vie a une piscine qui vous ressemble.\n\nChoisir une piscine sur mesure, c\'est choisir la liberte de personnaliser votre projet et de transformer vos reves en realite.',
     advantages: [
-      'Forme et dimensions 100% personnalisables',
-      'Duree de vie exceptionnelle (50 ans et plus)',
-      'Possibilite d\'integrer tous types d\'equipements',
-      'Finitions haut de gamme (carrelage, mosaique, enduit)',
-      'Valorisation importante de votre bien immobilier'
+      'Etude personnalisee de votre espace',
+      'Piscines interieures et exterieures',
+      'Materiaux de qualite et durables',
+      'Design sur mesure adapte a vos envies',
+      'Accompagnement a chaque etape'
     ],
     icon: 'pool',
-    image: '/images/service-beton.jpg'
+    image: '/images/services/Piscines-beton-sur-mesure.jpg'
   },
   {
     id: 2,
-    slug: 'piscines-coque',
-    title: 'Piscines coque polyester',
-    shortDescription: 'Installation rapide de piscines coque, ideale pour un projet maitrise en temps et budget.',
-    description: 'La piscine coque polyester offre un excellent rapport qualite-prix avec une installation rapide. Nous selectionnons les meilleures coques du marche, fabriquees en France, et assurons une pose dans les regles de l\'art pour une etancheite parfaite et durable.',
+    slug: 'renovation-piscines',
+    title: 'Renovation de Piscines',
+    shortDescription: 'Redonnez vie a votre espace aquatique avec nos services de renovation complete ou partielle.',
+    description: 'Votre piscine montre des signes d\'usure ou ne correspond plus a vos attentes ? Chez BBH SERVICE, nous sommes specialises dans la renovation complete ou partielle de piscines, pour leur redonner eclat, fonctionnalite et modernite.',
+    longDescription: 'Qu\'il s\'agisse de reparer des structures endommagees, de moderniser les equipements (pompes, systemes de filtration, eclairages) ou d\'apporter des ameliorations esthetiques comme le changement de revetements ou l\'ajout d\'elements design, nous mettons a votre disposition notre expertise et des materiaux de qualite.\n\nProfitez egalement de nos conseils pour integrer des technologies recentes, comme des systemes de traitement de l\'eau plus ecologiques ou des solutions connectees pour gerer votre piscine a distance.\n\nFaites confiance a BBH SERVICE pour transformer votre piscine en un espace moderne, sur et durable, pret a vous offrir des moments de detente exceptionnels.',
     advantages: [
-      'Installation rapide (1 a 2 semaines)',
-      'Budget maitrise et transparent',
-      'Surface lisse et agreable au toucher',
-      'Entretien facilite',
-      'Large choix de formes et coloris'
+      'Diagnostic complet et personnalise',
+      'Reparation de structures endommagees',
+      'Modernisation des equipements',
+      'Ameliorations esthetiques et design',
+      'Technologies ecologiques et connectees'
     ],
-    icon: 'waves',
-    image: '/images/service-coque.jpg'
+    icon: 'refresh',
+    image: '/images/services/plusieurs-realisations.png'
   },
   {
     id: 3,
-    slug: 'piscines-interieures',
-    title: 'Piscines interieures',
-    shortDescription: 'Conception de piscines d\'interieur avec gestion de l\'hygrometrie et de la ventilation.',
-    description: 'La piscine interieure est un projet technique qui necessite une expertise particuliere. Nous concevons des espaces aquatiques interieurs en integrant tous les aspects techniques : ventilation, deshumidification, chauffage et traitement acoustique.',
-    advantages: [
-      'Baignade toute l\'annee',
-      'Protection contre les intemperies',
-      'Integration architecturale soignee',
-      'Systeme de deshumidification performant',
-      'Espace bien-etre privatif'
-    ],
-    icon: 'home',
-    image: '/images/service-interieure.jpg'
-  },
-  {
-    id: 4,
-    slug: 'renovation-piscines',
-    title: 'Renovation de piscines',
-    shortDescription: 'Remise en etat complete ou partielle de votre piscine existante.',
-    description: 'Votre piscine a besoin d\'un coup de jeune ? Nous intervenons pour tous types de renovations : changement de liner, remplacement du systeme de filtration, refection de l\'etancheite, modernisation des equipements ou relooking complet de votre bassin.',
-    advantages: [
-      'Diagnostic complet offert',
-      'Solutions adaptees a votre budget',
-      'Mise aux normes de securite',
-      'Amelioration des performances energetiques',
-      'Garantie decennale sur les travaux'
-    ],
-    icon: 'refresh',
-    image: '/images/service-renovation.jpg'
-  },
-  {
-    id: 5,
     slug: 'entretien-piscines',
-    title: 'Contrats d\'entretien',
-    shortDescription: 'Formules d\'entretien regulier pour une piscine toujours impeccable.',
-    description: 'Profitez de votre piscine en toute serenite grace a nos contrats d\'entretien. Nos techniciens qualifies assurent le suivi regulier de votre bassin : analyse de l\'eau, nettoyage, verification des equipements et hivernage/remise en route.',
+    title: 'Entretien de Piscines',
+    shortDescription: 'Pour une eau toujours claire et un bassin impeccable, faites confiance a nos experts.',
+    description: 'Parce qu\'une piscine bien entretenue est essentielle pour garantir votre confort et votre securite, BBH SERVICE propose des prestations completes pour l\'entretien de votre bassin. Que vous ayez besoin d\'un suivi regulier ou d\'une intervention ponctuelle, nos experts s\'occupent de tout.',
+    longDescription: 'Nos services comprennent :\n\n• Analyse et traitement de l\'eau pour maintenir son equilibre chimique\n• Nettoyage du bassin et des equipements (skimmers, filtres, pompes)\n• Controle et maintenance des systemes de filtration et de chauffage\n• Hivernage et remise en service de votre piscine selon les saisons\n\nAvec BBH SERVICE, beneficiez d\'un entretien professionnel et personnalise, adapte aux specificites de votre installation. Prolongez la duree de vie de votre piscine et profitez d\'une eau toujours saine et limpide.',
     advantages: [
-      'Interventions regulieres planifiees',
-      'Produits de traitement inclus',
-      'Assistance telephonique prioritaire',
-      'Tarifs preferentiels sur les reparations',
-      'Tranquillite d\'esprit garantie'
+      'Analyse et traitement de l\'eau',
+      'Nettoyage complet du bassin',
+      'Maintenance des equipements',
+      'Hivernage et remise en service',
+      'Forfaits sur mesure disponibles'
     ],
     icon: 'calendar',
-    image: '/images/service-entretien.jpg'
+    image: '/images/services/petite-fille-jouant-dans-une-piscine-dans-un-jardin-d-ete.jpg'
   }
 ];
 

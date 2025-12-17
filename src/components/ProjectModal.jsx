@@ -47,16 +47,9 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
   if (!isOpen || !project) return null;
 
-  // Images pour le carrousel (placeholders pour l'instant)
-  const images = project.images || [
-    { src: '/placeholder-1.jpg', alt: `${project.name} - Vue principale` },
-    { src: '/placeholder-2.jpg', alt: `${project.name} - Vue détail` },
-    { src: '/placeholder-3.jpg', alt: `${project.name} - Vue d'ensemble` },
-  ];
-
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
@@ -70,7 +63,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
       
       {/* Contenu de la modale avec animation */}
       <div 
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden animate-modalSlideIn"
+        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden animate-modalSlideIn"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Bouton fermer */}
@@ -86,24 +79,47 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
         {/* Contenu scrollable */}
         <div className="overflow-y-auto max-h-[90vh]">
-          {/* Section image / carrousel */}
-          <div className="relative h-64 md:h-80 bg-gradient-to-br from-blue-500 to-blue-700">
-            {/* Placeholder pour le carrousel */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white">
-                <div className="text-6xl mb-4">🏊</div>
-                <p className="text-sm opacity-80">Galerie photos</p>
-              </div>
+          {/* Section images avant/après */}
+          <div className="relative">
+            {/* Images côte à côte sur desktop, empilées sur mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Image AVANT */}
+              {project.imageBefore && (
+                <div className="relative h-64 md:h-96 bg-gray-100">
+                  <img 
+                    src={project.imageBefore} 
+                    alt={`${project.name} - Avant`}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Avant
+                  </div>
+                </div>
+              )}
+              
+              {/* Image APRES */}
+              {project.imageAfter && (
+                <div className="relative h-64 md:h-96 bg-gray-100">
+                  <img 
+                    src={project.imageAfter} 
+                    alt={`${project.name} - Après`}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    Après
+                  </div>
+                </div>
+              )}
             </div>
             
-            {/* Badges */}
+            {/* Badges par-dessus les images */}
             <div className="absolute top-4 left-4 flex gap-2">
               {project.featured && (
                 <span className="px-3 py-1 bg-amber-500 text-white text-sm font-medium rounded-full shadow-lg">
                   ⭐ Projet phare
                 </span>
               )}
-              <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-sm rounded-full">
+              <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 text-sm font-medium rounded-full">
                 {project.year}
               </span>
             </div>

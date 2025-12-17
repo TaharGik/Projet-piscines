@@ -52,6 +52,17 @@ const ContactForm = () => {
   });
 
   /**
+   * État des erreurs par champ
+   */
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+    captcha: '',
+  });
+
+  /**
    * Liste des types de projets
    */
   const projectTypes = [
@@ -70,45 +81,74 @@ const ContactForm = () => {
       ...prev,
       [name]: value,
     }));
+    // Efface l'erreur du champ modifié
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
   /**
    * validateForm - Valide les champs côté client
    */
   const validateForm = () => {
+    const newErrors = {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      captcha: '',
+    };
+
+    let isValid = true;
+
     // Nom
     if (!formData.name.trim() || formData.name.trim().length < 2) {
-      setStatus({ type: 'error', message: 'Veuillez entrer votre nom (minimum 2 caractères).' });
-      return false;
+      newErrors.name = 'Nom requis (minimum 2 caractères)';
+      isValid = false;
     }
     
     // Email
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setStatus({ type: 'error', message: 'Veuillez entrer une adresse email valide.' });
-      return false;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email requis';
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Email invalide';
+      isValid = false;
     }
     
     // Téléphone (format français)
     const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
     const cleanPhone = formData.phone.replace(/\s/g, '');
-    if (!cleanPhone || !phoneRegex.test(cleanPhone)) {
-      setStatus({ type: 'error', message: 'Veuillez entrer un numéro de téléphone valide (format français).' });
-      return false;
+    if (!cleanPhone) {
+      newErrors.phone = 'Téléphone requis';
+      isValid = false;
+    } else if (!phoneRegex.test(cleanPhone)) {
+      newErrors.phone = 'Numéro invalide (format: 06 12 34 56 78)';
+      isValid = false;
     }
     
     // Message
-    if (!formData.message.trim() || formData.message.trim().length < 10) {
-      setStatus({ type: 'error', message: 'Veuillez décrire votre projet (minimum 10 caractères).' });
-      return false;
+    if (!formData.message.trim()) {
+      newErrors.message = 'Description du projet requise';
+      isValid = false;
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Description trop courte (minimum 10 caractères)';
+      isValid = false;
     }
     
     // CAPTCHA
     if (!IS_DEMO_MODE && !captchaToken) {
-      setStatus({ type: 'error', message: 'Veuillez compléter la vérification anti-robot.' });
-      return false;
+      newErrors.captcha = 'Vérification anti-robot requise';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    if (!isValid) {
+      setStatus({ type: 'error', message: 'Veuillez corriger les erreurs dans le formulaire.' });
     }
     
-    return true;
+    return isValid;
   };
 
   /**
@@ -197,6 +237,13 @@ const ContactForm = () => {
       projectType: 'nouvelle-piscine',
       message: '',
     });
+    setErrors({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+      captcha: '',
+    });
     setCaptchaToken('');
     if (hcaptchaRef.current) {
       hcaptchaRef.current.reset();
@@ -264,11 +311,21 @@ const ContactForm = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+            errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
+          }`}
           placeholder="Jean Dupont"
           maxLength={100}
           required
         />
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            {errors.name}
+          </p>
+        )}
       </div>
 
       {/* Email et Téléphone */}
@@ -283,10 +340,20 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+              errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
+            }`}
             placeholder="jean.dupont@email.com"
             required
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {errors.email}
+            </p>
+          )}
         </div>
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
@@ -298,10 +365,20 @@ const ContactForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+              errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300'
+            }`}
             placeholder="06 12 34 56 78"
             required
           />
+          {errors.phone && (
+            <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {errors.phone}
+            </p>
+          )}
         </div>
       </div>
 
@@ -353,14 +430,28 @@ const ContactForm = () => {
           rows={5}
           value={formData.message}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none ${
+            errors.message ? 'border-red-500 bg-red-50' : 'border-gray-300'
+          }`}
           placeholder="Décrivez votre projet : type de piscine souhaitée, dimensions, terrain, budget estimé..."
           maxLength={2000}
           required
         />
-        <p className="text-xs text-gray-500 mt-1">
-          {formData.message.length}/2000 caractères
-        </p>
+        <div className="flex justify-between items-start mt-1">
+          <div>
+            {errors.message && (
+              <p className="text-sm text-red-600 flex items-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {errors.message}
+              </p>
+            )}
+          </div>
+          <p className="text-xs text-gray-500">
+            {formData.message.length}/2000
+          </p>
+        </div>
       </div>
 
       {/* hCaptcha */}
@@ -373,6 +464,14 @@ const ContactForm = () => {
             onExpire={onCaptchaExpire}
             onError={onCaptchaError}
           />
+          {errors.captcha && (
+            <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              {errors.captcha}
+            </p>
+          )}
         </div>
       )}
 

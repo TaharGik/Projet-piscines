@@ -13,17 +13,25 @@ const Header = () => {
     { to: '/contact', label: 'Contact' },
   ];
 
+  // Fonction pour scroll vers le haut quand on clique sur le logo
+  const handleLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <nav className="container-custom">
         <div className="flex justify-between items-center h-20">
-          <Link to="/" className="flex items-center space-x-2 logo-title group">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-full flex items-center justify-center logo-icon shadow-md">
-              <span className="text-white text-xl font-bold">A</span>
-            </div>
-            <span className="text-xl font-bold">
-              <span className="logo-title-text">Aqua</span><span className="logo-title-highlight">Prestige</span>
+          <Link to="/" className="flex items-center space-x-4 logo-title group" onClick={handleLogoClick}>
+            <span className="text-2xl font-bold">
+              <span className="logo-title-text">BBH</span><span className="logo-title-highlight">SERVICE</span>
             </span>
+            {/* 3 rubans de vagues */}
+            <div className="hidden md:flex wave-stack ml-3">
+              <div className="wave-bar wave-1"></div>
+              <div className="wave-bar wave-2"></div>
+              <div className="wave-bar wave-3"></div>
+            </div>
           </Link>
 
           <div className="hidden md:flex items-center space-x-1">
@@ -31,6 +39,7 @@ const Header = () => {
               <NavLink
                 key={link.to}
                 to={link.to}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className={({ isActive }) =>
                   `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                     isActive
@@ -42,7 +51,7 @@ const Header = () => {
                 {link.label}
               </NavLink>
             ))}
-            <Link to="/contact" className="btn-primary ml-4">
+            <Link to="/contact" className="btn-primary ml-4" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               Devis gratuit
             </Link>
           </div>
@@ -76,12 +85,18 @@ const Header = () => {
                       isActive ? 'text-blue-500 bg-blue-50' : 'text-gray-700'
                     }`
                   }
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
                 >
                   {link.label}
                 </NavLink>
               ))}
-              <Link to="/contact" className="btn-primary mt-2 text-center" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/contact" className="btn-primary mt-2 text-center" onClick={() => {
+                setIsMenuOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}>
                 Devis gratuit
               </Link>
             </div>

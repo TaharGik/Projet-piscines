@@ -10,3 +10,64 @@ body {
   margin: 0;
   min-width: 320px;
 }
+
+@keyframes waveMove {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-8px); }
+}
+
+@keyframes waveShine {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Stack de vagues */
+.wave-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Barre de vague avec déformation */
+.wave-bar {
+  width: 64px;
+  height: 10px;
+  border-radius: 999px;
+  background-size: 200% 100%;
+  animation: waveMove 6s ease-in-out infinite alternate;
+  clip-path: path("M0,5 C12,0 24,10 36,5 C48,0 60,8 64,4 L64,10 L0,10 Z");
+}
+
+/* Vague 1 - claire */
+.wave-1 {
+  background: linear-gradient(90deg, #c7e6ff, #9fd8ff, #c7e6ff, #9fd8ff, #c7e6ff);
+  background-size: 200% 100%;
+  opacity: 0.6;
+  animation: waveMove 7s ease-in-out infinite alternate, waveShine 3s linear infinite;
+}
+
+/* Vague 2 - moyenne */
+.wave-2 {
+  background: linear-gradient(90deg, #7cc8ff, #3eaaf2, #7cc8ff, #3eaaf2, #7cc8ff);
+  background-size: 200% 100%;
+  opacity: 0.8;
+  animation: waveMove 5.5s ease-in-out infinite alternate, waveShine 3.5s linear infinite;
+  animation-delay: 0s, 0.3s;
+}
+
+/* Vague 3 - foncée */
+.wave-3 {
+  background: linear-gradient(90deg, #1e88e5, #0b66c3, #1e88e5, #0b66c3, #1e88e5);
+  background-size: 200% 100%;
+  opacity: 1;
+  animation: waveMove 4.5s ease-in-out infinite alternate, waveShine 4s linear infinite;
+  animation-delay: 0s, 0.6s;
+}
+
+
+

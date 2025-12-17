@@ -69,7 +69,17 @@ const Hero = ({ onRequestQuote }) => {
   };
 
   return (
-    <section className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 text-white overflow-hidden">
+    <section className="relative text-white overflow-hidden">
+      {/* Image de fond */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/services/vacances-piscine.png')" }}
+      />
+      
+      {/* Overlay bleu semi-transparent */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/85 via-blue-500/85 to-blue-700/85" />
+      
+      {/* Formes décoratives */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -84,7 +94,7 @@ const Hero = ({ onRequestQuote }) => {
               }`}
             >
               <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-              Expert pisciniste depuis 2019
+              Expert pisciniste depuis 2016
             </div>
             
             <h1 
@@ -95,7 +105,7 @@ const Hero = ({ onRequestQuote }) => {
               title={autoWaveEnded ? 'Cliquez pour l\'effet vague' : ''}
             >
               <span className={`water-title ${isWaveActive ? 'water-active' : ''}`}>
-                <span className="water-title-text">Votre piscine sur mesure en <span className="water-highlight">Ile-de-France</span></span>
+                <span className="water-title-text">Votre expert piscine, <span className="water-highlight">sur mesure et durable</span></span>
                 <span className="water-underline"></span>
               </span>
             </h1>
@@ -105,8 +115,8 @@ const Hero = ({ onRequestQuote }) => {
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              Conception, réalisation et entretien de piscines d'exception. <br />
-              Un accompagnement personnalisé de A à Z pour concrétiser votre projet.
+              Avec BBH SERVICE, faites le choix d'un partenaire fiable pour réaliser la piscine dont vous rêvez. <br />
+              Étude, installation, entretien : nos spécialistes prennent en charge l'ensemble de votre projet.
             </p>
             
             <div 
@@ -137,19 +147,19 @@ const Hero = ({ onRequestQuote }) => {
                 <svg className="w-6 h-6 text-green-300" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Garantie decennale</span>
+                <span>9 ans d'expérience</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-6 h-6 text-green-300" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>+250 piscines réalisées</span>
+                <span>Île-de-France et alentours</span>
               </div>
               <div className="flex items-center space-x-2">
                 <svg className="w-6 h-6 text-green-300" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <span>Devis gratuit sous 48h</span>
+                <span>Solutions personnalisées</span>
               </div>
             </div>
           </div>

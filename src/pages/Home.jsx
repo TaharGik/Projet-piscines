@@ -76,13 +76,11 @@ const Home = () => {
           <AnimatedSection animation="zoom-in" delay={200}>
             <ProjectsGrid limit={3} featured={true} />
           </AnimatedSection>
-          <AnimatedSection animation="fade-up" delay={400}>
-            <div className="text-center mt-10">
-              <Link to="/realisations" className="btn-primary">
-                Voir toutes nos réalisations
-              </Link>
-            </div>
-          </AnimatedSection>
+          <div className="text-center mt-10">
+            <Link to="/realisations" className="btn-primary">
+              Voir toutes nos réalisations
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -12,9 +12,22 @@ const ServiceCard = ({ service }) => {
 
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group">
-      <div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300"></div>
-        <span className="text-6xl group-hover:scale-110 transition-transform duration-300">{icons[service.icon] || '🏊'}</span>
+      {/* Image de service */}
+      <div className="h-48 relative overflow-hidden">
+        {service.image ? (
+          <>
+            <img 
+              src={service.image} 
+              alt={service.title}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </>
+        ) : (
+          <div className="h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+            <span className="text-6xl">{icons[service.icon] || '🏊'}</span>
+          </div>
+        )}
       </div>
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">

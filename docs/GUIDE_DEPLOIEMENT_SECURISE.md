@@ -75,7 +75,7 @@ Dans **Settings** → **Environment Variables**, ajoutez :
 | `VITE_HCAPTCHA_SITE_KEY` | `votre_cle_publique` | Production |
 | `HCAPTCHA_SECRET_KEY` | `votre_cle_secrete` | Production |
 | `BREVO_API_KEY` | `votre_cle_brevo` | Production |
-| `CONTACT_EMAIL` | `contact@aqua-prestige.fr` | Production |
+| `CONTACT_EMAIL` | `bbhservice25@gmail.com` | Production |
 | `ALLOWED_ORIGIN` | `https://www.aqua-prestige.fr` | Production |
 | `VITE_GA_TRACKING_ID` | `G-XXXXXXXXXX` | Production |
 

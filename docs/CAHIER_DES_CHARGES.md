@@ -48,7 +48,6 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
 - Création de piscines sur mesure (béton, coque, intérieure)
 - Rénovation de piscines existantes
 - Contrats d'entretien annuel
-- Installation de spas et balnéothérapie
 
 **Zone d'intervention :**
 - Paris (75)
@@ -131,8 +130,11 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
 | Portfolio projets | Galerie de réalisations avec filtres | P0 |
 | Fiches projets | Pages détaillées par réalisation | P1 |
 | FAQ | Questions fréquentes en accordéon | P1 |
-| Formulaire contact | Demande de devis avec validation | P0 |
+| Formulaire contact sécurisé | Demande de devis avec validation, hCaptcha, rate limiting | P0 |
+| Wizard de devis | Formulaire en 6 étapes pour leads qualifiés | P0 |
 | Carrousel images | Galerie interactive sur fiches projets | P1 |
+| Bouton scroll-to-top | Retour en haut de page fluide | P1 |
+| Hero animé | Effet d'eau sur titre (auto + clic) | P1 |
 
 ### 4.2 Fonctionnalités secondaires
 
@@ -155,13 +157,16 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
   - Nouvelle piscine
   - Rénovation
   - Entretien
-  - Spa / Balnéo
   - Autre
 - Message (optionnel)
 
 **Comportement :**
 - Validation côté client
-- Envoi via EmailJS
+- Protection anti-spam avec hCaptcha
+- Sanitization des données contre XSS
+- Envoi via API serverless (Brevo)
+- Rate limiting (5 requêtes/10 minutes par IP)
+- Headers de sécurité (CSP, X-Frame-Options)
 - Message de confirmation
 - Notification par email au client
 
@@ -177,7 +182,9 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
 | Build tool | Vite | 7.x |
 | Routing | React Router DOM | 7.x |
 | Styling | Tailwind CSS | 4.x |
-| Emails | EmailJS | 4.x |
+| Emails | Brevo API | - |
+| Anti-spam | hCaptcha | - |
+| Analytics | Google Analytics | 4 |
 | Langage | JavaScript (ES6+) | - |
 
 ### 5.2 Arborescence du projet
@@ -195,13 +202,18 @@ piscines-idf/
 │   ├── components/
 │   │   ├── AnimatedSection.jsx
 │   │   ├── ContactForm.jsx
+│   │   ├── ContactFormSecure.jsx
 │   │   ├── FAQItem.jsx
 │   │   ├── Footer.jsx
+│   │   ├── HCaptcha.jsx
 │   │   ├── Header.jsx
 │   │   ├── Hero.jsx
 │   │   ├── ImageCarousel.jsx
 │   │   ├── ProjectCard.jsx
+│   │   ├── ProjectModal.jsx
 │   │   ├── ProjectsGrid.jsx
+│   │   ├── QuoteWizard.jsx
+│   │   ├── ScrollToTopButton.jsx
 │   │   ├── SectionTitle.jsx
 │   │   ├── ServiceCard.jsx
 │   │   ├── ServicesSection.jsx
@@ -213,13 +225,15 @@ piscines-idf/
 │   │   └── testimonials.js
 │   ├── hooks/
 │   │   ├── useDocumentTitle.js
-│   │   ├── useScrollAnimation.js
-│   │   └── useSEO.js
+│   │   ├── useGoogleAnalytics.js
+│   │   ├── useSEO.js
+│   │   └── useScrollAnimation.js
 │   ├── pages/
 │   │   ├── About.jsx
 │   │   ├── Contact.jsx
 │   │   ├── FAQ.jsx
 │   │   ├── Home.jsx
+│   │   ├── NotFound.jsx
 │   │   ├── ProjectDetail.jsx
 │   │   ├── Projects.jsx
 │   │   └── Services.jsx
@@ -230,7 +244,14 @@ piscines-idf/
 │   ├── index.css
 │   └── main.jsx
 ├── docs/
-│   └── CAHIER_DES_CHARGES.md
+│   ├── CAHIER_DES_CHARGES.md
+│   ├── GUIDE_DEPLOIEMENT_SECURISE.md
+│   ├── GUIDE_GOOGLE_ANALYTICS.md
+│   ├── GUIDE_IMAGES.md
+│   ├── GUIDE_MISE_EN_PRODUCTION.md
+│   └── GUIDE_SEARCH_CONSOLE.md
+├── api/
+│   └── quote.js
 ├── .env.example
 ├── DEPLOYMENT.md
 ├── index.html
@@ -253,6 +274,7 @@ piscines-idf/
 | `/realisations/:slug` | ProjectDetail.jsx | Fiche projet détaillée |
 | `/faq` | FAQ.jsx | Questions fréquentes |
 | `/contact` | Contact.jsx | Formulaire de contact |
+| `*` | NotFound.jsx | Page 404 |
 
 ---
 
@@ -266,7 +288,9 @@ piscines-idf/
 ├─────────────────────────────────────┤
 │                                     │
 │         HERO SECTION                │
-│   Titre + CTA "Demander un devis"   │
+│   Titre animé (effet d'eau)         │
+│   CTA "Demander un devis"           │
+│   CTA "Obtenir un devis personnalisé"│
 │                                     │
 ├─────────────────────────────────────┤
 │                                     │
@@ -291,7 +315,10 @@ piscines-idf/
 │                                     │
 ├─────────────────────────────────────┤
 │             FOOTER                  │
+│      [Scroll to Top Button]         │
 └─────────────────────────────────────┘
+
++ QuoteWizard Modal (overlay)
 ```
 
 ### 6.2 Page À propos (About)
@@ -361,13 +388,18 @@ piscines-idf/
 |-----------|-------------|-------|
 | `Header` | Navigation principale | - |
 | `Footer` | Pied de page | - |
-| `Hero` | Section hero accueil | - |
+| `Hero` | Section hero accueil avec effet d'eau | - |
 | `SectionTitle` | Titre de section | `title`, `subtitle` |
 | `ServiceCard` | Carte service | `service` (objet) |
 | `ProjectCard` | Carte projet | `project` (objet) |
+| `ProjectModal` | Modal détail projet | `project`, `onClose` |
 | `TestimonialCard` | Carte témoignage | `testimonial` (objet) |
 | `FAQItem` | Item accordéon FAQ | `question`, `answer` |
-| `ContactForm` | Formulaire contact | - |
+| `ContactForm` | Formulaire contact legacy | - |
+| `ContactFormSecure` | Formulaire contact sécurisé avec hCaptcha | - |
+| `QuoteWizard` | Wizard de devis en 6 étapes | `isOpen`, `onClose` |
+| `HCaptcha` | Composant anti-spam hCaptcha | `onVerify`, `onError`, `onExpire` |
+| `ScrollToTopButton` | Bouton retour haut de page | - |
 | `AnimatedSection` | Wrapper animation | `animation`, `delay`, `children` |
 | `ImageCarousel` | Carrousel images | `images`, `autoPlay`, `showThumbnails` |
 
@@ -378,6 +410,7 @@ piscines-idf/
 | `useDocumentTitle` | Change le titre de l'onglet | `title` (string) |
 | `useScrollAnimation` | Animation au scroll | `options` (threshold, etc.) |
 | `useSEO` | Gestion des meta tags | `{ title, description, keywords, canonicalUrl }` |
+| `useGoogleAnalytics` | Tracking Google Analytics (pageviews, events) | `trackingId` |
 
 ---
 
@@ -544,6 +577,10 @@ piscines-idf/
 | Preconnect | Fonts Google préconnectées |
 | Lazy loading | Images chargées à la demande |
 | Cache headers | Assets avec cache long terme |
+| XSS Protection | Sanitization des inputs utilisateur |
+| Rate Limiting | Limitation requêtes API (5/10min/IP) |
+| Security Headers | CSP, X-Frame-Options, HSTS |
+| CORS Restriction | Origine vérifiée côté API |
 
 ### 11.3 Taille des bundles
 
@@ -584,24 +621,39 @@ piscines-idf/
 ### 12.3 Variables d'environnement
 
 ```env
-VITE_EMAILJS_SERVICE_ID=xxx
-VITE_EMAILJS_TEMPLATE_ID=xxx
-VITE_EMAILJS_PUBLIC_KEY=xxx
+# API Brevo (Contact Form)
+VITE_BREVO_API_KEY=xxx
+VITE_BREVO_SENDER_EMAIL=bbhservice25@gmail.com
+VITE_BREVO_SENDER_NAME=Aqua Prestige
+VITE_BREVO_RECIPIENT_EMAIL=devis@aqua-prestige.fr
+
+# hCaptcha (Anti-spam)
+VITE_HCAPTCHA_SITE_KEY=xxx
+
+# Site Configuration
 VITE_SITE_URL=https://www.aqua-prestige.fr
+
+# Google Analytics
 VITE_GA_TRACKING_ID=G-XXXXXXXXXX
 ```
 
 ### 12.4 Checklist pré-production
 
-- [ ] Variables d'environnement configurées
-- [ ] EmailJS fonctionnel
+- [x] Variables d'environnement configurées
+- [x] API Brevo fonctionnelle
+- [x] hCaptcha configuré
+- [x] Protection XSS implémentée
+- [x] Rate limiting activé
+- [x] Security headers configurés
 - [ ] Images optimisées uploadées
-- [ ] Favicon en place
+- [x] Favicon en place
 - [ ] SSL activé
 - [ ] Domaine configuré
 - [ ] Google Search Console configurée
-- [ ] Google Analytics configuré
+- [x] Google Analytics configuré
 - [ ] Tests sur mobile effectués
+- [x] Repository Git configuré
+- [x] Code poussé sur GitHub
 
 ---
 
@@ -612,9 +664,10 @@ VITE_GA_TRACKING_ID=G-XXXXXXXXXX
 | Fonctionnalité | Description | Effort |
 |----------------|-------------|--------|
 | Images réelles | Remplacer les placeholders | Faible |
-| Google Analytics | Tracking complet | Faible |
-| Formulaire avancé | Upload de photos | Moyen |
+| Tests E2E | Tests automatisés Playwright/Cypress | Moyen |
+| Formulaire avancé | Upload de photos terrain | Moyen |
 | Mode sombre | Thème alternatif | Moyen |
+| Monitoring | Sentry pour error tracking | Faible |
 
 ### 13.2 Moyen terme (6-12 mois)
 
@@ -670,8 +723,12 @@ npm run lint
 | Version | Date | Description |
 |---------|------|-------------|
 | 1.0.0 | Dec 2024 | Version initiale |
+| 1.1.0 | Dec 2024 | Ajout QuoteWizard, ScrollToTopButton, Hero animé |
+| 1.2.0 | Dec 2024 | Migration Brevo, sécurisation (hCaptcha, XSS, rate limiting) |
+| 1.3.0 | Dec 2024 | Suppression contenu Spa/Balnéo, Google Analytics |
 
 ---
 
-*Document généré le 11 décembre 2025*
+*Document mis à jour le 16 décembre 2024*
 *Projet : Aqua Prestige - Site vitrine pisciniste*
+*Repository : https://github.com/TaharGik/Projet-piscines*
