@@ -19,7 +19,7 @@ const Contact = () => {
   return (
     <>
       {/* Hero Contact */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-700 text-white py-20">
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">

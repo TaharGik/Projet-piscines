@@ -115,7 +115,8 @@ const Hero = ({ onRequestQuote }) => {
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              Avec BBH SERVICE, faites le choix d'un partenaire fiable pour réaliser la piscine dont vous rêvez. <br />
+              Avec <span className="font-bold text-white">BBH SERVICE</span>, faites le choix d'un partenaire fiable <br />
+              pour réaliser la piscine dont vous rêvez. <br />
               Étude, installation, entretien : nos spécialistes prennent en charge l'ensemble de votre projet.
             </p>
             

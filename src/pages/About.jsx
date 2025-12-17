@@ -48,8 +48,18 @@ const About = () => {
   return (
     <>
       {/* Hero About */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
-        <div className="container-custom">
+      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20 relative overflow-hidden">
+        {/* Logo en arrière-plan */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: "url('/images/logo/LogoBBH.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
+          }}
+        />
+        <div className="container-custom relative z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               À propos de BBH SERVICE

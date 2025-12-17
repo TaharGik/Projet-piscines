@@ -4,14 +4,21 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container-custom py-12">
+    <footer className="bg-gray-900 text-gray-300 relative overflow-hidden">
+      {/* Logo en arrière-plan */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: "url('/images/logo/LogoBBH.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      />
+      <div className="container-custom py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white">B</span>
-              </div>
+            <div className="flex items-center space-x-3 mb-4">
               <span className="text-lg font-bold text-white">
                 BBH<span className="text-blue-400">SERVICE</span>
               </span>
