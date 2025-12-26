@@ -32,6 +32,10 @@ const useScrollAnimation = (options = {}) => {
     // Si pas d'élément, on ne fait rien
     if (!element) return;
 
+    // Extraction des options avec valeurs par défaut
+    const threshold = options.threshold || 0.1;
+    const rootMargin = options.rootMargin || '0px 0px -50px 0px';
+
     /**
      * Création de l'Intersection Observer
      * 
@@ -51,12 +55,11 @@ const useScrollAnimation = (options = {}) => {
       {
         // threshold: pourcentage de l'élément qui doit être visible
         // 0.1 = 10% de l'élément visible déclenche le callback
-        threshold: options.threshold || 0.1,
+        threshold,
         
         // rootMargin: décalage par rapport au viewport
         // '-50px' en bas = déclenche 50px avant que l'élément atteigne le bas
-        rootMargin: options.rootMargin || '0px 0px -50px 0px',
-        ...options,
+        rootMargin,
       }
     );
 

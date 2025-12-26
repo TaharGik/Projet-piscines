@@ -1,4 +1,4 @@
-# 📋 Récapitulatif du Projet - Aqua Prestige
+# 📋 Récapitulatif du Projet - BBH SERVICE
 
 ## ✅ Ce Qui a Été Fait
 
@@ -358,7 +358,7 @@
 
 ## ✨ Conclusion
 
-Le projet **Aqua Prestige** est maintenant **prêt pour la production**.
+Le projet **BBH SERVICE** est maintenant **prêt pour la production**.
 
 ### Ce qui reste à faire :
 

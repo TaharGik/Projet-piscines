@@ -23,13 +23,13 @@ Google Analytics vous permet de :
 
 1. Cliquer sur **Créer un compte**
 2. Entrer les informations :
-   - **Nom du compte** : `Aqua Prestige`
+   - **Nom du compte** : `BBH SERVICE`
    - Cocher les options de partage de données (optionnel)
 3. Cliquer sur **Suivant**
 
 ### 1.3 Créer une Propriété
 
-1. **Nom de la propriété** : `Site Web Aqua Prestige`
+1. **Nom de la propriété** : `Site Web BBH SERVICE`
 2. **Fuseau horaire** : `(GMT+01:00) Paris`
 3. **Devise** : `EUR - Euro (€)`
 4. Cliquer sur **Suivant**
@@ -52,7 +52,7 @@ Google Analytics vous permet de :
 
 1. Sélectionner **Web**
 2. Entrer les informations :
-   - **URL du site Web** : `https://www.aqua-prestige.fr`
+   - **URL du site Web** : `https://www.bbhservice.fr`
    - **Nom du flux** : `Site Principal`
    - ✅ Activer **Mesure améliorée**
 3. Cliquer sur **Créer un flux**

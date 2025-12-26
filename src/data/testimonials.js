@@ -7,7 +7,7 @@ export const testimonials = [
     id: 1,
     firstName: 'Jean-Pierre',
     city: 'Versailles',
-    text: 'Un travail remarquable du debut a la fin. L\'equipe d\'Aqua Prestige nous a accompagne dans chaque etape de notre projet. Notre piscine a debordement est exactement comme nous l\'avions imaginee. Je recommande sans hesiter !',
+    text: 'Un travail remarquable du debut a la fin. L\'equipe de BBH SERVICE nous a accompagne dans chaque etape de notre projet. Notre piscine a debordement est exactement comme nous l\'avions imaginee. Je recommande sans hesiter !',
     rating: 5,
     date: '2024-03-15',
     projectType: 'Piscine a debordement'
@@ -34,7 +34,7 @@ export const testimonials = [
     id: 4,
     firstName: 'Isabelle',
     city: 'Le Vesinet',
-    text: 'Projet ambitieux de piscine interieure mene avec brio. La gestion de l\'humidite etait notre principale inquietude et Aqua Prestige a su nous proposer une solution technique parfaitement adaptee.',
+    text: 'Projet ambitieux de piscine interieure mene avec brio. La gestion de l\'humidite etait notre principale inquietude et BBH SERVICE a su nous proposer une solution technique parfaitement adaptee.',
     rating: 5,
     date: '2023-11-05',
     projectType: 'Piscine interieure'

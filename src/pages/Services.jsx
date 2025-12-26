@@ -17,7 +17,7 @@ const Services = () => {
     title: 'Nos services - Construction, renovation et entretien piscines',
     description: 'Decouvrez nos services : piscines beton et coque sur mesure, piscines interieures, renovation et entretien annuel en Ile-de-France.',
     keywords: 'construction piscine, renovation piscine, entretien piscine, piscine beton, piscine coque, piscine interieure',
-    canonicalUrl: 'https://www.aqua-prestige.fr/services',
+    canonicalUrl: 'https://www.bbhservice.fr/services',
   });
 
   // Scroll vers l'ancre si présente dans l'URL
@@ -37,13 +37,13 @@ const Services = () => {
   return (
     <>
       {/* Hero Services */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
+      <section className="hero-section">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Nos services
             </h1>
-            <p className="text-xl text-primary-100">
+            <p className="text-xl">
               De la conception à l'entretien, nous vous accompagnons dans tous vos projets 
               aquatiques avec expertise et passion.
             </p>
@@ -87,14 +87,14 @@ const Services = () => {
                   <ul className="space-y-2 mb-6">
                     {service.advantages.map((advantage, i) => (
                       <li key={i} className="flex items-start">
-                        <svg className="w-5 h-5 text-primary-500 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-5 h-5 text-[#2FB8B3] mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
                         <span className="text-gray-600">{advantage}</span>
                       </li>
                     ))}
                   </ul>
-                  <Link to="/contact" className="btn-primary">
+                  <Link to="/devis" className="btn-primary">
                     Demander un devis
                   </Link>
                 </div>
@@ -119,10 +119,10 @@ const Services = () => {
               { step: '04', title: 'Livraison', desc: 'Mise en eau, formation et remise des clés' }
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-primary-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 bg-[#0F2A44] text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                   {item.step}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.title}</h3>
+                <h3 className="text-lg font-semibold text-[#0F2A44] mb-2">{item.title}</h3>
                 <p className="text-gray-600 text-sm">{item.desc}</p>
               </div>
             ))}
@@ -133,14 +133,14 @@ const Services = () => {
       {/* CTA */}
       <section className="section-padding">
         <div className="container-custom">
-          <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 md:p-12 text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <div className="bg-[#0F2A44] rounded-2xl p-8 md:p-12 text-center text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
               Un projet en tête ?
             </h2>
-            <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
               Contactez-nous pour une étude gratuite et sans engagement
             </p>
-            <Link to="/contact" className="inline-block bg-white text-primary-600 font-semibold px-8 py-4 rounded-lg hover:bg-primary-50 transition-colors">
+            <Link to="/devis" className="inline-block bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold px-8 py-4 rounded-lg transition-colors">
               Demander un devis gratuit
             </Link>
           </div>

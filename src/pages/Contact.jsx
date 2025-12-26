@@ -11,21 +11,21 @@ const Contact = () => {
   // SEO - Meta tags pour la page Contact
   useSEO({
     title: 'Contact - Devis gratuit piscine en Ile-de-France',
-    description: 'Demandez votre devis gratuit pour votre projet piscine. Reponse sous 48h. Contactez Aqua Prestige au 01 23 45 67 89 ou via notre formulaire.',
+    description: 'Demandez votre devis gratuit pour votre projet piscine. Reponse sous 48h. Contactez BBH SERVICE au 06 40 12 34 56 ou via notre formulaire.',
     keywords: 'devis piscine gratuit, contact pisciniste, piscine Ile-de-France, constructeur piscine Paris',
-    canonicalUrl: 'https://www.aqua-prestige.fr/contact',
+    canonicalUrl: 'https://www.bbhservice.fr/contact',
   });
 
   return (
     <>
       {/* Hero Contact */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
+      <section className="hero-section">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Contactez-nous
             </h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl">
               Vous avez un projet de piscine ? Parlons-en ! Notre équipe est à votre 
               disposition pour répondre à vos questions et vous accompagner.
             </p>

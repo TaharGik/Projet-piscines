@@ -51,7 +51,8 @@ const HCaptcha = forwardRef(({
       
       document.head.appendChild(script);
     } else {
-      setIsReady(true);
+      // Utiliser un microtask pour éviter le setState synchrone
+      Promise.resolve().then(() => setIsReady(true));
     }
   }, []);
 
@@ -87,7 +88,7 @@ const HCaptcha = forwardRef(({
       if (widgetIdRef.current !== null && window.hcaptcha) {
         try {
           window.hcaptcha.remove(widgetIdRef.current);
-        } catch (e) {
+        } catch {
           // Ignorer les erreurs de cleanup
         }
       }

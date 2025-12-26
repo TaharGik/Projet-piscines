@@ -48,7 +48,7 @@ const About = () => {
   return (
     <>
       {/* Hero About */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20 relative overflow-hidden">
+      <section className="hero-section relative overflow-hidden">
         {/* Logo en arrière-plan */}
         <div
           className="absolute inset-0 opacity-5"
@@ -64,7 +64,7 @@ const About = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               À propos de BBH SERVICE
             </h1>
-            <p className="text-xl text-primary-100">
+            <p className="text-xl">
               Depuis 9 ans, nous accompagnons nos clients en Île-de-France et alentours 
               avec des solutions personnalisées, conçues pour durer.
             </p>
@@ -77,7 +77,7 @@ const About = () => {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Notre histoire</h2>
+              <h2 className="text-3xl font-bold text-[#0F2A44] mb-6">Notre histoire</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
                   BBH SERVICE est menée par un entrepreneur dynamique, fort de 9 années d'expérience 
@@ -94,7 +94,7 @@ const About = () => {
                   dont vous rêvez. Étude, installation, entretien : nos spécialistes prennent en charge 
                   l'ensemble de votre projet pour vous garantir une piscine belle, performante et facile à vivre.
                 </p>
-                <p className="font-semibold text-primary-600">
+                <p className="font-semibold text-[#2FB8B3]">
                   BBH SERVICE : votre projet mérite la meilleure expertise.
                 </p>
               </div>
@@ -107,13 +107,13 @@ const About = () => {
       </section>
 
       {/* Chiffres clés */}
-      <section className="py-16 bg-primary-500 text-white">
+      <section className="stats-section">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="text-primary-100">{stat.label}</div>
+                <div className="stat-number text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
+                <div className="stat-label">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -121,7 +121,7 @@ const About = () => {
       </section>
 
       {/* Nos valeurs */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-[#F3F5F9]">
         <div className="container-custom">
           <SectionTitle
             title="Nos valeurs"
@@ -131,7 +131,7 @@ const About = () => {
             {values.map((value, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm text-center">
                 <div className="text-4xl mb-4">{value.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
+                <h3 className="text-xl font-semibold text-[#0F2A44] mb-2">{value.title}</h3>
                 <p className="text-gray-600 text-sm">{value.description}</p>
               </div>
             ))}
@@ -161,7 +161,7 @@ const About = () => {
       </section>
 
       {/* Garanties */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-[#F3F5F9]">
         <div className="container-custom">
           <SectionTitle
             title="Nos garanties"
@@ -169,28 +169,28 @@ const About = () => {
           />
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-xl shadow-sm">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[#2FB8B3]/20 rounded-lg flex items-center justify-center mb-4">
                 <span className="text-2xl">🏗️</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Garantie décennale</h3>
+              <h3 className="text-lg font-semibold text-[#0F2A44] mb-2">Garantie décennale</h3>
               <p className="text-gray-600 text-sm">
                 Tous nos travaux sont couverts par une assurance décennale pour une protection optimale.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[#2FB8B3]/20 rounded-lg flex items-center justify-center mb-4">
                 <span className="text-2xl">🔧</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">SAV réactif</h3>
+              <h3 className="text-lg font-semibold text-[#0F2A44] mb-2">SAV réactif</h3>
               <p className="text-gray-600 text-sm">
                 Une équipe dédiée pour répondre à toutes vos questions et intervenir rapidement si besoin.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-sm">
-              <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-[#2FB8B3]/20 rounded-lg flex items-center justify-center mb-4">
                 <span className="text-2xl">📋</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Contrat clair</h3>
+              <h3 className="text-lg font-semibold text-[#0F2A44] mb-2">Contrat clair</h3>
               <p className="text-gray-600 text-sm">
                 Devis détaillé, planning précis, aucune mauvaise surprise. Transparence totale.
               </p>
@@ -202,7 +202,7 @@ const About = () => {
       {/* CTA */}
       <section className="section-padding">
         <div className="container-custom text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-[#0F2A44] mb-4">
             Envie de nous rencontrer ?
           </h2>
           <p className="text-xl text-gray-600 mb-8">

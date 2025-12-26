@@ -1,3 +1,4 @@
+/* eslint-env node */
 /**
  * API Serverless - Gestion des demandes de devis
  * 

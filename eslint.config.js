@@ -6,8 +6,9 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
   globalIgnores(['dist']),
+  // Configuration pour les fichiers React (src/)
   {
-    files: ['**/*.{js,jsx}'],
+    files: ['src/**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
@@ -19,6 +20,25 @@ export default defineConfig([
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+  // Configuration pour les fichiers API Node.js (api/)
+  {
+    files: ['api/**/*.js'],
+    extends: [js.configs.recommended],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: {
+        ...globals.node,
+        fetch: 'readonly',
+      },
+      parserOptions: {
+        ecmaVersion: 'latest',
         sourceType: 'module',
       },
     },

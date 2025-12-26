@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import HCaptcha from './HCaptcha';
+import SuccessAnimation from './SuccessAnimation';
 
 /**
  * Composant ContactForm - Formulaire de contact sécurisé
@@ -30,6 +31,7 @@ const IS_DEV = import.meta.env.DEV;
 const ContactForm = () => {
   const hcaptchaRef = useRef();
   const [captchaToken, setCaptchaToken] = useState('');
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   
   /**
    * État des données du formulaire
@@ -174,6 +176,7 @@ const ContactForm = () => {
           type: 'success',
           message: '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h. (Mode démo)',
         });
+        setShowSuccessAnimation(true);
         resetForm();
       }, 1500);
       return;
@@ -206,6 +209,7 @@ const ContactForm = () => {
         type: 'success',
         message: data.message || '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h.',
       });
+      setShowSuccessAnimation(true);
       resetForm();
 
     } catch (error) {
@@ -268,7 +272,11 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+      {showSuccessAnimation && (
+        <SuccessAnimation onClose={() => setShowSuccessAnimation(false)} />
+      )}
+      <form onSubmit={handleSubmit} className="space-y-6">
       {/* Message de statut */}
       {status.message && (
         <div
@@ -515,6 +523,7 @@ const ContactForm = () => {
         </a>.
       </p>
     </form>
+    </>
   );
 };
 

@@ -30,10 +30,10 @@ const useSEO = ({
   canonicalUrl,
 } = {}) => {
   
-  const siteName = 'Aqua Prestige';
+  const siteName = 'BBH SERVICE';
   const defaultDescription = 'Expert pisciniste en Ile-de-France. Conception, realisation et entretien de piscines sur mesure. Devis gratuit.';
   const defaultKeywords = 'piscine, pisciniste, construction piscine, piscine sur mesure, Ile-de-France, Paris, renovation piscine, entretien piscine';
-  const baseUrl = 'https://www.aqua-prestige.fr';
+  const baseUrl = 'https://www.bbhservice.fr';
   const defaultOgImage = `${baseUrl}/images/og-image.jpg`;
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const useSEO = ({
     return () => {
       document.title = siteName;
     };
-  }, [title, description, keywords, ogImage, ogType, canonicalUrl]);
+  }, [title, description, keywords, ogImage, ogType, canonicalUrl, defaultOgImage, siteName, defaultDescription, defaultKeywords]);
 };
 
 export default useSEO;

@@ -218,12 +218,12 @@ const ContactForm = () => {
       {/* Message de statut */}
       {status.message && (
         <div
-          className={`p-4 rounded-lg ${
+          className={`p-4 rounded-md font-sans text-sm ${
             status.type === 'success'
-              ? 'bg-green-50 text-green-800 border border-green-200'
+              ? 'bg-secondary/10 text-secondary border border-secondary/20'
               : status.type === 'error'
-              ? 'bg-red-50 text-red-800 border border-red-200'
-              : 'bg-blue-50 text-blue-800 border border-blue-200'
+              ? 'bg-red-50 text-red-700 border border-red-200'
+              : 'bg-accent-light/10 text-accent-light border border-accent-light/20'
           }`}
         >
           <div className="flex items-center">
@@ -259,7 +259,7 @@ const ContactForm = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+          className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
           placeholder="Jean Dupont"
         />
       </div>
@@ -267,7 +267,7 @@ const ContactForm = () => {
       {/* Email et Téléphone */}
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-sans font-medium text-primary mb-1">
             Email <span className="text-red-500">*</span>
           </label>
           <input
@@ -276,12 +276,12 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
             placeholder="jean.dupont@email.com"
           />
         </div>
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="phone" className="block text-sm font-sans font-medium text-primary mb-1">
             Téléphone <span className="text-red-500">*</span>
           </label>
           <input
@@ -290,7 +290,7 @@ const ContactForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
             placeholder="06 12 34 56 78"
           />
         </div>
@@ -299,7 +299,7 @@ const ContactForm = () => {
       {/* Ville et Type de projet */}
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="city" className="block text-sm font-sans font-medium text-primary mb-1">
             Ville / Code postal
           </label>
           <input
@@ -308,12 +308,12 @@ const ContactForm = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
             placeholder="Versailles (78)"
           />
         </div>
         <div>
-          <label htmlFor="projectType" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="projectType" className="block text-sm font-sans font-medium text-primary mb-1">
             Type de projet
           </label>
           <select
@@ -321,7 +321,7 @@ const ContactForm = () => {
             name="projectType"
             value={formData.projectType}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+            className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all bg-white"
           >
             {projectTypes.map((type) => (
               <option key={type.value} value={type.value}>
@@ -334,7 +334,7 @@ const ContactForm = () => {
 
       {/* Message */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="message" className="block text-sm font-sans font-medium text-primary mb-1">
           Décrivez votre projet <span className="text-red-500">*</span>
         </label>
         <textarea
@@ -343,26 +343,26 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           rows={5}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+          className="w-full px-4 py-3 border border-neutral-light rounded-md font-sans focus:ring-2 focus:ring-secondary focus:border-transparent transition-all resize-none"
           placeholder="Décrivez votre projet : dimensions souhaitées, type de piscine, budget approximatif, contraintes du terrain..."
         />
       </div>
 
-      {/* Bouton submit */}
+      {/* Bouton submit - Couleur secondaire BBH SERVICE */}
       <button
         type="submit"
         disabled={status.type === 'loading'}
-        className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 ${
+        className={`w-full py-4 px-6 rounded-md font-heading font-semibold text-white transition-all duration-200 ${
           status.type === 'loading'
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:-translate-y-0.5'
+            ? 'bg-primary/50 cursor-not-allowed'
+            : 'bg-secondary hover:bg-[#269e9a] hover:shadow-card'
         }`}
       >
         {status.type === 'loading' ? 'Envoi en cours...' : 'Envoyer ma demande de devis'}
       </button>
 
       {/* Mention RGPD */}
-      <p className="text-xs text-gray-500 text-center">
+      <p className="font-sans text-xs text-primary/50 text-center">
         En soumettant ce formulaire, vous acceptez que vos données soient traitées pour répondre à votre demande. 
         Consultez notre politique de confidentialité pour en savoir plus.
       </p>

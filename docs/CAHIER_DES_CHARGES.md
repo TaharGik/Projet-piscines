@@ -1,4 +1,4 @@
-# Cahier des Charges - Aqua Prestige
+# Cahier des Charges - BBH SERVICE
 
 ## Site Vitrine pour Pisciniste en Île-de-France
 
@@ -25,7 +25,7 @@
 ## 1. Présentation du projet
 
 ### 1.1 Nom du projet
-**Aqua Prestige** - Site vitrine professionnel
+**BBH SERVICE** - Site vitrine professionnel
 
 ### 1.2 Description
 Site web Single Page Application (SPA) pour une entreprise spécialisée dans la conception, la réalisation et l'entretien de piscines sur mesure en région parisienne.
@@ -36,7 +36,7 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
 - Responsive (mobile-first)
 
 ### 1.4 URL prévue
-`https://www.aqua-prestige.fr`
+`https://www.bbhservice.fr`
 
 ---
 
@@ -601,7 +601,7 @@ piscines-idf/
 |---------------|-----|-------|
 | Local | localhost:5173 | Développement |
 | Preview | localhost:4173 | Test du build |
-| Production | aqua-prestige.fr | Site public |
+| Production | bbhservice.fr | Site public |
 
 ### 12.2 Plateformes recommandées
 
@@ -624,14 +624,14 @@ piscines-idf/
 # API Brevo (Contact Form)
 VITE_BREVO_API_KEY=xxx
 VITE_BREVO_SENDER_EMAIL=bbhservice25@gmail.com
-VITE_BREVO_SENDER_NAME=Aqua Prestige
-VITE_BREVO_RECIPIENT_EMAIL=devis@aqua-prestige.fr
+VITE_BREVO_SENDER_NAME=BBH SERVICE
+VITE_BREVO_RECIPIENT_EMAIL=devis@bbhservice.fr
 
 # hCaptcha (Anti-spam)
 VITE_HCAPTCHA_SITE_KEY=xxx
 
 # Site Configuration
-VITE_SITE_URL=https://www.aqua-prestige.fr
+VITE_SITE_URL=https://www.bbhservice.fr
 
 # Google Analytics
 VITE_GA_TRACKING_ID=G-XXXXXXXXXX
@@ -730,5 +730,5 @@ npm run lint
 ---
 
 *Document mis à jour le 16 décembre 2024*
-*Projet : Aqua Prestige - Site vitrine pisciniste*
+*Projet : BBH SERVICE - Site vitrine pisciniste*
 *Repository : https://github.com/TaharGik/Projet-piscines*

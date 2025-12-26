@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Page d'accueil -->
   <url>
-    <loc>https://www.aqua-prestige.fr/</loc>
+    <loc>https://www.bbhservice.fr/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,7 +10,7 @@
   
   <!-- À propos -->
   <url>
-    <loc>https://www.aqua-prestige.fr/a-propos</loc>
+    <loc>https://www.bbhservice.fr/a-propos</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
   
   <!-- Services -->
   <url>
-    <loc>https://www.aqua-prestige.fr/services</loc>
+    <loc>https://www.bbhservice.fr/services</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -26,7 +26,7 @@
   
   <!-- Réalisations -->
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations</loc>
+    <loc>https://www.bbhservice.fr/realisations</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -34,49 +34,49 @@
   
   <!-- Projets individuels -->
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/villa-saint-germain</loc>
+    <loc>https://www.bbhservice.fr/realisations/villa-saint-germain</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/residence-versailles</loc>
+    <loc>https://www.bbhservice.fr/realisations/residence-versailles</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/maison-boulogne</loc>
+    <loc>https://www.bbhservice.fr/realisations/maison-boulogne</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/propriete-neuilly</loc>
+    <loc>https://www.bbhservice.fr/realisations/propriete-neuilly</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/domaine-marly</loc>
+    <loc>https://www.bbhservice.fr/realisations/domaine-marly</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/renovation-vincennes</loc>
+    <loc>https://www.bbhservice.fr/realisations/renovation-vincennes</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/villa-enghien</loc>
+    <loc>https://www.bbhservice.fr/realisations/villa-enghien</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.aqua-prestige.fr/realisations/spa-rueil</loc>
+    <loc>https://www.bbhservice.fr/realisations/spa-rueil</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -84,17 +84,41 @@
   
   <!-- FAQ -->
   <url>
-    <loc>https://www.aqua-prestige.fr/faq</loc>
+    <loc>https://www.bbhservice.fr/faq</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
+  <!-- Demande de devis -->
+  <url>
+    <loc>https://www.bbhservice.fr/devis</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
   <!-- Contact -->
   <url>
-    <loc>https://www.aqua-prestige.fr/contact</loc>
+    <loc>https://www.bbhservice.fr/contact</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  
+  <!-- Mentions légales -->
+  <url>
+    <loc>https://www.bbhservice.fr/mentions-legales</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Politique de confidentialité -->
+  <url>
+    <loc>https://www.bbhservice.fr/confidentialite</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 </urlset>

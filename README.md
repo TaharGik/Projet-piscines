@@ -1,4 +1,4 @@
-# 🏊 Aqua Prestige - Site Vitrine Piscines
+# 🏊 BBH SERVICE - Site Vitrine Piscines
 
 Site web professionnel pour un pisciniste spécialisé dans la conception et la réalisation de piscines sur mesure en Île-de-France.
 
@@ -25,7 +25,7 @@ Site web professionnel pour un pisciniste spécialisé dans la conception et la 
 
 ## 🎯 À Propos
 
-**Aqua Prestige** est un site vitrine moderne conçu pour présenter les services d'une entreprise de construction de piscines haut de gamme en région parisienne.
+**BBH SERVICE** est un site vitrine moderne conçu pour présenter les services d'une entreprise de construction de piscines haut de gamme en région parisienne.
 
 ### Objectifs
 
@@ -142,7 +142,7 @@ VITE_EMAILJS_PUBLIC_KEY=your_public_key
 VITE_GA_TRACKING_ID=G-XXXXXXXXXX
 
 # URL du site
-VITE_SITE_URL=https://www.aqua-prestige.fr
+VITE_SITE_URL=https://www.bbhservice.fr
 ```
 
 ### Configuration EmailJS
@@ -328,6 +328,6 @@ Pour toute question technique :
 
 ---
 
-**Développé avec ❤️ pour Aqua Prestige**
+**Développé avec ❤️ pour BBH SERVICE**
 
 *Dernière mise à jour : 12 décembre 2025*

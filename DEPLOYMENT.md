@@ -1,6 +1,6 @@
-# Guide de Déploiement - Aqua Prestige
+# Guide de Déploiement - BBH SERVICE
 
-Ce guide explique comment préparer et déployer le site Aqua Prestige en production.
+Ce guide explique comment préparer et déployer le site BBH SERVICE en production.
 
 ## 📋 Prérequis
 
@@ -133,7 +133,7 @@ Fichier `vercel.json` (créez-le à la racine) :
 ```nginx
 server {
     listen 80;
-    server_name www.aqua-prestige.fr;
+    server_name www.bbhservice.fr;
     root /var/www/aqua-prestige/dist;
     index index.html;
 

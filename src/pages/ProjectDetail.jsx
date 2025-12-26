@@ -33,7 +33,7 @@ const ProjectDetail = () => {
       ? `piscine ${project.city}, ${project.type}, ${project.tags.join(', ')}` 
       : '',
     canonicalUrl: project 
-      ? `https://www.aqua-prestige.fr/realisations/${project.slug}` 
+      ? `https://www.bbhservice.fr/realisations/${project.slug}` 
       : '',
   });
 
@@ -111,35 +111,20 @@ const ProjectDetail = () => {
               Galerie photos
             </h2>
             
-            {/* Carrousel d'images du projet */}
+            {/* Carrousel d'images du projet - utilise les vraies images */}
             <ImageCarousel 
               images={[
-                {
-                  src: '/images/placeholder-pool-1.jpg',
+                project.imageAfter && {
+                  src: project.imageAfter,
                   alt: `${project.name} - Vue d'ensemble`,
                   caption: `Vue d'ensemble de la ${project.type.toLowerCase()}`
                 },
-                {
-                  src: '/images/placeholder-pool-2.jpg',
-                  alt: `${project.name} - Détail du bassin`,
-                  caption: 'Détail du bassin et finitions'
+                project.imageBefore && {
+                  src: project.imageBefore,
+                  alt: `${project.name} - Avant travaux`,
+                  caption: 'État initial avant travaux'
                 },
-                {
-                  src: '/images/placeholder-pool-3.jpg',
-                  alt: `${project.name} - Aménagements`,
-                  caption: 'Aménagements extérieurs et terrasse'
-                },
-                {
-                  src: '/images/placeholder-pool-4.jpg',
-                  alt: `${project.name} - Équipements`,
-                  caption: 'Équipements et local technique'
-                },
-                {
-                  src: '/images/placeholder-pool-5.jpg',
-                  alt: `${project.name} - Vue de nuit`,
-                  caption: 'Éclairage nocturne'
-                }
-              ]}
+              ].filter(Boolean)}
               showThumbnails={true}
               autoPlay={false}
               className="mb-12"
@@ -154,17 +139,33 @@ const ProjectDetail = () => {
                 <div className="absolute top-4 left-4 z-10 bg-gray-900/80 text-white px-3 py-1 rounded-full text-sm">
                   Avant
                 </div>
-                <div className="h-64 md:h-80 bg-gray-300 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                  <span className="text-gray-500">Photo avant travaux</span>
-                </div>
+                {project.imageBefore ? (
+                  <img 
+                    src={project.imageBefore} 
+                    alt={`${project.name} - Avant`}
+                    className="h-64 md:h-80 w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="h-64 md:h-80 bg-gray-300 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                    <span className="text-gray-500">Photo avant travaux</span>
+                  </div>
+                )}
               </div>
               <div className="relative group overflow-hidden rounded-xl">
                 <div className="absolute top-4 left-4 z-10 bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
                   Après
                 </div>
-                <div className="h-64 md:h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                  <span className="text-blue-600">Photo après travaux</span>
-                </div>
+                {project.imageAfter ? (
+                  <img 
+                    src={project.imageAfter} 
+                    alt={`${project.name} - Après`}
+                    className="h-64 md:h-80 w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="h-64 md:h-80 bg-gradient-to-br from-blue-200 to-blue-300 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
+                    <span className="text-blue-600">Photo après travaux</span>
+                  </div>
+                )}
               </div>
             </div>
           </AnimatedSection>
@@ -286,8 +287,8 @@ const ProjectDetail = () => {
                   {/* CTA */}
                   <div className="mt-8">
                     <Link 
-                      to="/contact" 
-                      className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+                      to="/devis"
+                      className="block w-full bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold py-3 px-4 rounded-lg text-center transition-colors"
                     >
                       Un projet similaire ?
                     </Link>
@@ -346,8 +347,8 @@ const ProjectDetail = () => {
               Contactez-nous pour une etude personnalisee et un devis gratuit
             </p>
             <Link 
-              to="/contact" 
-              className="inline-block bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors shadow-lg"
+              to="/devis"
+              className="inline-block bg-white text-[#0F2A44] font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
             >
               Demander un devis gratuit
             </Link>

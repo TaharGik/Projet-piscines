@@ -1,12 +1,12 @@
-# Robots.txt pour Aqua Prestige
-# https://www.aqua-prestige.fr
+# Robots.txt pour BBH SERVICE
+# https://www.bbhservice.fr
 
 # Autoriser tous les robots
 User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.aqua-prestige.fr/sitemap.xml
+Sitemap: https://www.bbhservice.fr/sitemap.xml
 
 # Interdire les ressources privées
 Disallow: /api/

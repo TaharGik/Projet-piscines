@@ -1,17 +1,24 @@
 ﻿import { useState } from 'react';
 
+/**
+ * FAQItem BBH SERVICE
+ * Conforme à la charte :
+ * - Design sobre, bordures fines
+ * - Couleurs : #0F2A44, #F3F5F9
+ * - Typographies : Montserrat (question), Lato (réponse)
+ */
 const FAQItem = ({ question, answer, defaultOpen = false }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className="border border-neutral-light rounded-lg overflow-hidden">
       <button
-        className="w-full px-6 py-4 text-left bg-white hover:bg-gray-50 flex justify-between items-center transition-colors"
+        className="w-full px-6 py-4 text-left bg-white hover:bg-neutral-light flex justify-between items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-medium text-gray-900 pr-4">{question}</span>
+        <span className="font-heading font-semibold text-primary pr-4">{question}</span>
         <svg
-          className={`w-5 h-5 text-gray-500 transition-transform duration-200 flex-shrink-0 ${
+          className={`w-5 h-5 text-secondary transition-transform duration-200 flex-shrink-0 ${
             isOpen ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -23,8 +30,8 @@ const FAQItem = ({ question, answer, defaultOpen = false }) => {
       </button>
       
       {isOpen && (
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-          <div className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+        <div className="px-6 py-4 bg-neutral-light border-t border-neutral-light">
+          <div className="font-sans text-primary/70 text-sm whitespace-pre-line leading-relaxed">
             {answer}
           </div>
         </div>

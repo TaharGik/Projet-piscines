@@ -23,12 +23,12 @@ Google Search Console (GSC) est un outil gratuit de Google qui vous permet de :
 
 **Option 1 : Préfixe d'URL** (Recommandé)
 
-- Entrer : `https://www.aqua-prestige.fr`
+- Entrer : `https://www.bbhservice.fr`
 - Permet de suivre uniquement ce sous-domaine
 
 **Option 2 : Domaine**
 
-- Entrer : `aqua-prestige.fr`
+- Entrer : `bbhservice.fr`
 - Suit tous les sous-domaines (www, blog, etc.)
 
 Cliquer sur **Continuer**
@@ -100,7 +100,7 @@ Le fichier `public/sitemap.xml` est déjà créé dans votre projet. Vérifiez q
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.aqua-prestige.fr/</loc>
+    <loc>https://www.bbhservice.fr/</loc>
     <lastmod>2025-01-15</lastmod>
     <priority>1.0</priority>
   </url>
@@ -136,7 +136,7 @@ Après avoir ajouté de nouvelles pages :
 Pour indexer rapidement votre site :
 
 1. Aller dans **Inspection de l'URL** (haut de page)
-2. Entrer : `https://www.aqua-prestige.fr/`
+2. Entrer : `https://www.bbhservice.fr/`
 3. Cliquer sur **Tester l'URL en direct**
 4. Si "URL n'est pas sur Google", cliquer sur **Demander une indexation**
 5. Répéter pour les pages importantes :
@@ -317,7 +317,7 @@ Pour le référencement local, créer un profil GMB :
 
 1. Aller sur https://business.google.com/
 2. Créer un profil d'entreprise :
-   - **Nom** : Aqua Prestige
+   - **Nom** : BBH SERVICE
    - **Catégorie** : Entrepreneur spécialisé dans les piscines
    - **Adresse** : Votre adresse (si vous avez un local)
    - **Zone de service** : Île-de-France
@@ -326,7 +326,7 @@ Pour le référencement local, créer un profil GMB :
    - Photos de réalisations
    - Horaires
    - Téléphone
-   - Site web : `https://www.aqua-prestige.fr`
+   - Site web : `https://www.bbhservice.fr`
 
 **Avantages :**
 - Apparaître dans Google Maps

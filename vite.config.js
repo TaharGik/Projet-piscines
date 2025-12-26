@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 /**
- * Configuration Vite pour Aqua Prestige
+ * Configuration Vite pour BBH SERVICE
  * 
  * Options de build optimisées pour la production :
  * - Minification avec esbuild

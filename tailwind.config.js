@@ -7,39 +7,68 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Palette personnalisée pour le thème piscine
+        // Charte graphique BBH SERVICE - Couleurs officielles
         primary: {
-          50: '#e6f3fa',
-          100: '#cce7f5',
-          200: '#99cfeb',
-          300: '#66b7e1',
-          400: '#339fd7',
-          500: '#0087cd', // Bleu piscine principal
-          600: '#006ca4',
-          700: '#00517b',
-          800: '#003652',
-          900: '#001b29',
+          DEFAULT: '#0F2A44', // Bleu foncé principal
+          50: '#E8EDF2',
+          100: '#C5D3E0',
+          500: '#0F2A44',
+          600: '#0C2238',
+          700: '#091A2B',
+          dark: '#0F2A44',
         },
         secondary: {
-          50: '#f0f9f4',
-          100: '#d9f0e3',
-          200: '#b3e1c7',
-          300: '#8cd2ab',
-          400: '#66c38f',
-          500: '#40b473', // Vert nature/jardin
-          600: '#339059',
-          700: '#266c43',
-          800: '#1a482d',
-          900: '#0d2416',
+          DEFAULT: '#2FB8B3', // Bleu secondaire/accent - CTA
         },
         accent: {
-          500: '#f59e0b', // Orange pour les CTAs
-          600: '#d97706',
-        }
+          light: '#33A7E4',    // Bleu clair
+          lighter: '#99DFEC',  // Bleu très clair
+          pastel: '#8FD7FE',   // Bleu pastel
+        },
+        neutral: {
+          50: '#F3F5F9',       // Alias pour bg-neutral-50
+          white: '#FFFFFF',
+          light: '#F3F5F9',    // Gris très clair - fonds
+          black: '#000000',
+        },
+        // Gris Tailwind standards pour compatibilité
+        gray: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          200: '#e5e7eb',
+          300: '#d1d5db',
+          400: '#9ca3af',
+          500: '#6b7280',
+          600: '#4b5563',
+          700: '#374151',
+          800: '#1f2937',
+          900: '#111827',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
+        // Typographies BBH SERVICE
+        sans: ['Lato', 'system-ui', 'sans-serif'],      // Texte courant
+        heading: ['Montserrat', 'sans-serif'],          // Titres
+      },
+      fontWeight: {
+        // Poids autorisés par la charte
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+      },
+      borderRadius: {
+        // Coins légèrement arrondis selon la charte
+        'sm': '0.25rem',
+        'md': '0.375rem',
+        'lg': '0.5rem',
+        'xl': '0.75rem',
+        '2xl': '1rem',
+      },
+      boxShadow: {
+        // Ombres légères uniquement
+        'soft': '0 2px 8px rgba(15, 42, 68, 0.08)',
+        'card': '0 4px 12px rgba(15, 42, 68, 0.1)',
       },
     },
   },

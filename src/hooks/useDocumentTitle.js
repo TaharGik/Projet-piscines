@@ -6,7 +6,7 @@
  * @param {string} title - Le titre de la page
  * @param {string} suffix - Suffixe optionnel (nom de l'entreprise)
  */
-const useDocumentTitle = (title, suffix = 'Aqua Prestige') => {
+const useDocumentTitle = (title, suffix = 'BBH SERVICE') => {
   useEffect(() => {
     const previousTitle = document.title;
     document.title = title ? `${title} | ${suffix}` : suffix;

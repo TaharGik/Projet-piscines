@@ -1,4 +1,4 @@
-# 🚀 Guide de déploiement sécurisé - Aqua Prestige
+# 🚀 Guide de déploiement sécurisé - BBH SERVICE
 
 Ce guide explique comment configurer et déployer le site avec le formulaire de contact sécurisé.
 
@@ -24,8 +24,8 @@ Ce guide explique comment configurer et déployer le site avec le formulaire de 
 1. Allez sur [hcaptcha.com](https://www.hcaptcha.com/)
 2. Créez un compte gratuit
 3. Ajoutez un nouveau site :
-   - **Nom** : Aqua Prestige
-   - **Domaine** : `aqua-prestige.fr` (et `localhost` pour le dev)
+   - **Nom** : BBH SERVICE
+   - **Domaine** : `bbhservice.fr` (et `localhost` pour le dev)
 
 ### Récupérer les clés
 
@@ -49,7 +49,7 @@ Ce guide explique comment configurer et déployer le site avec le formulaire de 
 ### Configurer l'expéditeur
 
 1. **Paramètres** → **Expéditeurs & IP**
-2. Ajoutez un expéditeur vérifié : `noreply@aqua-prestige.fr`
+2. Ajoutez un expéditeur vérifié : `noreply@bbhservice.fr`
 
 ## 3️⃣ Déployer sur Vercel
 
@@ -76,7 +76,7 @@ Dans **Settings** → **Environment Variables**, ajoutez :
 | `HCAPTCHA_SECRET_KEY` | `votre_cle_secrete` | Production |
 | `BREVO_API_KEY` | `votre_cle_brevo` | Production |
 | `CONTACT_EMAIL` | `bbhservice25@gmail.com` | Production |
-| `ALLOWED_ORIGIN` | `https://www.aqua-prestige.fr` | Production |
+| `ALLOWED_ORIGIN` | `https://www.bbhservice.fr` | Production |
 | `VITE_GA_TRACKING_ID` | `G-XXXXXXXXXX` | Production |
 
 ### Déployer

@@ -1,6 +1,6 @@
 # 🚀 Guide Complet de Mise en Production
 
-## Site Aqua Prestige - De A à Z
+## Site BBH SERVICE - De A à Z
 
 Ce guide vous accompagne pas à pas pour mettre en ligne votre site de piscines.
 
@@ -82,7 +82,7 @@ Ajouter vos images dans ces dossiers, puis modifier :
 VITE_EMAILJS_SERVICE_ID=service_abc123
 VITE_EMAILJS_TEMPLATE_ID=template_xyz456
 VITE_EMAILJS_PUBLIC_KEY=your_public_key
-VITE_SITE_URL=https://www.aqua-prestige.fr
+VITE_SITE_URL=https://www.bbhservice.fr
 ```
 
 4. Tester :
@@ -223,11 +223,11 @@ Changer le nom :
 3. Entrer : `aqua-prestige`
 4. URL devient : `https://aqua-prestige.netlify.app`
 
-**Option 2 : Domaine Personnalisé (aqua-prestige.fr)**
+**Option 2 : Domaine Personnalisé (bbhservice.fr)**
 
 1. Acheter un domaine (OVH, Gandi, Namecheap...)
 2. Dans Netlify : **Domain management** > **Add custom domain**
-3. Entrer : `www.aqua-prestige.fr`
+3. Entrer : `www.bbhservice.fr`
 4. Suivre les instructions pour configurer les DNS :
 
 **Chez votre registrar (OVH, etc.) :**
@@ -286,7 +286,7 @@ Avant de déployer :
 ### 4B.5 Configurer un Domaine Personnalisé
 
 1. Aller dans **Settings** > **Domains**
-2. Ajouter : `www.aqua-prestige.fr`
+2. Ajouter : `www.bbhservice.fr`
 3. Configurer les DNS comme indiqué
 4. SSL s'active automatiquement
 
@@ -330,7 +330,7 @@ Ouvrir votre site en production et vérifier :
 ### 6.1 Ajouter Votre Site
 
 1. Aller sur https://search.google.com/search-console/
-2. Ajouter une propriété : `https://www.aqua-prestige.fr`
+2. Ajouter une propriété : `https://www.bbhservice.fr`
 3. Vérifier avec balise HTML meta ou fichier
 
 ### 6.2 Soumettre le Sitemap
@@ -353,7 +353,7 @@ Ouvrir votre site en production et vérifier :
 
 1. Créer un profil sur https://business.google.com/
 2. Remplir :
-   - Nom : Aqua Prestige
+   - Nom : BBH SERVICE
    - Catégorie : Entrepreneur spécialisé dans les piscines
    - Zone de service : Île-de-France
    - Site web : votre URL
@@ -482,7 +482,7 @@ Ajouter les liens dans le footer du site.
 
 ## 🎉 Félicitations !
 
-Votre site Aqua Prestige est maintenant en ligne et optimisé !
+Votre site BBH SERVICE est maintenant en ligne et optimisé !
 
 **Prochaines étapes recommandées :**
 
@@ -496,4 +496,4 @@ Votre site Aqua Prestige est maintenant en ligne et optimisé !
 ---
 
 *Document mis à jour le 12 décembre 2025*
-*Projet : Aqua Prestige - Site vitrine pisciniste*
+*Projet : BBH SERVICE - Site vitrine pisciniste*

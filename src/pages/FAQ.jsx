@@ -13,7 +13,7 @@ const FAQ = () => {
     title: 'FAQ - Questions fréquentes sur la construction de piscines',
     description: 'Réponses à vos questions : délais de construction, permis de construire, garanties, budget, zone d\'intervention. Tout savoir avant de faire construire votre piscine.',
     keywords: 'FAQ piscine, délai construction piscine, permis construire piscine, garantie décennale piscine, budget piscine',
-    canonicalUrl: 'https://www.aqua-prestige.fr/faq',
+    canonicalUrl: 'https://www.bbhservice.fr/faq',
   });
 
   const faqs = [
@@ -104,13 +104,13 @@ const FAQ = () => {
   return (
     <>
       {/* Hero FAQ */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
+      <section className="hero-section">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Questions fréquentes
             </h1>
-            <p className="text-xl text-primary-100">
+            <p className="text-xl">
               Retrouvez les réponses aux questions les plus courantes sur nos services 
               et la construction de piscines.
             </p>
@@ -137,9 +137,9 @@ const FAQ = () => {
       </section>
 
       {/* Question non trouvée */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-[#F3F5F9]">
         <div className="container-custom text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl font-bold text-[#0F2A44] mb-4">
             Vous n'avez pas trouvé votre réponse ?
           </h2>
           <p className="text-gray-600 mb-8 max-w-xl mx-auto">

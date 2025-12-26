@@ -51,8 +51,8 @@ const ScrollToTopButton = ({
    * - Utilise passive: true pour de meilleures performances
    */
   useEffect(() => {
-    // Vérification initiale
-    checkScrollPosition();
+    // Vérification initiale via microtask pour éviter le setState synchrone
+    Promise.resolve().then(checkScrollPosition);
     
     // Ajout du listener avec option passive pour performance
     window.addEventListener('scroll', checkScrollPosition, { passive: true });

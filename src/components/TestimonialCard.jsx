@@ -1,9 +1,16 @@
-﻿const TestimonialCard = ({ testimonial }) => {
+﻿/**
+ * TestimonialCard BBH SERVICE
+ * Conforme à la charte :
+ * - Design sobre, ombres légères
+ * - Couleurs : #0F2A44, #2FB8B3, #F3F5F9
+ * - Étoiles en couleur secondaire
+ */
+const TestimonialCard = ({ testimonial }) => {
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
       <svg
         key={index}
-        className={`w-5 h-5 ${index < rating ? 'text-amber-400' : 'text-gray-300'}`}
+        className={`w-5 h-5 ${index < rating ? 'text-secondary' : 'text-neutral-light'}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -13,33 +20,38 @@
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative">
-      <div className="absolute top-4 right-4 text-6xl text-blue-100 group-hover:text-blue-200 transition-colors">
-        "
+    <div className="bg-white rounded-lg shadow-soft p-6 hover:shadow-card transition-all duration-200 group relative">
+      {/* Guillemet décoratif */}
+      <div className="absolute top-4 right-4 text-5xl text-accent-pastel/50 group-hover:text-accent-pastel transition-colors duration-200">
+        “
       </div>
       
+      {/* Étoiles */}
       <div className="flex mb-4 relative z-10">
         {renderStars(testimonial.rating)}
       </div>
       
-      <p className="text-gray-600 text-sm mb-6 leading-relaxed relative z-10 italic">
-        "{testimonial.text}"
+      {/* Témoignage */}
+      <p className="font-sans text-primary/70 text-sm mb-6 leading-relaxed relative z-10 italic">
+        « {testimonial.text} »
       </p>
       
+      {/* Auteur */}
       <div className="flex items-center relative z-10">
-        <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mr-3 shadow-md group-hover:scale-110 transition-transform">
-          <span className="text-white font-semibold text-lg">
+        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center mr-3 shadow-soft">
+          <span className="text-white font-heading font-semibold text-lg">
             {testimonial.firstName.charAt(0)}
           </span>
         </div>
         <div>
-          <p className="font-semibold text-gray-900">{testimonial.firstName}</p>
-          <p className="text-gray-500 text-sm">{testimonial.city}</p>
+          <p className="font-heading font-semibold text-primary">{testimonial.firstName}</p>
+          <p className="font-sans text-primary/50 text-sm">{testimonial.city}</p>
         </div>
       </div>
       
-      <div className="mt-4 pt-4 border-t border-gray-100">
-        <span className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-full">
+      {/* Type de projet */}
+      <div className="mt-4 pt-4 border-t border-neutral-light">
+        <span className="font-sans text-xs text-primary/60 bg-neutral-light px-3 py-1 rounded-md">
           {testimonial.projectType}
         </span>
       </div>

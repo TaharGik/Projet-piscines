@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SectionTitle from '../components/SectionTitle';
 import ProjectCard from '../components/ProjectCard';
 import ProjectModal from '../components/ProjectModal';
@@ -13,9 +14,9 @@ const Projects = () => {
   // SEO - Meta tags pour la page Réalisations
   useSEO({
     title: 'Nos realisations - Piscines sur mesure en region parisienne',
-    description: 'Galerie de nos plus belles piscines realisees en Ile-de-France : piscines a debordement, piscines interieures, renovations. Plus de 250 projets depuis 2009.',
+    description: 'Galerie de nos plus belles piscines realisees en Ile-de-France : piscines a debordement, piscines interieures, renovations. Depuis 2016.',
     keywords: 'realisations piscines, portfolio piscine, piscine debordement, piscine Versailles, piscine Saint-Germain-en-Laye',
-    canonicalUrl: 'https://www.aqua-prestige.fr/realisations',
+    canonicalUrl: 'https://www.bbhservice.fr/realisations',
   });
   
   const [filter, setFilter] = useState('all');
@@ -51,13 +52,13 @@ const Projects = () => {
   return (
     <>
       {/* Hero Réalisations */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-700 text-white py-20">
+      <section className="hero-section">
         <div className="container-custom">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Nos réalisations
             </h1>
-            <p className="text-xl text-primary-100">
+            <p className="text-xl">
               Découvrez quelques-unes de nos plus belles créations en région parisienne. <br />
               Chaque projet est unique et réalisé sur mesure.
             </p>
@@ -66,7 +67,7 @@ const Projects = () => {
       </section>
 
       {/* Filtres */}
-      <section className="py-8 bg-gray-50 sticky top-20 z-40">
+      <section className="py-8 bg-bbh-light sticky top-20 z-40">
         <div className="container-custom">
           <div className="flex flex-wrap justify-center gap-3">
             {projectTypes.map((type) => (
@@ -75,7 +76,7 @@ const Projects = () => {
                 onClick={() => setFilter(type.value)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   filter === type.value
-                    ? 'bg-primary-500 text-white'
+                    ? 'bg-bbh-primary text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
@@ -108,24 +109,24 @@ const Projects = () => {
       </section>
 
       {/* Stats */}
-      <section className="py-16 bg-primary-500 text-white">
+      <section className="stats-section">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold mb-2">250+</div>
-              <div className="text-primary-100">Piscines réalisées</div>
+              <div className="stat-number text-4xl font-bold mb-2">250+</div>
+              <div className="stat-label">Piscines réalisées</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">15</div>
-              <div className="text-primary-100">Années d'expérience</div>
+              <div className="stat-number text-4xl font-bold mb-2">15</div>
+              <div className="stat-label">Années d'expérience</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">8</div>
-              <div className="text-primary-100">Départements couverts</div>
+              <div className="stat-number text-4xl font-bold mb-2">8</div>
+              <div className="stat-label">Départements couverts</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">98%</div>
-              <div className="text-primary-100">Clients satisfaits</div>
+              <div className="stat-number text-4xl font-bold mb-2">98%</div>
+              <div className="stat-label">Clients satisfaits</div>
             </div>
           </div>
         </div>
@@ -140,9 +141,9 @@ const Projects = () => {
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Contactez-nous pour discuter de votre projet et obtenir un devis personnalisé.
           </p>
-          <a href="/contact" className="btn-primary">
+          <Link to="/devis" className="btn-primary">
             Demander un devis gratuit
-          </a>
+          </Link>
         </div>
       </section>
 
