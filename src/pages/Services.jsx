@@ -67,7 +67,7 @@ const Services = () => {
               <div 
                 key={service.id}
                 id={service.slug}
-                className={`grid md:grid-cols-2 gap-8 items-center scroll-mt-24 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
+                className={`grid gap-6 sm:gap-8 md:grid-cols-2 items-center scroll-mt-24 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}
               >
                 <div className={index % 2 === 1 ? 'md:order-2' : ''}>
                   {service.image ? (
@@ -119,7 +119,7 @@ const Services = () => {
             title="Notre processus"
             subtitle="Un accompagnement de A à Z pour votre projet"
           />
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 md:grid-cols-4">
             {[
               { step: '01', title: 'Étude', desc: 'Analyse de votre terrain, de vos besoins et de vos envies' },
               { step: '02', title: 'Conception', desc: 'Plans détaillés, choix des matériaux et devis complet' },

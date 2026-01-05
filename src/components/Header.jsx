@@ -47,7 +47,7 @@ const Header = () => {
             <img 
               src="/images/logo/LogoBBH.png" 
               alt="BBH SERVICE - Expert Piscines" 
-              className="h-14 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
             <div className="hidden sm:flex flex-col ml-3 border-l-2 border-secondary/30 pl-3">
               {/* <span className={`slogan-wave ${sloganWaveActive ? 'slogan-wave-active' : ''}`}>
@@ -86,7 +86,7 @@ const Header = () => {
 
           {/* Menu mobile toggle */}
           <button
-            className="md:hidden p-2 rounded-md text-primary hover:bg-neutral-light transition-colors"
+            className="md:hidden p-3 rounded-lg text-primary hover:bg-neutral-light transition-colors min-w-[48px] min-h-[48px] flex items-center justify-center"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-expanded={isMenuOpen}
@@ -104,14 +104,14 @@ const Header = () => {
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4 animate-fade-in" id="mobile-menu" role="navigation">
-            <div className="flex flex-col space-y-1">
+          <div className="md:hidden pb-4 pt-2 animate-fade-in" id="mobile-menu" role="navigation">
+            <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <NavLink
                   key={link.to}
                   to={link.to}
                   className={({ isActive }) =>
-                    `px-3 py-2 rounded-md text-sm font-medium font-sans ${
+                    `px-4 py-3 rounded-lg text-base font-medium font-sans min-h-[48px] flex items-center ${
                       isActive 
                         ? 'text-secondary bg-neutral-light' 
                         : 'text-primary hover:bg-neutral-light'

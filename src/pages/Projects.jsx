@@ -99,7 +99,7 @@ const Projects = () => {
           {filteredProjects.length > 0 ? (
             <>
               {/* Grille équilibrée - masonry-like */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {filteredProjects.map((project, index) => (
                   <div key={project.id} className="w-full">
                     <ProjectCard 

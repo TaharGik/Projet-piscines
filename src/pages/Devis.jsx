@@ -246,8 +246,8 @@ const Devis = () => {
       type="button"
       onClick={() => selectOption(field, option.id)}
       className={`
-        relative p-4 md:p-6 rounded-xl border-2 text-left transition-all duration-300
-        hover:shadow-lg hover:scale-[1.02] hover:border-[#2FB8B3]
+        relative p-4 sm:p-5 md:p-6 rounded-xl border-2 text-left transition-all duration-300
+        hover:shadow-lg hover:scale-[1.02] hover:border-[#2FB8B3] min-h-[80px] touch-manipulation
         ${selected 
           ? 'border-[#2FB8B3] bg-[#2FB8B3]/10 shadow-md ring-2 ring-[#2FB8B3]/30' 
           : 'border-gray-200 bg-white hover:bg-gray-50'
@@ -262,7 +262,7 @@ const Devis = () => {
       <div className="flex items-start gap-4">
         <span className="text-3xl">{option.icon}</span>
         <div className="flex-1">
-          <h3 className={`font-semibold text-lg ${selected ? 'text-[#0F2A44]' : 'text-gray-900'}`}>
+          <h3 className={`font-semibold text-base sm:text-lg ${selected ? 'text-[#0F2A44]' : 'text-gray-900'}`}>
             {option.label}
           </h3>
           {option.description && (

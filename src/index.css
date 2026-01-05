@@ -29,6 +29,17 @@
   --color-gray-light: #F3F5F9;
   --color-black: #000000;
   
+  /* Touch targets (minimum 48x48px pour mobile) */
+  --touch-target-min: 48px;
+  
+  /* Espacements responsive */
+  --spacing-xs: 0.25rem;  /* 4px */
+  --spacing-sm: 0.5rem;   /* 8px */
+  --spacing-md: 1rem;     /* 16px */
+  --spacing-lg: 1.5rem;   /* 24px */
+  --spacing-xl: 2rem;     /* 32px */
+  --spacing-2xl: 3rem;    /* 48px */
+  
   /* Typographies */
   font-family: 'Lato', system-ui, sans-serif;
   line-height: 1.6;
@@ -39,6 +50,29 @@ body {
   min-width: 320px;
   background-color: var(--color-white);
   color: var(--color-primary);
+  /* Optimisations mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Scroll behavior amélioré */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prévention du zoom sur focus (iOS) tout en gardant l'accessibilité */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px !important; /* Empêche le zoom automatique iOS */
+  }
 }
 
 /* Titres - Montserrat */
@@ -561,6 +595,144 @@ h1, h2, h3, h4, h5, h6 {
   transform: scaleX(1);
   animation: sloganShimmer 1.5s linear infinite;
 }
+
+/* ========================================
+   UTILITAIRES MOBILE-FRIENDLY
+   ======================================== */
+
+/* Touch optimization - Améliore la réactivité tactile */
+.touch-optimized {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+/* Touch targets - Assure des cibles tactiles de 48x48px minimum */
+.touch-target {
+  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive spacing utilities */
+.mobile-px {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .mobile-px {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-px {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Texte responsive - empêche le débordement sur mobile */
+.text-responsive {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Images responsive */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Boutons mobile-friendly */
+.btn-mobile {
+  min-height: var(--touch-target-min);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+}
+
+/* Cards responsive avec ombres optimisées */
+.card-mobile {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-mobile:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+  .card-mobile {
+    padding: 2rem;
+  }
+  
+  .card-mobile:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+/* Safe area (notch iPhone X+) */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+/* Prevent horizontal scroll */
+body, html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Amélioration des focus pour accessibilité */
+*:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Skip navigation link (accessibilité) */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Optimisation performance - GPU acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ========================================
+   FIN DU FICHIER
+   ======================================== */
 
 
 

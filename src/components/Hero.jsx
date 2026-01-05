@@ -69,11 +69,11 @@ const Hero = () => {
       </div>
       
       <div className="container-custom relative z-10">
-        <div className="py-20 md:py-32 lg:py-40">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="py-16 sm:py-20 md:py-32 lg:py-40">
+          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
             {/* Badge - Style sobre */}
             <div 
-              className={`inline-flex items-center px-4 py-2 bg-white/15 backdrop-blur-sm rounded-md text-sm mb-6 transition-all duration-500 ${
+              className={`inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-white/15 backdrop-blur-sm rounded-md text-xs sm:text-sm mb-4 sm:mb-6 transition-all duration-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -83,7 +83,7 @@ const Hero = () => {
             
             {/* Titre principal - Montserrat bold centré avec effet vague */}
             <h1 
-              className={`font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 transition-all duration-500 delay-100 hero-glow ${
+              className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6 transition-all duration-500 delay-100 hero-glow ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } ${autoWaveEnded ? 'cursor-pointer' : ''}`}
               style={{ color: '#ffffff' }}
@@ -115,7 +115,7 @@ const Hero = () => {
             
             {/* Sous-titre - Style classe */}
             <p 
-              className={`font-sans text-xl md:text-2xl mb-4 leading-relaxed transition-all duration-500 delay-200 italic ${
+              className={`font-sans text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 leading-relaxed transition-all duration-500 delay-200 italic ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
               style={{ color: 'rgba(255, 255, 255, 0.85)' }}
@@ -125,7 +125,7 @@ const Hero = () => {
             
             {/* Promesse concrète */}
             <div 
-              className={`text-lg md:text-xl mb-10 leading-relaxed transition-all duration-500 delay-250 ${
+              className={`text-base sm:text-lg md:text-xl mb-8 sm:mb-10 leading-relaxed transition-all duration-500 delay-250 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
               style={{ color: 'rgba(255, 255, 255, 0.95)' }}
@@ -174,13 +174,13 @@ const Hero = () => {
             >
               <Link 
                 to="/devis"
-                className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-lg px-8 py-4 rounded-md transition-all duration-300 text-center hover:scale-105 hover:shadow-lg hover:-translate-y-1"
+                className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-300 text-center hover:scale-105 hover:shadow-lg hover:-translate-y-1 min-h-[48px] w-full sm:w-auto max-w-sm mx-auto"
               >
                 Lancer mon projet piscine
               </Link>
               <Link 
                 to="/realisations" 
-                className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0F2A44] font-heading font-semibold text-lg px-8 py-4 rounded-md transition-all duration-200 text-center"
+                className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0F2A44] font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-200 text-center min-h-[48px] w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
               >
                 Voir nos réalisations
               </Link>

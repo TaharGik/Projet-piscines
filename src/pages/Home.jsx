@@ -107,7 +107,7 @@ const Home = () => {
             </div>
           </AnimatedSection>
 
-          <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid gap-8 sm:gap-10 md:grid-cols-3 lg:gap-12">
             {benefits.map((benefit, index) => (
               <AnimatedSection key={index} animation="fade-up" delay={index * 150}>
                 <div className="text-center p-8 rounded-2xl bg-[#F3F5F9] hover:bg-[#2FB8B3]/10 transition-all duration-300 h-full group">
@@ -180,13 +180,13 @@ const Home = () => {
       {/* Section Chiffres clés - Rassurance */}
       <section className="py-16 bg-[#F3F5F9]">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
             {keyFigures.map((figure, index) => (
               <AnimatedSection key={index} animation="zoom-in" delay={index * 100}>
                 <div className="text-center">
                   <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-4xl md:text-5xl font-bold text-[#0F2A44]">{figure.value}</span>
-                    <span className="text-2xl md:text-3xl font-bold text-[#2FB8B3]">{figure.suffix}</span>
+                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F2A44]">{figure.value}</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#2FB8B3]">{figure.suffix}</span>
                   </div>
                   <p className="text-gray-600 mt-2 font-medium">{figure.label}</p>
                 </div>
