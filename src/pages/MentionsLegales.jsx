@@ -32,7 +32,7 @@ const MentionsLegales = () => {
                 <p className="mb-2"><strong>Raison sociale :</strong> BBH SERVICE</p>
                 <p className="mb-2"><strong>Forme juridique :</strong> [À compléter - Ex: SARL, SAS, Auto-entrepreneur]</p>
                 <p className="mb-2"><strong>Capital social :</strong> [À compléter]</p>
-                <p className="mb-2"><strong>Siège social :</strong> [Adresse à compléter]</p>
+                <p className="mb-2"><strong>Siège social :</strong> 10 Pl. des Tilleuls</p>
                 <p className="mb-2"><strong>SIRET :</strong> [Numéro SIRET à compléter]</p>
                 <p className="mb-2"><strong>RCS :</strong> [Numéro RCS à compléter]</p>
                 <p className="mb-2"><strong>Téléphone :</strong> <a href="tel:+33640123456" className="text-blue-600 hover:underline">06 40 12 34 56</a></p>

@@ -26,21 +26,18 @@ const SERVICE_TYPES = [
   { 
     id: 'conception-installation', 
     label: 'Conception et Installation', 
-    icon: '🏗️',
     description: 'Créer une nouvelle piscine sur mesure',
     popular: true
   },
   { 
     id: 'renovation', 
     label: 'Rénovation de Piscine', 
-    icon: '🔄',
     description: 'Rénover ou moderniser une piscine existante',
     popular: false
   },
   { 
     id: 'entretien', 
     label: 'Entretien de Piscine', 
-    icon: '🧽',
     description: 'Contrat d\'entretien régulier',
     popular: false
   },
@@ -50,61 +47,57 @@ const POOL_TYPES = [
   { 
     id: 'beton', 
     label: 'Piscine béton', 
-    icon: '🏗️',
     description: 'Sur mesure, durable, personnalisable à 100%',
     popular: true
   },
   { 
     id: 'coque', 
     label: 'Piscine coque', 
-    icon: '🐚',
     description: 'Installation rapide, excellent rapport qualité-prix',
     popular: true
   },
   { 
     id: 'hors-sol', 
     label: 'Piscine hors-sol', 
-    icon: '🏊',
     description: 'Économique, installation simple, démontable'
   },
   { 
     id: 'sur-mesure', 
     label: 'Projet sur-mesure', 
-    icon: '✨',
     description: 'Piscine miroir, naturelle, intérieure, débordement...'
   },
 ];
 
 const DIMENSIONS = [
-  { id: 'small', label: 'Petite', size: '< 20 m²', dimensions: '4x4m à 5x3m', icon: '📐' },
-  { id: 'medium', label: 'Moyenne', size: '20-40 m²', dimensions: '8x4m à 10x4m', icon: '📏', popular: true },
-  { id: 'large', label: 'Grande', size: '40-60 m²', dimensions: '10x5m à 12x5m', icon: '📐' },
-  { id: 'xlarge', label: 'Très grande', size: '> 60 m²', dimensions: '> 12x5m', icon: '🏟️' },
+  { id: 'small', label: 'Petite', size: '< 20 m²', dimensions: '4x4m à 5x3m' },
+  { id: 'medium', label: 'Moyenne', size: '20-40 m²', dimensions: '8x4m à 10x4m', popular: true },
+  { id: 'large', label: 'Grande', size: '40-60 m²', dimensions: '10x5m à 12x5m' },
+  { id: 'xlarge', label: 'Très grande', size: '> 60 m²', dimensions: '> 12x5m' },
 ];
 
 const TERRAIN_TYPES = [
-  { id: 'flat-easy', label: 'Plat, accès facile', icon: '✅', description: 'Idéal pour l\'installation' },
-  { id: 'flat-difficult', label: 'Plat, accès difficile', icon: '🚧', description: 'Passage étroit ou obstacles' },
-  { id: 'slope-easy', label: 'En pente, accès facile', icon: '⛰️', description: 'Terrassement nécessaire' },
-  { id: 'slope-difficult', label: 'En pente, accès difficile', icon: '🏔️', description: 'Étude technique requise' },
-  { id: 'unknown', label: 'Je ne sais pas', icon: '❓', description: 'Nous évaluerons sur place' },
+  { id: 'flat-easy', label: 'Plat, accès facile', description: 'Idéal pour l\'installation' },
+  { id: 'flat-difficult', label: 'Plat, accès difficile', description: 'Passage étroit ou obstacles' },
+  { id: 'slope-easy', label: 'En pente, accès facile', description: 'Terrassement nécessaire' },
+  { id: 'slope-difficult', label: 'En pente, accès difficile', description: 'Étude technique requise' },
+  { id: 'unknown', label: 'Je ne sais pas', description: 'Nous évaluerons sur place' },
 ];
 
 const BUDGETS = [
-  { id: 'under15k', label: 'Moins de 15 000 €', range: '< 15k', icon: '💰' },
-  { id: '15to25k', label: '15 000 - 25 000 €', range: '15-25k', icon: '💰💰' },
-  { id: '25to40k', label: '25 000 - 40 000 €', range: '25-40k', icon: '💰💰💰', popular: true },
-  { id: '40to70k', label: '40 000 - 70 000 €', range: '40-70k', icon: '💰💰💰💰' },
-  { id: 'over70k', label: 'Plus de 70 000 €', range: '> 70k', icon: '💎' },
-  { id: 'unknown', label: 'À définir ensemble', range: 'N/A', icon: '❓' },
+  { id: 'under15k', label: 'Moins de 15 000 €', range: '< 15k' },
+  { id: '15to25k', label: '15 000 - 25 000 €', range: '15-25k' },
+  { id: '25to40k', label: '25 000 - 40 000 €', range: '25-40k', popular: true },
+  { id: '40to70k', label: '40 000 - 70 000 €', range: '40-70k' },
+  { id: 'over70k', label: 'Plus de 70 000 €', range: '> 70k' },
+  { id: 'unknown', label: 'À définir ensemble', range: 'N/A' },
 ];
 
 const TIMELINES = [
-  { id: 'urgent', label: 'Dès que possible', delay: '< 3 mois', icon: '🚀' },
-  { id: 'spring', label: 'Pour le printemps', delay: '3-6 mois', icon: '🌸' },
-  { id: 'summer', label: 'Pour l\'été prochain', delay: '6-12 mois', icon: '☀️', popular: true },
-  { id: 'flexible', label: 'Pas de rush', delay: '> 12 mois', icon: '🕐' },
-  { id: 'info', label: 'Je me renseigne', delay: 'N/A', icon: '📋' },
+  { id: 'urgent', label: 'Dès que possible', delay: '< 3 mois' },
+  { id: 'spring', label: 'Pour le printemps', delay: '3-6 mois' },
+  { id: 'summer', label: 'Pour l\'été prochain', delay: '6-12 mois', popular: true },
+  { id: 'flexible', label: 'Pas de rush', delay: '> 12 mois' },
+  { id: 'info', label: 'Je me renseigne', delay: 'N/A' },
 ];
 
 const QuoteWizard = ({ onComplete, onClose }) => {
@@ -209,18 +202,18 @@ const QuoteWizard = ({ onComplete, onClose }) => {
     const timelineLabel = TIMELINES.find(t => t.id === formData.timeline)?.label || formData.timeline;
 
     const fullMessage = `
-📋 DEMANDE DE DEVIS QUALIFIÉE
+DEMANDE DE DEVIS QUALIFIÉE
 
-🔧 Service demandé : ${serviceTypeLabel}
-🏊 Type de piscine : ${poolTypeLabel}
-📐 Dimensions : ${dimensionsLabel}
-⛰️ Terrain : ${terrainLabel}
-💰 Budget : ${budgetLabel}
-📅 Délai souhaité : ${timelineLabel}
+Service demandé : ${serviceTypeLabel}
+Type de piscine : ${poolTypeLabel}
+Dimensions : ${dimensionsLabel}
+Terrain : ${terrainLabel}
+Budget : ${budgetLabel}
+Délai souhaité : ${timelineLabel}
 
-📍 Ville : ${formData.city} ${formData.postalCode}
+Ville : ${formData.city} ${formData.postalCode}
 
-💬 Message complémentaire :
+Message complémentaire :
 ${formData.message || 'Aucun message supplémentaire'}
     `.trim();
 
@@ -285,7 +278,7 @@ ${formData.message || 'Aucun message supplémentaire'}
         relative p-4 md:p-6 rounded-xl border-2 text-left transition-all duration-300
         hover:shadow-lg hover:scale-[1.02] hover:border-blue-400
         ${selected 
-          ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200' 
+          ? 'border-secondary bg-secondary/10 shadow-md ring-2 ring-secondary/20' 
           : 'border-gray-200 bg-white hover:bg-gray-50'
         }
       `}
@@ -315,7 +308,9 @@ ${formData.message || 'Aucun message supplémentaire'}
           )}
         </div>
         {selected && (
-          <span className="text-blue-500 text-xl">✓</span>
+          <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+          </svg>
         )}
       </div>
     </button>
@@ -469,8 +464,8 @@ ${formData.message || 'Aucun message supplémentaire'}
             </div>
 
             {/* Récapitulatif */}
-            <div className="bg-blue-50 rounded-xl p-4 mb-6">
-              <h3 className="font-semibold text-blue-800 mb-3">📋 Récapitulatif de votre projet</h3>
+            <div className="bg-secondary/5 rounded-xl p-4 mb-6">
+              <h3 className="font-semibold text-blue-800 mb-3">Récapitulatif de votre projet</h3>
               <div className="grid grid-cols-2 gap-2 text-sm">
                 <span className="text-gray-600">Service :</span>
                 <span className="font-medium">{SERVICE_TYPES.find(s => s.id === formData.serviceType)?.label}</span>
@@ -578,7 +573,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                 <div className={`p-4 rounded-lg ${
                   submitStatus.type === 'success' ? 'bg-green-50 text-green-800' :
                   submitStatus.type === 'error' ? 'bg-red-50 text-red-800' :
-                  'bg-blue-50 text-blue-800'
+                  'bg-secondary/10 text-secondary'
                 }`}>
                   {submitStatus.message}
                 </div>
@@ -608,7 +603,6 @@ ${formData.message || 'Aucun message supplémentaire'}
         <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 z-10">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🏊</span>
               <span className="font-semibold text-gray-900">Votre projet piscine</span>
             </div>
             <button
@@ -658,7 +652,7 @@ ${formData.message || 'Aucun message supplémentaire'}
               {isStepValid() && (
                 <button
                   onClick={nextStep}
-                  className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all hover:scale-105"
+                  className="px-6 py-2 bg-secondary hover:bg-secondary/90 text-white rounded-lg font-medium transition-all hover:scale-105"
                 >
                   Continuer →
                 </button>
@@ -700,7 +694,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                     Envoi...
                   </span>
                 ) : (
-                  '🚀 Recevoir mon devis gratuit'
+                  'Recevoir mon devis gratuit'
                 )}
               </button>
             </div>

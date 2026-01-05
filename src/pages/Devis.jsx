@@ -26,21 +26,18 @@ const SERVICE_TYPES = [
   { 
     id: 'conception-installation', 
     label: 'Conception et Installation', 
-    icon: '🏗️',
     description: 'Créer une nouvelle piscine sur mesure',
     popular: true
   },
   { 
     id: 'renovation', 
     label: 'Rénovation de Piscine', 
-    icon: '🔄',
     description: 'Rénover ou moderniser une piscine existante',
     popular: false
   },
   { 
     id: 'entretien', 
     label: 'Entretien de Piscine', 
-    icon: '🧽',
     description: 'Contrat d\'entretien régulier',
     popular: false
   },
@@ -50,61 +47,57 @@ const POOL_TYPES = [
   { 
     id: 'beton', 
     label: 'Piscine béton', 
-    icon: '🏗️',
     description: 'Sur mesure, durable, personnalisable à 100%',
     popular: true
   },
   { 
     id: 'coque', 
     label: 'Piscine coque', 
-    icon: '🐚',
     description: 'Installation rapide, excellent rapport qualité-prix',
     popular: true
   },
   { 
     id: 'hors-sol', 
     label: 'Piscine hors-sol', 
-    icon: '🏊',
     description: 'Économique, installation simple, démontable'
   },
   { 
     id: 'sur-mesure', 
     label: 'Projet sur-mesure', 
-    icon: '✨',
     description: 'Piscine miroir, naturelle, intérieure, débordement...'
   },
 ];
 
 const DIMENSIONS = [
-  { id: 'small', label: 'Petite', size: '< 20 m²', dimensions: '4x4m à 5x3m', icon: '📐' },
-  { id: 'medium', label: 'Moyenne', size: '20-40 m²', dimensions: '8x4m à 10x4m', icon: '📏', popular: true },
-  { id: 'large', label: 'Grande', size: '40-60 m²', dimensions: '10x5m à 12x5m', icon: '📐' },
-  { id: 'xlarge', label: 'Très grande', size: '> 60 m²', dimensions: '> 12x5m', icon: '🏟️' },
+  { id: 'small', label: 'Petite', size: '< 20 m²', dimensions: '4x4m à 5x3m' },
+  { id: 'medium', label: 'Moyenne', size: '20-40 m²', dimensions: '8x4m à 10x4m', popular: true },
+  { id: 'large', label: 'Grande', size: '40-60 m²', dimensions: '10x5m à 12x5m' },
+  { id: 'xlarge', label: 'Très grande', size: '> 60 m²', dimensions: '> 12x5m' },
 ];
 
 const TERRAIN_TYPES = [
-  { id: 'flat-easy', label: 'Plat, accès facile', icon: '✅', description: 'Idéal pour l\'installation' },
-  { id: 'flat-difficult', label: 'Plat, accès difficile', icon: '🚧', description: 'Passage étroit ou obstacles' },
-  { id: 'slope-easy', label: 'En pente, accès facile', icon: '⛰️', description: 'Terrassement nécessaire' },
-  { id: 'slope-difficult', label: 'En pente, accès difficile', icon: '🏔️', description: 'Étude technique requise' },
-  { id: 'unknown', label: 'Je ne sais pas', icon: '❓', description: 'Nous évaluerons sur place' },
+  { id: 'flat-easy', label: 'Plat, accès facile', description: 'Idéal pour l\'installation' },
+  { id: 'flat-difficult', label: 'Plat, accès difficile', description: 'Passage étroit ou obstacles' },
+  { id: 'slope-easy', label: 'En pente, accès facile', description: 'Terrassement nécessaire' },
+  { id: 'slope-difficult', label: 'En pente, accès difficile', description: 'Étude technique requise' },
+  { id: 'unknown', label: 'Je ne sais pas', description: 'Nous évaluerons sur place' },
 ];
 
 const BUDGETS = [
-  { id: 'under15k', label: 'Moins de 15 000 €', range: '< 15k', icon: '💰' },
-  { id: '15to25k', label: '15 000 - 25 000 €', range: '15-25k', icon: '💰💰' },
-  { id: '25to40k', label: '25 000 - 40 000 €', range: '25-40k', icon: '💰💰💰', popular: true },
-  { id: '40to70k', label: '40 000 - 70 000 €', range: '40-70k', icon: '💰💰💰💰' },
-  { id: 'over70k', label: 'Plus de 70 000 €', range: '> 70k', icon: '💎' },
-  { id: 'unknown', label: 'À définir ensemble', range: 'N/A', icon: '❓' },
+  { id: 'under15k', label: 'Moins de 15 000 €', range: '< 15k' },
+  { id: '15to25k', label: '15 000 - 25 000 €', range: '15-25k' },
+  { id: '25to40k', label: '25 000 - 40 000 €', range: '25-40k', popular: true },
+  { id: '40to70k', label: '40 000 - 70 000 €', range: '40-70k' },
+  { id: 'over70k', label: 'Plus de 70 000 €', range: '> 70k' },
+  { id: 'unknown', label: 'À définir ensemble', range: 'N/A' },
 ];
 
 const TIMELINES = [
-  { id: 'urgent', label: 'Dès que possible', delay: '< 3 mois', icon: '🚀' },
-  { id: 'spring', label: 'Pour le printemps', delay: '3-6 mois', icon: '🌸' },
-  { id: 'summer', label: 'Pour l\'été prochain', delay: '6-12 mois', icon: '☀️', popular: true },
-  { id: 'flexible', label: 'Pas de rush', delay: '> 12 mois', icon: '🕐' },
-  { id: 'info', label: 'Je me renseigne', delay: 'N/A', icon: '📋' },
+  { id: 'urgent', label: 'Dès que possible', delay: '< 3 mois' },
+  { id: 'spring', label: 'Pour le printemps', delay: '3-6 mois' },
+  { id: 'summer', label: 'Pour l\'été prochain', delay: '6-12 mois', popular: true },
+  { id: 'flexible', label: 'Pas de rush', delay: '> 12 mois' },
+  { id: 'info', label: 'Je me renseigne', delay: 'N/A' },
 ];
 
 const Devis = () => {
@@ -286,7 +279,9 @@ const Devis = () => {
           )}
         </div>
         {selected && (
-          <span className="text-[#2FB8B3] text-xl">✓</span>
+          <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+          </svg>
         )}
       </div>
     </button>
@@ -561,7 +556,7 @@ const Devis = () => {
                       Envoi...
                     </span>
                   ) : (
-                    '🚀 Recevoir mon devis gratuit'
+                    'Recevoir mon devis gratuit'
                   )}
                 </button>
               </div>
@@ -748,8 +743,22 @@ const Devis = () => {
 
           {/* Réassurance */}
           <div className="mt-8 text-center text-gray-500 text-sm">
-            <p>🔒 Vos données sont sécurisées et ne seront jamais partagées</p>
-            <p className="mt-1">✓ Devis gratuit et sans engagement • ✓ Réponse sous 48h</p>
+            <p>Vos données sont sécurisées et ne seront jamais partagées</p>
+            <p className="mt-1">
+              <span className="inline-flex items-center">
+                <svg className="w-4 h-4 text-secondary mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                </svg>
+                Devis gratuit et sans engagement
+              </span>
+              <span className="mx-2">•</span>
+              <span className="inline-flex items-center">
+                <svg className="w-4 h-4 text-secondary mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                </svg>
+                Réponse sous 48h
+              </span>
+            </p>
           </div>
         </div>
       </section>

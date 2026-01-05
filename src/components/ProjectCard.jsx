@@ -1,4 +1,6 @@
-﻿/**
+﻿import { Link } from 'react-router-dom';
+
+/**
  * ProjectCard BBH SERVICE
  * Conforme à la charte graphique :
  * - Design sobre avec coins légèrement arrondis (rounded-lg)
@@ -6,14 +8,7 @@
  * - Couleurs : #0F2A44 (primaire), #2FB8B3 (CTA), #F3F5F9 (fond clair)
  * - Typographies : Montserrat (titres), Lato (texte)
  */
-const ProjectCard = ({ project, onOpenModal }) => {
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (onOpenModal) {
-      onOpenModal(project);
-    }
-  };
-
+const ProjectCard = ({ project }) => {
   return (
     <div className="bg-white rounded-lg shadow-soft overflow-hidden hover:shadow-card transition-all duration-200 group">
       {/* Image du projet */}
@@ -29,7 +24,7 @@ const ProjectCard = ({ project, onOpenModal }) => {
             <span className="text-primary/50 text-sm font-sans">Photo du projet</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-200"></div>
+        <div className="absolute inset-0 bg-[#0F2A44]/0 group-hover:bg-[#0F2A44]/10 transition-colors duration-200"></div>
         
         {/* Badge projet phare - Couleur secondaire */}
         {project.featured && (
@@ -76,8 +71,8 @@ const ProjectCard = ({ project, onOpenModal }) => {
         </div>
 
         {/* Bouton CTA - Couleur secondaire, pas de gradient */}
-        <button
-          onClick={handleClick}
+        <Link
+          to={`/realisations/${project.slug}`}
           className="w-full bg-secondary hover:bg-[#269e9a] text-white py-2.5 px-4 rounded-md font-heading font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 group/btn"
         >
           <span>En savoir plus</span>
@@ -89,7 +84,7 @@ const ProjectCard = ({ project, onOpenModal }) => {
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ const Header = () => {
   return (
     <header className="bg-white shadow-soft sticky top-0 z-50">
       <nav className="container-custom">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo BBH SERVICE - Image + Slogan */}
           <Link 
             to="/" 
@@ -47,12 +47,12 @@ const Header = () => {
             <img 
               src="/images/logo/LogoBBH.png" 
               alt="BBH SERVICE - Expert Piscines" 
-              className="h-20 md:h-24 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              className="h-14 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
             <div className="hidden sm:flex flex-col ml-3 border-l-2 border-secondary/30 pl-3">
-              <span className={`slogan-wave ${sloganWaveActive ? 'slogan-wave-active' : ''}`}>
+              {/* <span className={`slogan-wave ${sloganWaveActive ? 'slogan-wave-active' : ''}`}>
                 Votre projet, notre engagement
-              </span>
+              </span> */}
             </div>
           </Link>
 

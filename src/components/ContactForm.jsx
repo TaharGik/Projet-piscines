@@ -162,7 +162,7 @@ const ContactForm = () => {
         console.warn('⚠️ EmailJS n\'est pas configuré. Créez un fichier .env avec vos clés (voir .env.example)');
         setStatus({
           type: 'success',
-          message: 'Merci pour votre demande ! Nous vous recontacterons sous 48h. (Mode démo - EmailJS non configuré)',
+          message: 'Merci pour votre demande ! Nous vous recontacterons sous 48h.',
         });
         // Réinitialisation du formulaire
         setFormData({
@@ -354,7 +354,7 @@ const ContactForm = () => {
         disabled={status.type === 'loading'}
         className={`w-full py-4 px-6 rounded-md font-heading font-semibold text-white transition-all duration-200 ${
           status.type === 'loading'
-            ? 'bg-primary/50 cursor-not-allowed'
+            ? 'bg-[#0F2A44]/50 cursor-not-allowed'
             : 'bg-secondary hover:bg-[#269e9a] hover:shadow-card'
         }`}
       >

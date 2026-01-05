@@ -1,5 +1,5 @@
 ﻿/**
- * Donnees des projets / realisations de l'entreprise
+ * Données des projets / réalisations de l'entreprise
  * 
  * Chaque projet contient :
  * - id : Identifiant unique

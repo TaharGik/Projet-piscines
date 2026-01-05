@@ -53,14 +53,14 @@ const Hero = () => {
 
   return (
     <section className="relative text-white overflow-hidden">
-      {/* Image de fond */}
+      {/* Image de fond - Piscine béton */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/services/vacances-piscine.png')" }}
+        style={{ backgroundImage: "url('/images/services/piscine-beton.jpg')" }}
       />
       
-      {/* Overlay bleu foncé BBH SERVICE - #0F2A44 avec transparence */}
-      <div className="absolute inset-0 bg-primary/90" />
+      {/* Overlay bleu foncé BBH SERVICE - #0F2A44 avec transparence réduite */}
+      <div className="absolute inset-0 bg-[#0F2A44]/60" />
       
       {/* Formes décoratives subtiles */}
       <div className="absolute inset-0 opacity-5">
@@ -70,7 +70,7 @@ const Hero = () => {
       
       <div className="container-custom relative z-10">
         <div className="py-20 md:py-32 lg:py-40">
-          <div className="max-w-3xl">
+          <div className="max-w-4xl mx-auto text-center">
             {/* Badge - Style sobre */}
             <div 
               className={`inline-flex items-center px-4 py-2 bg-white/15 backdrop-blur-sm rounded-md text-sm mb-6 transition-all duration-500 ${
@@ -78,10 +78,10 @@ const Hero = () => {
               }`}
             >
               <span className="w-2 h-2 bg-secondary rounded-full mr-2"></span>
-              <span className="font-sans font-medium">Expert pisciniste depuis 2016</span>
+              <span className="font-sans font-medium">Expert piscine - installation & service</span>
             </div>
             
-            {/* Titre principal - Montserrat bold avec effet vague interactif */}
+            {/* Titre principal - Montserrat bold centré avec effet vague */}
             <h1 
               className={`font-heading text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 transition-all duration-500 delay-100 hero-glow ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -92,34 +92,89 @@ const Hero = () => {
               onClick={handleTitleClick}
               title={autoWaveEnded ? 'Survolez ou cliquez pour l\'effet vague' : ''}
             >
-              Votre expert piscine,{' '}
               <span className={`water-title ${isWaveActive ? 'water-active' : ''}`}>
-                <span className="water-title-text" style={{ color: '#ffffff' }}>sur mesure et durable</span>
+                <span className="water-title-text" style={{ color: '#ffffff' }}>
+                  Solutions piscines fiables,
+                  {isWaveActive && (
+                    <svg className="inline-block w-6 h-6 md:w-8 md:h-8 mx-2 -mt-1" viewBox="0 0 24 24">
+                      <defs>
+                        <linearGradient id="dropGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stopColor="#99DFEC" />
+                          <stop offset="50%" stopColor="#33A7E4" />
+                          <stop offset="100%" stopColor="#0F2A44" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M12 2c0 0-6 8-6 12a6 6 0 0 0 12 0c0-4-6-12-6-12z" fill="url(#dropGradient)"/>
+                    </svg>
+                  )}
+                  <br />durables et maîtrisées
+                </span>
                 <span className="water-underline"></span>
               </span>
             </h1>
             
-            {/* Sous-titre - Lato regular */}
+            {/* Sous-titre - Style classe */}
             <p 
-              className={`font-sans text-xl md:text-2xl mb-8 leading-relaxed transition-all duration-500 delay-200 ${
+              className={`font-sans text-xl md:text-2xl mb-4 leading-relaxed transition-all duration-500 delay-200 italic ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
-              style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+              style={{ color: 'rgba(255, 255, 255, 0.85)' }}
             >
-              Avec <span className="font-semibold text-white">BBH SERVICE</span>, faites le choix d'un partenaire fiable 
-              pour réaliser la piscine dont vous rêvez. Étude, installation, entretien : 
-              nos spécialistes prennent en charge l'ensemble de votre projet.
+              Votre projet, notre engagement
             </p>
             
-            {/* CTA Buttons - Style uniforme */}
+            {/* Promesse concrète */}
             <div 
-              className={`flex flex-col sm:flex-row gap-4 transition-all duration-500 delay-300 ${
+              className={`text-lg md:text-xl mb-10 leading-relaxed transition-all duration-500 delay-250 ${
+                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+              style={{ color: 'rgba(255, 255, 255, 0.95)' }}
+            >
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-2">
+                <span className="flex items-center">
+                  <svg className="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                  </svg>
+                  Devis sous 48h
+                </span>
+                <span className="flex items-center">
+                  <svg className="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                  </svg>
+                  Garantie décennale
+                </span>
+                <span className="flex items-center">
+                  <svg className="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                  </svg>
+                  Région parisienne
+                </span>
+              </div>
+            </div>
+            
+            {/* CTA Collaborons ! */}
+            <div 
+              className={`mb-8 transition-all duration-500 delay-300 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
               <Link 
                 to="/devis"
-                className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0F2A44] font-heading font-semibold text-lg px-8 py-4 rounded-md transition-all duration-200 text-center"
+                className="inline-flex items-center justify-center text-[#2FB8B3] hover:text-[#269E9A] font-sans font-medium text-xl transition-all duration-300 hover:scale-105"
+              >
+                Collaborons !
+              </Link>
+            </div>
+
+            {/* CTA Buttons */}
+            <div 
+              className={`flex flex-col sm:flex-row justify-center gap-4 transition-all duration-500 delay-400 ${
+                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              <Link 
+                to="/devis"
+                className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-lg px-8 py-4 rounded-md transition-all duration-300 text-center hover:scale-105 hover:shadow-lg hover:-translate-y-1"
               >
                 Lancer mon projet piscine
               </Link>
@@ -129,32 +184,6 @@ const Hero = () => {
               >
                 Voir nos réalisations
               </Link>
-            </div>
-            
-            {/* Points de réassurance */}
-            <div 
-              className={`mt-12 flex flex-wrap gap-8 transition-all duration-500 delay-500 ${
-                isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <div className="flex items-center space-x-2">
-                <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-sans text-sm">9 ans d'expérience</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-sans text-sm">Île-de-France et alentours</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-sans text-sm">Solutions personnalisées</span>
-              </div>
             </div>
           </div>
         </div>

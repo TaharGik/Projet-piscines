@@ -104,13 +104,21 @@ const FAQ = () => {
   return (
     <>
       {/* Hero FAQ */}
-      <section className="hero-section">
-        <div className="container-custom">
+      <section 
+        className="py-20 relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #0F2A44 50%, #0a1e30 100%)' }}
+      >
+        {/* Éléments décoratifs */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#2FB8B3] rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2FB8B3] rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        </div>
+        <div className="container-custom relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: '#ffffff' }}>
               Questions fréquentes
             </h1>
-            <p className="text-xl">
+            <p className="text-xl" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
               Retrouvez les réponses aux questions les plus courantes sur nos services 
               et la construction de piscines.
             </p>

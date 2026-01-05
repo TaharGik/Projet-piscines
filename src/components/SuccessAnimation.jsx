@@ -62,7 +62,7 @@ const SuccessAnimation = ({ onClose }) => {
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-3 h-3 bg-blue-400 rounded-full animate-water-drop"
+                className="absolute w-3 h-3 bg-secondary rounded-full animate-water-drop"
                 style={{
                   top: '50%',
                   left: '50%',
@@ -71,7 +71,7 @@ const SuccessAnimation = ({ onClose }) => {
                   opacity: 0.6,
                 }}
               >
-                <div className="w-full h-full bg-blue-300 rounded-full animate-ping"></div>
+                <div className="w-full h-full bg-secondary/70 rounded-full animate-ping"></div>
               </div>
             ))}
           </div>
@@ -86,7 +86,7 @@ const SuccessAnimation = ({ onClose }) => {
 
         {/* Message */}
         <h3 className="text-2xl font-bold text-gray-900 mb-2 animate-fade-in-up">
-          Message envoyé ! 💧
+          Message envoyé !
         </h3>
         <p className="text-gray-600 animate-fade-in-up animation-delay-200">
           Merci pour votre demande !<br />
@@ -99,7 +99,7 @@ const SuccessAnimation = ({ onClose }) => {
             setIsVisible(false);
             setTimeout(onClose, 500);
           }}
-          className="mt-6 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors animate-fade-in-up animation-delay-400"
+          className="mt-6 px-6 py-2 bg-secondary hover:bg-secondary/90 text-white font-medium rounded-lg transition-colors animate-fade-in-up animation-delay-400"
         >
           Fermer
         </button>

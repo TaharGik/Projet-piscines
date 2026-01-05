@@ -106,7 +106,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     alt={`${project.name} - Après`}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute bottom-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute bottom-4 left-4 bg-[#0F2A44] text-white px-3 py-1 rounded-full text-sm font-medium">
                     Après
                   </div>
                 </div>
@@ -162,7 +162,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             <div className="grid md:grid-cols-2 gap-4 lg:gap-6 mb-6 lg:mb-8">
               <div className="bg-gray-50 rounded-xl p-4 lg:p-6">
                 <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <span className="text-xl">📐</span> Caractéristiques
+                  Caractéristiques
                 </h3>
                 <ul className="space-y-2 md:space-y-3">
                   {project.dimensions && (
@@ -188,7 +188,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 </ul>
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-4 lg:p-6">
+              <div className="bg-[#F3F5F9] rounded-xl p-4 lg:p-6">
                 <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
                   <span className="text-xl">✨</span> Points forts
                 </h3>
@@ -209,7 +209,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             <div className="flex flex-col sm:flex-row gap-3 lg:gap-4 pt-4 lg:pt-6 border-t">
               <a 
                 href="/contact" 
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-center py-3 lg:py-4 px-6 rounded-lg font-medium transition-colors text-sm md:text-base"
+                className="flex-1 bg-secondary hover:bg-[#269E9A] text-white text-center py-3 lg:py-4 px-6 rounded-lg font-medium transition-colors text-sm md:text-base"
               >
                 Un projet similaire ? Contactez-nous
               </a>

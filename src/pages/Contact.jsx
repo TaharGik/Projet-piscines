@@ -19,13 +19,21 @@ const Contact = () => {
   return (
     <>
       {/* Hero Contact */}
-      <section className="hero-section">
-        <div className="container-custom">
+      <section 
+        className="py-20 relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #0F2A44 50%, #0a1e30 100%)' }}
+      >
+        {/* Éléments décoratifs */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#2FB8B3] rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2FB8B3] rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        </div>
+        <div className="container-custom relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: '#ffffff' }}>
               Contactez-nous
             </h1>
-            <p className="text-xl">
+            <p className="text-xl" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
               Vous avez un projet de piscine ? Parlons-en ! Notre équipe est à votre 
               disposition pour répondre à vos questions et vous accompagner.
             </p>
@@ -60,31 +68,31 @@ const Contact = () => {
                   </h3>
                   <ul className="space-y-4">
                     <li className="flex items-start space-x-3">
-                      <svg className="w-6 h-6 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-secondary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Adresse</div>
-                        <div className="text-gray-600">15 Avenue des Champs-Élysées<br/>75008 Paris</div>
+                        <div className="text-gray-600">10 Pl. des Tilleuls, 95310 Saint-Ouen-l'Aumône<br/>Société de construction de piscine</div>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
-                      <svg className="w-6 h-6 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-secondary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Téléphone</div>
-                        <a href="tel:+33140123456" className="text-blue-500 hover:underline font-medium">01 40 12 34 56</a>
+                        <a href="tel:+33140123456" className="text-secondary hover:text-[#269E9A] hover:underline font-medium transition-colors">01 40 12 34 56</a>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
-                      <svg className="w-6 h-6 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-6 h-6 text-secondary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Email</div>
-                        <a href="mailto:bbhservice25@gmail.com" className="text-blue-500 hover:underline">bbhservice25@gmail.com</a>
+                        <a href="mailto:bbhservice25@gmail.com" className="text-secondary hover:text-[#269E9A] hover:underline transition-colors">bbhservice25@gmail.com</a>
                       </div>
                     </li>
                   </ul>
@@ -114,7 +122,7 @@ const Contact = () => {
               </AnimatedSection>
 
               <AnimatedSection animation="fade-left" delay={400}>
-                <div className="bg-blue-50 rounded-xl p-6">
+                <div className="bg-neutral-50 border border-secondary/10 rounded-xl p-6">
                   <h3 className="text-lg font-semibold text-gray-900 mb-4">
                     Zone d'intervention
                   </h3>
@@ -170,19 +178,19 @@ const Contact = () => {
       </section>
 
       {/* Bandeau appel */}
-      <section className="py-12 bg-blue-600 text-white">
+      <section className="py-12 bg-[#F3F5F9]">
         <div className="container-custom">
           <AnimatedSection animation="zoom-in">
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[#0F2A44]">
                 Vous préférez nous appeler ?
               </h2>
-              <p className="text-blue-100 mb-6">
+              <p className="text-gray-600 mb-6">
                 Notre équipe est disponible du lundi au vendredi de 9h à 18h
               </p>
               <a 
                 href="tel:+33140123456" 
-                className="inline-flex items-center bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-blue-50 transition-colors shadow-lg hover:shadow-xl"
+                className="inline-flex items-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg hover:shadow-xl"
               >
                 <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />

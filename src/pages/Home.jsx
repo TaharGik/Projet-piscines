@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import Hero from '../components/Hero';
+import ProofPoints from '../components/ProofPoints';
+import TrustBadges from '../components/TrustBadges';
 import SectionTitle from '../components/SectionTitle';
 import ServicesSection from '../components/ServicesSection';
 import ProjectsGrid from '../components/ProjectsGrid';
@@ -15,39 +17,39 @@ const Home = () => {
   // SEO - Meta tags pour la page d'accueil
   useSEO({
     title: 'Piscines sur mesure en Ile-de-France',
-    description: 'BBH SERVICE, expert pisciniste depuis 2016. Conception, realisation et entretien de piscines sur mesure en region parisienne. Devis gratuit sous 48h.',
+    description: 'BBH SERVICE, expert pisciniste depuis 2016. Conception, réalisation et entretien de piscines sur mesure en région parisienne. Devis gratuit sous 48h.',
     keywords: 'piscine sur mesure, pisciniste Ile-de-France, construction piscine Paris, piscine beton, piscine coque, renovation piscine',
     canonicalUrl: 'https://www.bbhservice.fr/',
   });
 
-  // Données pour la section bénéfices
+  // Données pour la section bénéfices - 3 Valeurs ADN BBH SERVICE
   const benefits = [
+    {
+      icon: (
+        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        </svg>
+      ),
+      title: "Expertise & précision",
+      description: "Chaque projet est mené avec une maîtrise technique rigoureuse, de la conception jusqu'à la mise en service. La précision d'exécution garantit des installations fiables et pérennes."
+    },
+    {
+      icon: (
+        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+      ),
+      title: "Qualité premium & finitions soignées",
+      description: "BBH SERVICE accorde une attention particulière au choix des matériaux, à la qualité des équipements et au niveau de finition. Chaque piscine est pensée comme une réalisation durable, au standard premium."
+    },
     {
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      title: "Accompagnement personnalisé",
-      description: "Un interlocuteur unique de l'étude à la livraison. Nous vous guidons à chaque étape pour un projet sans stress."
-    },
-    {
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      ),
-      title: "Qualité & durabilité",
-      description: "Matériaux haut de gamme et techniques éprouvées. Votre piscine est conçue pour durer plus de 30 ans."
-    },
-    {
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      ),
-      title: "Sérénité garantie",
-      description: "Garantie décennale, assurance RC Pro et SAV réactif. Vous êtes protégé pendant et après les travaux."
+      title: "Proximité & relation de confiance",
+      description: "Une relation client humaine et transparente, fondée sur l'écoute, la disponibilité et l'accompagnement à chaque étape du projet."
     }
   ];
 
@@ -87,6 +89,9 @@ const Home = () => {
     <>
       {/* Hero Section */}
       <Hero />
+      
+      {/* Proof Points Section */}
+      <ProofPoints />
 
       {/* Section Pourquoi nous choisir - Bénéfices clients */}
       <section className="py-20 bg-white">
@@ -97,7 +102,7 @@ const Home = () => {
                 Pourquoi choisir BBH SERVICE ?
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Depuis 2016, nous transformons vos rêves de piscine en réalité. Notre mission : vous offrir un projet serein et un résultat à la hauteur de vos attentes.
+                Acteur premium de l'installation de piscines, nous proposons des solutions fiables, durables et parfaitement maîtrisées pour les particuliers exigeants.
               </p>
             </div>
           </AnimatedSection>
@@ -123,15 +128,15 @@ const Home = () => {
       </section>
 
       {/* Section Comment ça se passe - Processus */}
-      <section className="py-20 bg-[#0F2A44]">
+      <section className="py-20 bg-gray-100">
         <div className="container-custom">
           <AnimatedSection animation="fade-up">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Comment ça se passe ?
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                Un accompagnement professionnel de bout en bout
               </h2>
-              <p className="text-lg text-white/80 max-w-2xl mx-auto">
-                Un processus simple et transparent, pour un projet maîtrisé du début à la fin.
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Grande réactivité, suivi de chantier rigoureux et relation client directe : votre projet est entre de bonnes mains.
               </p>
             </div>
           </AnimatedSection>
@@ -139,15 +144,15 @@ const Home = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {processSteps.map((step, index) => (
               <AnimatedSection key={index} animation="fade-up" delay={index * 100}>
-                <div className="relative p-6 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 h-full">
-                  <span className="text-5xl font-bold text-[#2FB8B3]/40 absolute top-4 right-4">
+                <div className="relative p-6 rounded-xl bg-white border border-gray-200 shadow-sm h-full">
+                  <span className="text-5xl font-bold text-secondary/30 absolute top-4 right-4">
                     {step.number}
                   </span>
                   <div className="relative z-10">
-                    <h3 className="text-xl font-semibold text-white mb-3 mt-8">
+                    <h3 className="text-xl font-semibold text-primary mb-3 mt-8">
                       {step.title}
                     </h3>
-                    <p className="text-white/70 text-sm leading-relaxed">
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </div>
@@ -160,7 +165,7 @@ const Home = () => {
             <div className="text-center mt-12">
               <Link 
                 to="/devis"
-                className="inline-flex items-center gap-2 bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:-translate-y-1"
               >
                 <span>Je lance mon projet</span>
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -244,6 +249,11 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Section Trust Badges - Assurances et Garanties */}
+      <AnimatedSection animation="fade-up">
+        <TrustBadges variant="horizontal" className="border-t border-b" />
+      </AnimatedSection>
+
       {/* Section Témoignages */}
       <section className="py-20 bg-white">
         <div className="container-custom">
@@ -304,10 +314,30 @@ const Home = () => {
         <div className="container-custom">
           <AnimatedSection animation="fade-in">
             <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4 text-white">Nous intervenons près de chez vous</h2>
-              <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-                Toute l'Île-de-France : Paris et petite couronne, Yvelines, Essonne, Val-d'Oise et Seine-et-Marne.
+              <h2 className="text-3xl font-bold mb-4 text-white">Île-de-France et régions limitrophes</h2>
+              <p className="text-xl text-white/80 mb-6 max-w-2xl mx-auto">
+                Cette proximité géographique permet :
               </p>
+              <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-10">
+                <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg border border-white/20">
+                  <svg className="w-6 h-6 text-[#2FB8B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="text-white font-medium">Une grande réactivité</span>
+                </div>
+                <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg border border-white/20">
+                  <svg className="w-6 h-6 text-[#2FB8B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                  <span className="text-white font-medium">Un suivi de chantier rigoureux</span>
+                </div>
+                <div className="flex items-center justify-center gap-3 p-4 bg-white/10 rounded-lg border border-white/20">
+                  <svg className="w-6 h-6 text-[#2FB8B3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="text-white font-medium">Une relation client directe et personnalisée</span>
+                </div>
+              </div>
               <div className="flex flex-wrap justify-center gap-3 text-sm">
                 {['Paris 75', 'Hauts-de-Seine 92', 'Yvelines 78', 'Val-de-Marne 94', 'Essonne 91', 'Val-d\'Oise 95', 'Seine-et-Marne 77'].map((dept) => (
                   <span key={dept} className="px-4 py-2 bg-white/20 rounded-full border border-white/40 text-white">

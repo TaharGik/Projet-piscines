@@ -169,12 +169,12 @@ const ContactForm = () => {
     if (IS_DEMO_MODE) {
       setTimeout(() => {
         if (IS_DEV) {
-          console.log('📧 Formulaire soumis (mode démo):', formData);
+          console.log('Formulaire soumis (mode démo):', formData);
           console.warn('⚠️ hCaptcha non configuré. Ajoutez VITE_HCAPTCHA_SITE_KEY dans .env');
         }
         setStatus({
           type: 'success',
-          message: '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h. (Mode démo)',
+          message: '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h.',
         });
         setShowSuccessAnimation(true);
         resetForm();
@@ -285,11 +285,11 @@ const ContactForm = () => {
               ? 'bg-green-50 text-green-800 border border-green-200'
               : status.type === 'error'
               ? 'bg-red-50 text-red-800 border border-red-200'
-              : 'bg-blue-50 text-blue-800 border border-blue-200'
+              : 'bg-secondary/10 text-secondary border border-secondary/20'
           }`}
         >
           {status.type === 'loading' && (
-            <svg className="animate-spin h-5 w-5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-5 w-5 text-secondary flex-shrink-0" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -319,7 +319,7 @@ const ContactForm = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all ${
             errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
           }`}
           placeholder="Jean Dupont"
@@ -348,7 +348,7 @@ const ContactForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all ${
               errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
             }`}
             placeholder="jean.dupont@email.com"
@@ -373,7 +373,7 @@ const ContactForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all ${
               errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300'
             }`}
             placeholder="06 12 34 56 78"
@@ -402,7 +402,7 @@ const ContactForm = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
             placeholder="Versailles (78000)"
             maxLength={100}
           />
@@ -416,7 +416,7 @@ const ContactForm = () => {
             name="projectType"
             value={formData.projectType}
             onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all bg-white"
           >
             {projectTypes.map((type) => (
               <option key={type.value} value={type.value}>
@@ -438,7 +438,7 @@ const ContactForm = () => {
           rows={5}
           value={formData.message}
           onChange={handleChange}
-          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none ${
+          className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all resize-none ${
             errors.message ? 'border-red-500 bg-red-50' : 'border-gray-300'
           }`}
           placeholder="Décrivez votre projet : type de piscine souhaitée, dimensions, terrain, budget estimé..."
@@ -483,13 +483,7 @@ const ContactForm = () => {
         </div>
       )}
 
-      {/* Mode démo indicator */}
-      {IS_DEMO_MODE && (
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800">
-          <strong>⚠️ Mode démo :</strong> hCaptcha n'est pas configuré. 
-          Les emails ne seront pas envoyés. Voir le guide de configuration.
-        </div>
-      )}
+
 
       {/* Bouton submit */}
       <button
@@ -498,7 +492,7 @@ const ContactForm = () => {
         className={`w-full py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 ${
           status.type === 'loading'
             ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg transform hover:-translate-y-0.5'
+            : 'bg-secondary hover:bg-[#269E9A] hover:shadow-lg transform hover:-translate-y-0.5'
         }`}
       >
         {status.type === 'loading' ? (
@@ -518,7 +512,7 @@ const ContactForm = () => {
       <p className="text-xs text-gray-500 text-center">
         En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour 
         traiter votre demande. Voir notre{' '}
-        <a href="/mentions-legales" className="text-blue-500 hover:underline">
+        <a href="/mentions-legales" className="text-secondary hover:text-[#269E9A] hover:underline transition-colors">
           politique de confidentialité
         </a>.
       </p>

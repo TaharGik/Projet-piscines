@@ -25,9 +25,9 @@ const ProjectDetail = () => {
   
   // SEO - Meta tags dynamiques pour chaque projet
   useSEO({
-    title: project ? `${project.name} - Realisation piscine ${project.city}` : 'Projet non trouve',
+    title: project ? `${project.name} - Réalisation piscine ${project.city}` : 'Projet non trouvé',
     description: project 
-      ? `Decouvrez notre realisation : ${project.type} a ${project.city}. ${project.description}` 
+      ? `Découvrez notre réalisation : ${project.type} à ${project.city}. ${project.description}` 
       : 'Ce projet n\'existe pas.',
     keywords: project 
       ? `piscine ${project.city}, ${project.type}, ${project.tags.join(', ')}` 
@@ -42,10 +42,10 @@ const ProjectDetail = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Projet non trouve</h1>
-          <p className="text-gray-600 mb-8">Ce projet n'existe pas ou a ete supprime.</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Projet non trouvé</h1>
+          <p className="text-gray-600 mb-8">Ce projet n'existe pas ou a été supprimé.</p>
           <Link to="/realisations" className="btn-primary">
-            Voir toutes les realisations
+            Voir toutes les réalisations
           </Link>
         </div>
       </div>
@@ -64,8 +64,16 @@ const ProjectDetail = () => {
   return (
     <>
       {/* Hero avec image */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-700 text-white py-20">
-        <div className="container-custom">
+      <section 
+        className="relative py-20 overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #0F2A44 50%, #0a1e30 100%)' }}
+      >
+        {/* Éléments décoratifs */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#2FB8B3] rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2FB8B3] rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        </div>
+        <div className="container-custom relative z-10">
           <button 
             onClick={() => navigate(-1)}
             className="inline-flex items-center text-blue-100 hover:text-white mb-6 transition-colors"
@@ -73,7 +81,7 @@ const ProjectDetail = () => {
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Retour aux realisations
+            Retour aux réalisations
           </button>
           
           <div className="max-w-4xl">
@@ -88,15 +96,15 @@ const ProjectDetail = () => {
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: '#ffffff' }}>
               {project.name}
             </h1>
             
-            <p className="text-xl text-blue-100 mb-2">
+            <p className="text-xl mb-2" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
               {project.type}
             </p>
             
-            <p className="text-lg text-blue-200">
+            <p className="text-lg" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
               📍 {project.city}, {project.department}
             </p>
           </div>
@@ -337,18 +345,18 @@ const ProjectDetail = () => {
       )}
 
       {/* CTA Final */}
-      <section className="py-16 bg-blue-600 text-white">
+      <section className="py-16 bg-[#F3F5F9]">
         <div className="container-custom text-center">
           <AnimatedSection animation="zoom-in">
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4 text-[#0F2A44]">
               Vous avez un projet similaire ?
             </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Contactez-nous pour une etude personnalisee et un devis gratuit
+            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600">
+              Contactez-nous pour une étude personnalisée et un devis gratuit
             </p>
             <Link 
               to="/devis"
-              className="inline-block bg-white text-[#0F2A44] font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors shadow-lg"
+              className="inline-block bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg"
             >
               Demander un devis gratuit
             </Link>

@@ -18,37 +18,40 @@ const About = () => {
   const values = [
     {
       icon: '🎯',
-      title: 'Qualité',
-      description: 'Nous sélectionnons les meilleurs matériaux et travaillons avec des artisans qualifiés pour garantir une finition irréprochable.'
+      title: 'Expertise & précision',
+      description: 'Chaque projet est mené avec une maîtrise technique rigoureuse, de la conception jusqu\'à la mise en service. La précision d\'exécution garantit des installations fiables, performantes et pérennes.'
     },
     {
-      icon: '🛡️',
-      title: 'Sécurité',
-      description: 'Toutes nos installations sont conformes aux normes en vigueur. Nous assurons la sécurité de votre famille.'
+      icon: '⭐',
+      title: 'Qualité premium & finitions soignées',
+      description: 'Une attention particulière au choix des matériaux, à la qualité des équipements et au niveau de finition. Chaque piscine est pensée comme une réalisation durable, au standard premium.'
     },
     {
       icon: '🤝',
-      title: 'Proximité',
-      description: 'Une équipe à votre écoute, disponible et réactive. Un interlocuteur unique tout au long de votre projet.'
-    },
-    {
-      icon: '⏱️',
-      title: 'Respect des délais',
-      description: 'Nous nous engageons sur des délais réalistes et mettons tout en œuvre pour les respecter.'
+      title: 'Proximité & relation de confiance',
+      description: 'Une relation client humaine et transparente, fondée sur l\'écoute, la disponibilité et l\'accompagnement à chaque étape du projet.'
     }
   ];
 
   const stats = [
-    { number: '9+', label: 'Années d\'expérience' },
-    { number: '100%', label: 'Sur mesure' },
-    { number: 'IDF', label: 'Île-de-France' },
-    { number: '7j/7', label: 'Disponibilité' }
+    { value: '9', suffix: '+', label: 'années d\'expérience' },
+    { value: '100', suffix: '%', label: 'sur mesure' },
+    { value: 'IDF', suffix: '', label: 'Île-de-France' },
+    { value: '7j', suffix: '/7', label: 'disponibilité' }
   ];
 
   return (
     <>
       {/* Hero About */}
-      <section className="hero-section relative overflow-hidden">
+      <section 
+        className="py-20 relative overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #1a3a5c 0%, #0F2A44 50%, #0a1e30 100%)' }}
+      >
+        {/* Éléments décoratifs */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-[#2FB8B3] rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#2FB8B3] rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+        </div>
         {/* Logo en arrière-plan */}
         <div
           className="absolute inset-0 opacity-5"
@@ -61,12 +64,12 @@ const About = () => {
         />
         <div className="container-custom relative z-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              À propos de BBH SERVICE
+            <h1 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: '#ffffff' }}>
+              BBH SERVICE : l'excellence au service de votre piscine
             </h1>
-            <p className="text-xl">
-              Depuis 9 ans, nous accompagnons nos clients en Île-de-France et alentours 
-              avec des solutions personnalisées, conçues pour durer.
+            <p className="text-xl" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+              Acteur premium et technique de l'installation de piscines, nous proposons des solutions 
+              fiables, durables et parfaitement maîtrisées en Île-de-France et régions limitrophes.
             </p>
           </div>
         </div>
@@ -77,26 +80,35 @@ const About = () => {
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-[#0F2A44] mb-6">Notre histoire</h2>
+              <h2 className="text-3xl font-bold text-[#0F2A44] mb-6">À propos de BBH SERVICE</h2>
               <div className="space-y-4 text-gray-600">
                 <p>
-                  BBH SERVICE est menée par un entrepreneur dynamique, fort de 9 années d'expérience 
-                  dans la construction et l'installation des piscines d'extérieur et d'intérieur.
+                  Portée par l'expertise de <strong className="text-[#0F2A44]">Hamza Ben Belkacem</strong>, 
+                  <strong className="text-[#0F2A44]"> BBH SERVICE</strong> accompagne les particuliers dans la conception, 
+                  l'installation et les services de piscines premium.
                 </p>
                 <p>
-                  Un pisciniste qui choisit avec soin ses équipes et forme ses techniciens en leur 
-                  transmettant toute son expérience et compétences. Le savoir-faire BBH SERVICE, 
-                  c'est la garantie d'un travail bien fait et une technique unique reconnue pour 
-                  sa qualité et sa durabilité.
+                  Chaque projet est pensé avec <strong>exigence, précision et durabilité</strong>, afin de garantir 
+                  des installations fiables, performantes et parfaitement intégrées à leur environnement.
                 </p>
                 <p>
-                  Avec BBH SERVICE, faites le choix d'un partenaire fiable pour réaliser la piscine 
-                  dont vous rêvez. Étude, installation, entretien : nos spécialistes prennent en charge 
-                  l'ensemble de votre projet pour vous garantir une piscine belle, performante et facile à vivre.
+                  Notre entreprise s'adresse principalement à des particuliers exigeants, propriétaires 
+                  de maisons individuelles, sensibles à la qualité, à la durabilité et au sérieux technique.
                 </p>
-                <p className="font-semibold text-[#2FB8B3]">
-                  BBH SERVICE : votre projet mérite la meilleure expertise.
-                </p>
+                <Link 
+                  to="/contact"
+                  className="inline-flex items-center gap-2 text-[#2FB8B3] hover:text-[#269E9A] font-medium transition-colors duration-200 group mt-2"
+                >
+                  <span>En savoir plus</span>
+                  <svg 
+                    className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
             </div>
             <div className="bg-gray-200 rounded-2xl h-80 flex items-center justify-center">
@@ -112,8 +124,11 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="stat-number text-4xl md:text-5xl font-bold mb-2">{stat.number}</div>
-                <div className="stat-label">{stat.label}</div>
+                <div className="flex items-baseline justify-center gap-1">
+                  <span className="text-4xl md:text-5xl font-bold text-white">{stat.value}</span>
+                  <span className="text-2xl md:text-3xl font-bold text-[#2FB8B3]">{stat.suffix}</span>
+                </div>
+                <div className="stat-label mt-2">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -127,7 +142,7 @@ const About = () => {
             title="Nos valeurs"
             subtitle="Les principes qui guident notre travail au quotidien"
           />
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {values.map((value, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm text-center">
                 <div className="text-4xl mb-4">{value.icon}</div>
@@ -143,18 +158,17 @@ const About = () => {
       <section className="section-padding">
         <div className="container-custom">
           <SectionTitle
-            title="Notre équipe"
-            subtitle="Des professionnels passionnés à votre service"
+            title="Une proximité qui fait la différence"
+            subtitle="Île-de-France et régions limitrophes"
           />
           <div className="max-w-3xl mx-auto text-center text-gray-600">
             <p className="mb-6">
-              BBH SERVICE réunit des techniciens qualifiés et formés avec soin pour vous garantir 
-              un travail de qualité. Notre entrepreneur transmet son expérience et ses compétences 
-              à chaque membre de l'équipe.
+              Notre implantation en Île-de-France nous permet d'offrir une <strong>grande réactivité</strong>, 
+              un <strong>suivi de chantier rigoureux</strong> et une <strong>relation client directe et personnalisée</strong>.
             </p>
             <p>
-              Du premier contact à la remise des clés, vous bénéficiez d'un accompagnement personnalisé 
-              qui vous guide à chaque étape de votre projet.
+              Du premier contact à la remise des clés, vous bénéficiez d'un accompagnement professionnel 
+              de bout en bout pour les porteurs de projets recherchant l'excellence.
             </p>
           </div>
         </div>
