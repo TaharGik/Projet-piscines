@@ -77,7 +77,7 @@ const Header = () => {
             {/* CTA Devis - Lien vers la page devis */}
             <Link 
               to="/devis"
-              className="btn-primary ml-4"
+              className="btn-primary ml-2 lg:ml-4 flex-shrink-0"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               Devis gratuit

@@ -197,17 +197,29 @@ const ContactForm = () => {
         }),
       });
 
-      const data = await response.json();
+      // Vérifier si la réponse contient du JSON avant de parser
+      let data = null;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch (parseError) {
+          if (IS_DEV) {
+            console.error('Erreur parsing JSON:', parseError);
+          }
+          throw new Error('Réponse du serveur invalide');
+        }
+      }
 
       if (!response.ok) {
         // Erreur du serveur
-        throw new Error(data.error || 'Erreur lors de l\'envoi');
+        throw new Error(data?.error || `Erreur serveur (${response.status})`);
       }
 
       // Succès
       setStatus({
         type: 'success',
-        message: data.message || '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h.',
+        message: data?.message || '✅ Merci pour votre demande ! Nous vous recontacterons sous 48h.',
       });
       setShowSuccessAnimation(true);
       resetForm();

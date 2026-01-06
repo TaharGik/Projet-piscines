@@ -71,19 +71,21 @@ const Hero = () => {
       <div className="container-custom relative z-10">
         <div className="py-16 sm:py-20 md:py-32 lg:py-40">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-            {/* Badge - Style sobre */}
+            {/* Badge - Plus petit sur mobile */}
             <div 
-              className={`inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-white/15 backdrop-blur-sm rounded-md text-xs sm:text-sm mb-4 sm:mb-6 transition-all duration-500 ${
+              className={`inline-flex items-center px-2.5 py-1 sm:px-4 sm:py-2 bg-white/15 backdrop-blur-sm rounded-full sm:rounded-md text-xs sm:text-sm mb-4 sm:mb-6 transition-all duration-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <span className="w-2 h-2 bg-secondary rounded-full mr-2"></span>
-              <span className="font-sans font-medium">Expert piscine - installation & service</span>
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-secondary rounded-full mr-2"></span>
+              <span className="font-sans font-medium">
+                Piscines premium, durables et maîtrisées
+              </span>
             </div>
             
-            {/* Titre principal - Montserrat bold centré avec effet vague */}
+            {/* Titre principal - Version courte sur mobile, complète sur desktop - avec effet vague partout */}
             <h1 
-              className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 sm:mb-6 transition-all duration-500 delay-100 hero-glow ${
+              className={`font-heading font-bold leading-tight mb-4 sm:mb-6 transition-all duration-500 delay-100 hero-glow ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } ${autoWaveEnded ? 'cursor-pointer' : ''}`}
               style={{ color: '#ffffff' }}
@@ -92,30 +94,57 @@ const Hero = () => {
               onClick={handleTitleClick}
               title={autoWaveEnded ? 'Survolez ou cliquez pour l\'effet vague' : ''}
             >
-              <span className={`water-title ${isWaveActive ? 'water-active' : ''}`}>
-                <span className="water-title-text" style={{ color: '#ffffff' }}>
-                  Solutions piscines fiables,
-                  {isWaveActive && (
-                    <svg className="inline-block w-6 h-6 md:w-8 md:h-8 mx-2 -mt-1" viewBox="0 0 24 24">
-                      <defs>
-                        <linearGradient id="dropGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                          <stop offset="0%" stopColor="#99DFEC" />
-                          <stop offset="50%" stopColor="#33A7E4" />
-                          <stop offset="100%" stopColor="#0F2A44" />
-                        </linearGradient>
-                      </defs>
-                      <path d="M12 2c0 0-6 8-6 12a6 6 0 0 0 12 0c0-4-6-12-6-12z" fill="url(#dropGradient)"/>
-                    </svg>
-                  )}
-                  <br />durables et maîtrisées
+              {/* Version mobile - Court et premium avec effet vague */}
+              <span className="block sm:hidden text-4xl">
+                <span className={`water-title ${isWaveActive ? 'water-active' : ''}`}>
+                  <span className="water-title-text" style={{ color: '#ffffff', letterSpacing: '-0.01em' }}>
+                    Piscines premium
+                    {isWaveActive && (
+                      <svg className="inline-block w-6 h-6 mx-2 -mt-1" viewBox="0 0 24 24">
+                        <defs>
+                          <linearGradient id="dropGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#99DFEC" />
+                            <stop offset="50%" stopColor="#33A7E4" />
+                            <stop offset="100%" stopColor="#0F2A44" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M12 2c0 0-6 8-6 12a6 6 0 0 0 12 0c0-4-6-12-6-12z" fill="url(#dropGradient)"/>
+                      </svg>
+                    )}
+                    <br />
+                    <span style={{ color: '#2FB8B3' }}>sur mesure</span>
+                  </span>
+                  <span className="water-underline"></span>
                 </span>
-                <span className="water-underline"></span>
+              </span>
+              
+              {/* Version desktop - Complet avec effet vague */}
+              <span className="hidden sm:block text-4xl md:text-5xl lg:text-6xl hero-glow">
+                <span className={`water-title ${isWaveActive ? 'water-active' : ''}`}>
+                  <span className="water-title-text" style={{ color: '#ffffff' }}>
+                    Solutions piscines fiables,
+                    {isWaveActive && (
+                      <svg className="inline-block w-6 h-6 md:w-8 md:h-8 mx-2 -mt-1" viewBox="0 0 24 24">
+                        <defs>
+                          <linearGradient id="dropGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#99DFEC" />
+                            <stop offset="50%" stopColor="#33A7E4" />
+                            <stop offset="100%" stopColor="#0F2A44" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M12 2c0 0-6 8-6 12a6 6 0 0 0 12 0c0-4-6-12-6-12z" fill="url(#dropGradient)"/>
+                      </svg>
+                    )}
+                    <br />durables et maîtrisées
+                  </span>
+                  <span className="water-underline"></span>
+                </span>
               </span>
             </h1>
             
-            {/* Sous-titre - Style classe */}
+            {/* Sous-titre - Caché sur mobile, visible sur desktop */}
             <p 
-              className={`font-sans text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 leading-relaxed transition-all duration-500 delay-200 italic ${
+              className={`hidden sm:block font-sans text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 leading-relaxed transition-all duration-500 delay-200 italic ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
               style={{ color: 'rgba(255, 255, 255, 0.85)' }}
@@ -123,14 +152,20 @@ const Hero = () => {
               Votre projet, notre engagement
             </p>
             
-            {/* Promesse concrète */}
+            {/* Promesse concrète - Version compacte sur mobile */}
             <div 
-              className={`text-base sm:text-lg md:text-xl mb-8 sm:mb-10 leading-relaxed transition-all duration-500 delay-250 ${
+              className={`mb-6 sm:mb-10 leading-relaxed transition-all duration-500 delay-250 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
               style={{ color: 'rgba(255, 255, 255, 0.95)' }}
             >
-              <div className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 mb-2">
+              {/* Version mobile - 1 ligne compacte sans limite géo */}
+              <div className="sm:hidden text-sm font-sans font-medium">
+                ✓ Devis 48h &nbsp;•&nbsp; ✓ Décennale &nbsp;•&nbsp; ✓ Qualité
+              </div>
+              
+              {/* Version desktop - 3 items avec icônes */}
+              <div className="hidden sm:flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 text-base sm:text-lg md:text-xl mb-2">
                 <span className="flex items-center">
                   <svg className="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
@@ -152,9 +187,9 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* CTA Collaborons ! */}
+            {/* CTA Collaborons ! - Caché sur mobile */}
             <div 
-              className={`mb-8 transition-all duration-500 delay-300 ${
+              className={`hidden sm:block mb-8 transition-all duration-500 delay-300 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -166,24 +201,46 @@ const Hero = () => {
               </Link>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Version allégée sur mobile */}
             <div 
-              className={`flex flex-col sm:flex-row justify-center gap-4 transition-all duration-500 delay-400 ${
+              className={`transition-all duration-500 delay-400 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              <Link 
-                to="/devis"
-                className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-300 text-center hover:scale-105 hover:shadow-lg hover:-translate-y-1 min-h-[48px] w-full sm:w-auto max-w-sm mx-auto"
-              >
-                Lancer mon projet piscine
-              </Link>
-              <Link 
-                to="/realisations" 
-                className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0F2A44] font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-200 text-center min-h-[48px] w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
-              >
-                Voir nos réalisations
-              </Link>
+              {/* Version mobile - 1 bouton + 1 lien texte discret */}
+              <div className="sm:hidden flex flex-col items-center gap-3">
+                <Link 
+                  to="/devis"
+                  className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-base px-8 py-3.5 rounded-lg transition-all duration-300 hover:shadow-xl min-h-[48px] w-full max-w-xs"
+                >
+                  Devis gratuit
+                </Link>
+                <Link 
+                  to="/realisations" 
+                  className="inline-flex items-center gap-2 text-white/90 hover:text-white font-sans font-medium text-sm transition-all duration-200 group"
+                >
+                  Voir nos réalisations
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+              
+              {/* Version desktop - 2 gros boutons */}
+              <div className="hidden sm:flex flex-col sm:flex-row justify-center gap-4">
+                <Link 
+                  to="/devis"
+                  className="inline-flex items-center justify-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-300 text-center hover:scale-105 hover:shadow-lg hover:-translate-y-1 min-h-[48px] w-full sm:w-auto max-w-sm mx-auto"
+                >
+                  Lancer mon projet piscine
+                </Link>
+                <Link 
+                  to="/realisations" 
+                  className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white hover:bg-white hover:text-[#0F2A44] font-heading font-semibold text-base sm:text-lg px-6 py-3 sm:px-8 sm:py-4 rounded-lg transition-all duration-200 text-center min-h-[48px] w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
+                >
+                  Voir nos réalisations
+                </Link>
+              </div>
             </div>
           </div>
         </div>
