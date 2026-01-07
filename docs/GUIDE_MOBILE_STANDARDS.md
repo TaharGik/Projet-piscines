@@ -552,4 +552,4 @@ touch-action: manipulation;
 ---
 
 **Site BBH SERVICE - Version Mobile Optimisée**  
-*Dernière mise à jour : 5 janvier 2026*
+*Dernière mise à jour : 6 janvier 2026*

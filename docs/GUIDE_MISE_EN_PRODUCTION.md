@@ -34,18 +34,42 @@ Ce guide vous accompagne pas à pas pour mettre en ligne votre site de piscines.
 
 ### 2. Configuration
 
-- [ ] Fichier `.env` créé avec vos clés
+- [ ] Fichier `.env` créé avec vos clés (EmailJS, GA4, HCaptcha)
 - [ ] EmailJS configuré et testé
 - [ ] Google Analytics configuré
+- [ ] HCaptcha configuré pour la protection anti-spam
 - [ ] Meta tags vérifiés (titre, description)
 
 ### 3. Tests
 
-- [ ] Formulaire de contact fonctionne
+- [ ] Formulaire de contact sécurisé fonctionne (avec HCaptcha)
+- [ ] Assistant de devis (QuoteWizard) opérationnel
+- [ ] Animations au scroll et loader personnalisé
 - [ ] Toutes les pages s'affichent correctement
-- [ ] Navigation mobile OK
+- [ ] Navigation mobile OK (optimisations mobile-first)
 - [ ] Aucune erreur dans la console
 - [ ] Build de production réussi (`npm run build`)
+
+---
+
+## ✨ Nouvelles Fonctionnalités (Janvier 2026)
+
+### Fonctionnalités Ajoutées
+
+- **Assistant Devis Interactif** : QuoteWizard pour guider les clients
+- **Sécurité Renforcée** : HCaptcha anti-spam, validation avancée
+- **Loader Personnalisé** : Animation de chargement harmonisée
+- **Optimisations Mobile** : Design mobile-first complet
+- **Animations Avancées** : Effets au scroll, transitions fluides
+- **Hooks Personnalisés** : Gestion SEO, analytics, animations
+
+### Composants Clés
+
+- `QuoteWizard.jsx` - Assistant de devis étape par étape
+- `HCaptcha.jsx` - Protection anti-spam
+- `Loader.jsx` - Animation de chargement
+- `AnimatedSection.jsx` - Sections avec animations
+- `ContactFormSecure.jsx` - Formulaire sécurisé
 
 ---
 
@@ -495,5 +519,5 @@ Votre site BBH SERVICE est maintenant en ligne et optimisé !
 
 ---
 
-*Document mis à jour le 12 décembre 2025*
+*Document mis à jour le 6 janvier 2026*
 *Projet : BBH SERVICE - Site vitrine pisciniste*

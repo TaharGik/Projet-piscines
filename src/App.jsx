@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTopButton from './components/ScrollToTopButton';
@@ -59,6 +60,9 @@ function App() {
       
       {/* Bouton retour en haut de page */}
       <ScrollToTopButton threshold={300} />
+      
+      {/* Vercel Speed Insights - Métriques de performance */}
+      <SpeedInsights />
     </div>
   );
 }

@@ -726,9 +726,12 @@ npm run lint
 | 1.1.0 | Dec 2024 | Ajout QuoteWizard, ScrollToTopButton, Hero animé |
 | 1.2.0 | Dec 2024 | Migration Brevo, sécurisation (hCaptcha, XSS, rate limiting) |
 | 1.3.0 | Dec 2024 | Suppression contenu Spa/Balnéo, Google Analytics |
+| 1.4.0 | Jan 2026 | Refonte complète du loader, harmonisation visuelle, intégration logo |
+| 1.5.0 | Jan 2026 | Optimisations complètes mobile-first, responsive amélioré |
+| 1.6.0 | Jan 2026 | Améliorations UX mobile, animations au scroll, hooks personnalisés |
 
 ---
 
-*Document mis à jour le 16 décembre 2024*
+*Document mis à jour le 6 janvier 2026*
 *Projet : BBH SERVICE - Site vitrine pisciniste*
 *Repository : https://github.com/TaharGik/Projet-piscines*
