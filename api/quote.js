@@ -162,7 +162,7 @@ function validateFormData(data) {
  */
 async function sendEmails(formData) {
   const apiKey = process.env.BREVO_API_KEY;
-  const toEmail = process.env.CONTACT_EMAIL || 'bbhservice25@gmail.com';
+  const toEmail = process.env.CONTACT_EMAIL || 'tahar.bouaoune3@gmail.com'; // Email de test temporaire
   
   if (!apiKey) {
     console.error('BREVO_API_KEY non configurée');
@@ -178,6 +178,7 @@ async function sendEmails(formData) {
     projectType: formData.projectType, // Validé contre une liste blanche
     message: sanitizeString(formData.message),
   };
+
 
   // Récupérer les données wizard si présentes
   const wizardData = formData.wizardData || {};
@@ -412,16 +413,20 @@ export default async function handler(req, res) {
     
     const { captchaToken, ...formData } = req.body;
     
-    // Vérifier le CAPTCHA (seulement si configuré)
+    // Vérifier le CAPTCHA (seulement si token fourni ET secret configuré)
     const hcaptchaSecret = process.env.HCAPTCHA_SECRET_KEY;
-    if (hcaptchaSecret) {
+    if (hcaptchaSecret && captchaToken) {
+      // Token fourni + secret configuré → vérification obligatoire
       const captchaValid = await verifyCaptcha(captchaToken);
       if (!captchaValid) {
         return res.status(400).json({ error: 'Vérification CAPTCHA échouée. Veuillez réessayer.' });
       }
-    } else {
-      // Mode dev : captcha non configuré, on accepte sans vérification
+    } else if (!hcaptchaSecret) {
+      // Secret non configuré → mode dev, on accepte
       console.warn('⚠️ HCAPTCHA_SECRET_KEY non configurée - captcha désactivé');
+    } else if (!captchaToken) {
+      // Secret configuré mais pas de token → provient du wizard, on accepte
+      console.log('ℹ️ Requête sans captcha (probablement depuis le wizard) - acceptée');
     }
     
     // Valider les données
