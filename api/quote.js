@@ -190,6 +190,104 @@ async function sendEmails(formData) {
     'entretien': 'Contrat d\'entretien',
     'autre': 'Autre demande',
   };
+
+  // ========================================
+  // LABELS HUMAINS pour toutes les valeurs techniques
+  // ========================================
+  const LABELS = {
+    serviceType: {
+      'conception-installation': 'Conception & installation complète',
+      'renovation': 'Rénovation de piscine existante',
+      'entretien': 'Contrat d\'entretien annuel',
+      'installation-gazon': 'Installation de gazon autour de la piscine',
+    },
+    poolType: {
+      'beton': 'Béton (structure traditionnelle)',
+      'coque': 'Coque polyester (prête à poser)',
+      'liner': 'Avec revêtement liner',
+      'carrelage': 'Avec carrelage haut de gamme',
+      'debordement': 'Piscine à débordement',
+      'interieure': 'Piscine intérieure',
+      'naturelle': 'Piscine naturelle / écologique',
+    },
+    dimensions: {
+      'small': 'Petite (moins de 20 m²)',
+      'medium': 'Moyenne (20 à 40 m²)',
+      'large': 'Grande (40 à 70 m²)',
+      'xlarge': 'Très grande (plus de 70 m²)',
+      'custom': 'Sur mesure (dimensions à définir)',
+    },
+    terrain: {
+      'flat-easy': '✅ Terrain plat, accès facile',
+      'flat-difficult': '⚠️ Terrain plat, accès difficile',
+      'slope-easy': '⚠️ Terrain en pente, accès facile',
+      'slope-difficult': '🔴 Terrain en pente, accès difficile',
+      'unknown': 'À évaluer lors de la visite technique',
+    },
+    budget: {
+      'under15k': 'Moins de 15 000 €',
+      '15to25k': '15 000 € – 25 000 €',
+      '25to40k': '25 000 € – 40 000 €',
+      '40to70k': '40 000 € – 70 000 €',
+      'over70k': 'Plus de 70 000 €',
+      'unknown': 'À définir ensemble',
+    },
+    timeline: {
+      'urgent': '🔴 Urgent (moins de 2 mois)',
+      'normal': 'Normal (2 à 6 mois)',
+      'flexible': '✅ Flexible (plus de 6 mois)',
+      'unknown': 'À discuter',
+    },
+  };
+
+  // ========================================
+  // Fonction helper : convertir valeur technique → label humain
+  // ========================================
+  const getLabel = (category, value) => {
+    if (!value) return 'Non renseigné';
+    return LABELS[category]?.[value] || value;
+  };
+
+  // ========================================
+  // GÉNÉRER LE RÉSUMÉ DU PROJET (business-friendly)
+  // ========================================
+  let projectSummary = '';
+  if (hasWizardData) {
+    const parts = [];
+    
+    // Type de service
+    if (wizardData.serviceType) {
+      const serviceLabel = getLabel('serviceType', wizardData.serviceType);
+      parts.push(`<strong>${serviceLabel}</strong>`);
+    }
+    
+    // Type de piscine + dimensions
+    if (wizardData.poolType) {
+      const poolLabel = getLabel('poolType', wizardData.poolType);
+      const dimLabel = wizardData.dimensions ? getLabel('dimensions', wizardData.dimensions) : '';
+      parts.push(`${poolLabel}${dimLabel ? ', ' + dimLabel : ''}`);
+    }
+    
+    // Budget
+    if (wizardData.budget) {
+      const budgetLabel = getLabel('budget', wizardData.budget);
+      parts.push(`Budget : <strong>${budgetLabel}</strong>`);
+    }
+    
+    // Urgence
+    if (wizardData.timeline) {
+      const timelineLabel = getLabel('timeline', wizardData.timeline);
+      parts.push(`Délai : ${timelineLabel}`);
+    }
+    
+    // Terrain
+    if (wizardData.terrain) {
+      const terrainLabel = getLabel('terrain', wizardData.terrain);
+      parts.push(`Terrain : ${terrainLabel}`);
+    }
+    
+    projectSummary = parts.join(' • ');
+  }
   
   try {
     // Email 1 : Notification à l'entreprise
@@ -199,90 +297,136 @@ async function sendEmails(formData) {
       replyTo: { email: sanitizedData.email, name: sanitizedData.name },
       subject: `Nouvelle demande de devis - ${sanitizedData.name}`,
       htmlContent: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 20px; border-radius: 10px 10px 0 0;">
-            <h1 style="color: white; margin: 0;">Nouvelle demande de devis</h1>
+        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 650px; margin: 0 auto; background: #f8fafc;">
+          <!-- Header -->
+          <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 24px; border-radius: 12px 12px 0 0;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">🏊 Nouvelle demande de devis</h1>
           </div>
-          <div style="background: #f8fafc; padding: 20px; border: 1px solid #e2e8f0;">
-            <h2 style="color: #1e40af; border-bottom: 2px solid #3b82f6; padding-bottom: 10px;">
-              Informations du contact
-            </h2>
-            <table style="width: 100%; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Nom :</td>
-                <td style="padding: 8px 0;">${sanitizedData.name}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Email :</td>
-                <td style="padding: 8px 0;"><a href="mailto:${sanitizedData.email}">${sanitizedData.email}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Téléphone :</td>
-                <td style="padding: 8px 0;"><a href="tel:${sanitizedData.phone}">${sanitizedData.phone}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Ville :</td>
-                <td style="padding: 8px 0;">${sanitizedData.city || 'Non renseignée'}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Type de projet :</td>
-                <td style="padding: 8px 0;">
-                  <span style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 20px;">
-                    ${projectTypeLabels[sanitizedData.projectType] || sanitizedData.projectType}
-                  </span>
-                </td>
-              </tr>
-            </table>
+          
+          <!-- Corps du mail -->
+          <div style="background: white; padding: 0;">
             
-            <h2 style="color: #1e40af; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-top: 20px;">
-              Message
-            </h2>
-            <div style="background: white; padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6;">
-              ${sanitizedData.message.replace(/\n/g, '<br>')}
+            ${hasWizardData && projectSummary ? `
+            <!-- ========== RÉSUMÉ DU PROJET (Priorité #1) ========== -->
+            <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 20px; margin: 0;">
+              <h2 style="color: white; margin: 0 0 12px 0; font-size: 18px;">📊 Résumé du projet</h2>
+              <div style="background: rgba(255, 255, 255, 0.95); padding: 16px; border-radius: 8px; border-left: 5px solid #10b981;">
+                <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #1f2937;">
+                  ${projectSummary}
+                </p>
+              </div>
+            </div>
+            ` : ''}
+            
+            <!-- ========== INFORMATIONS DU CONTACT (Priorité #2) ========== -->
+            <div style="padding: 24px; background: #f8fafc;">
+              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
+                👤 Informations du contact
+              </h2>
+              <table style="width: 100%; border-collapse: collapse; background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <tr>
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569; width: 140px;">Nom</td>
+                  <td style="padding: 10px 0; font-size: 15px;"><strong>${sanitizedData.name}</strong></td>
+                </tr>
+                <tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📧 Email</td>
+                  <td style="padding: 10px 0;"><a href="mailto:${sanitizedData.email}" style="color: #2563eb; text-decoration: none; font-weight: 500;">${sanitizedData.email}</a></td>
+                </tr>
+                <tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📞 Téléphone</td>
+                  <td style="padding: 10px 0;"><a href="tel:${sanitizedData.phone}" style="color: #2563eb; text-decoration: none; font-weight: 600; font-size: 16px;">${sanitizedData.phone}</a></td>
+                </tr>
+                <tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📍 Ville</td>
+                  <td style="padding: 10px 0;"><strong>${sanitizedData.city || 'Non renseignée'}</strong></td>
+                </tr>
+                <tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Type de projet</td>
+                  <td style="padding: 10px 0;">
+                    <span style="background: #dbeafe; color: #1e40af; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 14px; display: inline-block;">
+                      ${projectTypeLabels[sanitizedData.projectType] || sanitizedData.projectType}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            
+            <!-- ========== MESSAGE CLIENT (Priorité #3) ========== -->
+            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
+              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
+                💬 Message du client
+              </h2>
+              <div style="background: #fff7ed; padding: 18px; border-radius: 8px; border-left: 5px solid #f59e0b; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                <p style="margin: 0; color: #78350f; line-height: 1.7; font-size: 15px; white-space: pre-wrap;">${sanitizedData.message.replace(/\n/g, '<br>')}</p>
+              </div>
             </div>
             
             ${hasWizardData ? `
-            <h2 style="color: #1e40af; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-top: 20px;">
-              Détails du wizard
-            </h2>
-            <table style="width: 100%; border-collapse: collapse; background: white; padding: 15px; border-radius: 8px;">
-              ${wizardData.serviceType ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.serviceType)}</td>
-              </tr>` : ''}
-              ${wizardData.poolType ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Type piscine :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.poolType)}</td>
-              </tr>` : ''}
-              ${wizardData.dimensions ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Dimensions :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.dimensions)}</td>
-              </tr>` : ''}
-              ${wizardData.terrain ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Terrain :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.terrain)}</td>
-              </tr>` : ''}
-              ${wizardData.budget ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Budget :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.budget)}</td>
-              </tr>` : ''}
-              ${wizardData.timeline ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Délai souhaité :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.timeline)}</td>
-              </tr>` : ''}
-              ${wizardData.postalCode ? `<tr>
-                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Code postal :</td>
-                <td style="padding: 8px 0;">${sanitizeString(wizardData.postalCode)}</td>
-              </tr>` : ''}
-            </table>
+            <!-- ========== DÉTAILS TECHNIQUES (Priorité #4) ========== -->
+            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
+              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
+                🔧 Détails du projet
+              </h2>
+              <table style="width: 100%; border-collapse: collapse; background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                ${wizardData.serviceType ? `<tr>
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569; width: 180px;">Service demandé</td>
+                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('serviceType', wizardData.serviceType)}</td>
+                </tr>` : ''}
+                ${wizardData.poolType ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Type de piscine</td>
+                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('poolType', wizardData.poolType)}</td>
+                </tr>` : ''}
+                ${wizardData.dimensions ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Dimensions</td>
+                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('dimensions', wizardData.dimensions)}</td>
+                </tr>` : ''}
+                ${wizardData.terrain ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Terrain</td>
+                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('terrain', wizardData.terrain)}</td>
+                </tr>` : ''}
+                ${wizardData.budget ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Budget estimé</td>
+                  <td style="padding: 10px 0; color: #1f2937;"><strong style="color: #059669; font-size: 15px;">${getLabel('budget', wizardData.budget)}</strong></td>
+                </tr>` : ''}
+                ${wizardData.timeline ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Délai souhaité</td>
+                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('timeline', wizardData.timeline)}</td>
+                </tr>` : ''}
+                ${wizardData.postalCode ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Code postal</td>
+                  <td style="padding: 10px 0; color: #1f2937;"><strong>${sanitizeString(wizardData.postalCode)}</strong></td>
+                </tr>` : ''}
+              </table>
+            </div>
             ` : ''}
             
-            <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px;">
-              <strong>⏰ Rappel :</strong> Répondre sous 48h pour maintenir notre engagement qualité.
+            <!-- ========== ACTIONS RECOMMANDÉES (CTA) ========== -->
+            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
+              <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <h3 style="color: white; margin: 0 0 12px 0; font-size: 16px;">📞 Action recommandée</h3>
+                <p style="color: #e9d5ff; margin: 0; line-height: 1.6; font-size: 14px;">
+                  <strong style="color: white;">Contacter le client par téléphone dans les 48h</strong> pour qualifier le projet, 
+                  poser des questions complémentaires et programmer une visite technique si nécessaire.
+                </p>
+              </div>
             </div>
+            
+            <!-- ========== RAPPEL ENGAGEMENT ========== -->
+            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
+              <div style="background: #fef3c7; padding: 16px; border-radius: 8px; border-left: 5px solid #f59e0b;">
+                <p style="margin: 0; color: #78350f; font-size: 14px;">
+                  <strong>⏰ Rappel :</strong> Notre engagement qualité : réponse sous 48h maximum pour maintenir la satisfaction client.
+                </p>
+              </div>
+            </div>
+            
           </div>
-          <div style="background: #1e293b; color: #94a3b8; padding: 15px; text-align: center; border-radius: 0 0 10px 10px; font-size: 12px;">
-            Email généré automatiquement depuis le site BBH Service
+          
+          <!-- Footer -->
+          <div style="background: #1e293b; color: #94a3b8; padding: 20px; text-align: center; border-radius: 0 0 12px 12px;">
+            <p style="margin: 0; font-size: 12px;">
+              Email généré automatiquement depuis le site BBH Service
+            </p>
           </div>
         </div>
       `,
