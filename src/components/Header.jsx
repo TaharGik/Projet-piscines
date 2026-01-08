@@ -36,6 +36,37 @@ const Header = () => {
 
   return (
     <header className="bg-white shadow-soft sticky top-0 z-50">
+      {/* Bandeau contact supérieur - Visible uniquement desktop */}
+      <div className="hidden lg:block bg-[#F3F5F9] border-b border-[#E5E7EB]">
+        <div className="container-custom">
+          <div className="flex justify-between items-center py-2 text-sm">
+            <div className="flex items-center gap-6">
+              <a 
+                href="tel:+33640123456" 
+                className="flex items-center gap-2 text-[#0F2A44] hover:text-[#2FB8B3] transition-colors font-medium"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                </svg>
+                06 40 12 34 56
+              </a>
+              <span className="flex items-center gap-2 text-[#6B7280]">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                </svg>
+                Île-de-France
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-[#6B7280]">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
+              </svg>
+              Lun-Sam: 8h-18h
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <nav className="container-custom">
         <div className="flex justify-between items-center h-16">
           {/* Logo BBH SERVICE - Image + Slogan */}
@@ -105,6 +136,25 @@ const Header = () => {
         {/* Menu mobile */}
         {isMenuOpen && (
           <div className="md:hidden pb-4 pt-2 animate-fade-in" id="mobile-menu" role="navigation">
+            {/* Contact rapide mobile */}
+            <div className="px-4 py-3 mb-2 bg-[#F3F5F9] rounded-lg">
+              <a 
+                href="tel:+33640123456" 
+                className="flex items-center justify-center gap-2 w-full py-3 bg-[#2FB8B3] text-white font-semibold rounded-lg hover:bg-[#269E9A] transition-colors min-h-[48px]"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                </svg>
+                Appeler : 06 40 12 34 56
+              </a>
+              <div className="flex items-center justify-center gap-2 mt-2 text-sm text-[#6B7280]">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                </svg>
+                Île-de-France
+              </div>
+            </div>
+            
             <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <NavLink

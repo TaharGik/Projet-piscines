@@ -154,30 +154,6 @@ const Projects = () => {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="stats-section">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="stat-number text-4xl font-bold mb-2">250+</div>
-              <div className="stat-label">Piscines réalisées</div>
-            </div>
-            <div>
-              <div className="stat-number text-4xl font-bold mb-2">15</div>
-              <div className="stat-label">Années d'expérience</div>
-            </div>
-            <div>
-              <div className="stat-number text-4xl font-bold mb-2">8</div>
-              <div className="stat-label">Départements couverts</div>
-            </div>
-            <div>
-              <div className="stat-number text-4xl font-bold mb-2">98%</div>
-              <div className="stat-label">Clients satisfaits</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="section-padding">
         <div className="container-custom text-center">

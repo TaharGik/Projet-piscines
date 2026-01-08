@@ -4,22 +4,16 @@ import useSEO from '../hooks/useSEO';
 import AnimatedSection from '../components/AnimatedSection';
 
 /**
- * Page Devis - Parcours de demande de devis en étapes
+ * Page Devis - Parcours de demande de devis en étapes INTELLIGENT
  * 
- * Ce wizard guide l'utilisateur à travers plusieurs étapes pour qualifier
- * sa demande avant le formulaire de contact.
- * 
- * Étapes :
- * 1. Type de service (Conception, Rénovation, Entretien)
- * 2. Type de piscine
- * 3. Dimensions
- * 4. Terrain
- * 5. Budget
- * 6. Délai souhaité
- * 7. Coordonnées
+ * Le wizard adapte les étapes selon le service choisi :
+ * - Conception/Installation : 7 étapes (type, dimensions, terrain, budget, délai, coordonnées)
+ * - Rénovation : 6 étapes (type existant, problème, urgence, budget, coordonnées)
+ * - Entretien : 5 étapes (type intervention, fréquence, délai, coordonnées)
+ * - Installation gazon : 6 étapes (type gazon, surface, terrain, délai, coordonnées)
  */
 
-const TOTAL_STEPS = 7;
+// TOTAL_STEPS sera calculé dynamiquement selon le service
 
 // Données des options pour chaque étape
 const SERVICE_TYPES = [
@@ -39,6 +33,12 @@ const SERVICE_TYPES = [
     id: 'entretien', 
     label: 'Entretien de Piscine', 
     description: 'Contrat d\'entretien régulier',
+    popular: false
+  },
+  { 
+    id: 'installation-gazon', 
+    label: 'Installation de Gazon', 
+    description: 'Aménagement paysager et gazon autour de la piscine',
     popular: false
   },
 ];
@@ -100,6 +100,66 @@ const TIMELINES = [
   { id: 'info', label: 'Je me renseigne', delay: 'N/A' },
 ];
 
+// ============================================
+// NOUVELLES DONNÉES POUR FLUX SPÉCIALISÉS
+// ============================================
+
+// Pour RÉNOVATION
+const RENOVATION_PROBLEMS = [
+  { id: 'liner', label: 'Remplacement liner', description: 'Liner fissuré, décoloré ou vieilli' },
+  { id: 'filtration', label: 'Système de filtration', description: 'Pompe, filtre, tuyauterie défectueux', popular: true },
+  { id: 'fuite', label: 'Fuite / Étanchéité', description: 'Perte d\'eau anormale' },
+  { id: 'carrelage', label: 'Carrelage / Revêtement', description: 'Carreaux cassés, joints dégradés' },
+  { id: 'securite', label: 'Mise aux normes sécurité', description: 'Alarme, barrière, volet' },
+  { id: 'esthetique', label: 'Modernisation esthétique', description: 'Margelles, plage, éclairage' },
+  { id: 'structure', label: 'Structure / Maçonnerie', description: 'Fissures importantes, reprise structure' },
+];
+
+const RENOVATION_URGENCY = [
+  { id: 'urgent', label: 'Urgent', description: 'Fuite active ou problème bloquant', popular: true },
+  { id: '1month', label: 'Sous 1 mois', description: 'Avant la saison' },
+  { id: '3months', label: 'Sous 3 mois', description: 'Planification normale' },
+  { id: 'flexible', label: 'Pas d\'urgence', description: 'Quand vous aurez disponibilité' },
+];
+
+// Pour ENTRETIEN
+const ENTRETIEN_TYPES = [
+  { id: 'contrat-regulier', label: 'Contrat d\'entretien régulier', description: 'Visite hebdo/mensuelle toute l\'année', popular: true },
+  { id: 'ponctuel', label: 'Intervention ponctuelle', description: 'Dépannage ou nettoyage unique' },
+  { id: 'hivernage', label: 'Hivernage', description: 'Mise en sommeil pour l\'hiver' },
+  { id: 'remise-route', label: 'Remise en route', description: 'Réouverture après hivernage' },
+  { id: 'depannage', label: 'Dépannage urgent', description: 'Problème technique immédiat' },
+];
+
+const ENTRETIEN_FREQUENCY = [
+  { id: '1week', label: '1 fois par semaine', description: 'Entretien premium', popular: true },
+  { id: '2weeks', label: 'Toutes les 2 semaines', description: 'Équilibre qualité/prix' },
+  { id: '1month', label: '1 fois par mois', description: 'Entretien léger' },
+  { id: 'saison', label: 'Saison uniquement', description: 'Avril à septembre' },
+];
+
+// Pour INSTALLATION GAZON
+const GAZON_TYPES = [
+  { id: 'naturel', label: 'Gazon naturel en plaques', description: 'Résultat immédiat, aspect authentique', popular: true },
+  { id: 'synthetique', label: 'Gazon synthétique', description: 'Zéro entretien, vert toute l\'année' },
+  { id: 'mix', label: 'Mix (selon zones)', description: 'Naturel + synthétique combinés' },
+  { id: 'conseil', label: 'Je ne sais pas', description: 'Besoin de conseil' },
+];
+
+const GAZON_SURFACE = [
+  { id: 'small', label: 'Petite surface', size: '< 50 m²' },
+  { id: 'medium', label: 'Surface moyenne', size: '50 - 150 m²', popular: true },
+  { id: 'large', label: 'Grande surface', size: '150 - 300 m²' },
+  { id: 'xlarge', label: 'Très grande surface', size: '> 300 m²' },
+];
+
+const GAZON_TERRAIN = [
+  { id: 'clean', label: 'Terrain prêt', description: 'Sol nivelé, sans végétation' },
+  { id: 'depose', label: 'Dépose ancien gazon', description: 'Enlèvement gazon existant nécessaire', popular: true },
+  { id: 'nivellement', label: 'Nivellement requis', description: 'Terrain avec bosses/trous' },
+  { id: 'complet', label: 'Préparation complète', description: 'Terrassement + drainage + nivellement' },
+];
+
 const Devis = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
@@ -118,12 +178,25 @@ const Devis = () => {
   // Données du formulaire
   const [formData, setFormData] = useState({
     serviceType: '',
+    // Conception/Installation
     poolType: '',
     dimensions: '',
     terrain: '',
     budget: '',
     timeline: '',
-    // Coordonnées
+    // Rénovation
+    existingPoolType: '',
+    renovationProblem: '',
+    renovationUrgency: '',
+    // Entretien
+    entretienType: '',
+    entretienFrequency: '',
+    // Gazon
+    gazonType: '',
+    gazonSurface: '',
+    gazonTerrain: '',
+    gazonAroundPool: '',
+    // Coordonnées communes
     name: '',
     email: '',
     phone: '',
@@ -131,6 +204,21 @@ const Devis = () => {
     postalCode: '',
     message: '',
   });
+
+  /**
+   * Calcule le nombre total d'étapes selon le service choisi
+   */
+  const getTotalSteps = () => {
+    switch (formData.serviceType) {
+      case 'conception-installation': return 7; // Service > Type > Dimensions > Terrain > Budget > Délai > Coordonnées
+      case 'renovation': return 6; // Service > Type existant > Problème > Urgence > Budget > Coordonnées
+      case 'entretien': return 5; // Service > Type > Fréquence > Délai > Coordonnées
+      case 'installation-gazon': return 6; // Service > Type gazon > Surface > Terrain > Délai > Coordonnées
+      default: return 7;
+    }
+  };
+
+  const TOTAL_STEPS = getTotalSteps();
 
   /**
    * Passe à l'étape suivante
@@ -169,19 +257,50 @@ const Devis = () => {
   };
 
   /**
-   * Vérifie si l'étape actuelle est valide
+   * Vérifie si l'étape actuelle est valide (selon le service)
    */
   const isStepValid = () => {
-    switch (currentStep) {
-      case 1: return formData.serviceType !== '';
-      case 2: return formData.poolType !== '';
-      case 3: return formData.dimensions !== '';
-      case 4: return formData.terrain !== '';
-      case 5: return formData.budget !== '';
-      case 6: return formData.timeline !== '';
-      case 7: return formData.name && formData.email && formData.phone && formData.city;
-      default: return false;
+    const service = formData.serviceType;
+    
+    // Étape 1 : toujours le service
+    if (currentStep === 1) return service !== '';
+    
+    // Les étapes suivantes dépendent du service
+    switch (service) {
+      case 'conception-installation':
+        if (currentStep === 2) return formData.poolType !== '';
+        if (currentStep === 3) return formData.dimensions !== '';
+        if (currentStep === 4) return formData.terrain !== '';
+        if (currentStep === 5) return formData.budget !== '';
+        if (currentStep === 6) return formData.timeline !== '';
+        if (currentStep === 7) return formData.name && formData.email && formData.phone && formData.city;
+        break;
+      
+      case 'renovation':
+        if (currentStep === 2) return formData.existingPoolType !== '';
+        if (currentStep === 3) return formData.renovationProblem !== '';
+        if (currentStep === 4) return formData.renovationUrgency !== '';
+        if (currentStep === 5) return formData.budget !== '';
+        if (currentStep === 6) return formData.name && formData.email && formData.phone && formData.city;
+        break;
+      
+      case 'entretien':
+        if (currentStep === 2) return formData.entretienType !== '';
+        if (currentStep === 3) return formData.entretienFrequency !== '';
+        if (currentStep === 4) return formData.timeline !== '';
+        if (currentStep === 5) return formData.name && formData.email && formData.phone && formData.city;
+        break;
+      
+      case 'installation-gazon':
+        if (currentStep === 2) return formData.gazonType !== '';
+        if (currentStep === 3) return formData.gazonSurface !== '';
+        if (currentStep === 4) return formData.gazonTerrain !== '';
+        if (currentStep === 5) return formData.timeline !== '';
+        if (currentStep === 6) return formData.name && formData.email && formData.phone && formData.city;
+        break;
     }
+    
+    return false;
   };
 
   /**
@@ -201,8 +320,32 @@ const Devis = () => {
 
     try {
       // Préparation des données pour l'envoi
+      // Mapper serviceType vers projectType attendu par l'API
+      const projectTypeMapping = {
+        'conception-installation': 'nouvelle-piscine',
+        'renovation': 'renovation',
+        'entretien': 'entretien',
+        'installation-gazon': 'autre', // Gazon = "autre demande"
+      };
+
       const dataToSend = {
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        city: formData.city,
+        projectType: projectTypeMapping[formData.serviceType] || 'autre',
+        message: formData.message || `Demande de devis via wizard - Service: ${formData.serviceType}`,
+        captchaToken: '', // Pas de captcha dans le wizard
+        // Données additionnelles pour contexte
+        wizardData: {
+          serviceType: formData.serviceType,
+          poolType: formData.poolType,
+          dimensions: formData.dimensions,
+          terrain: formData.terrain,
+          budget: formData.budget,
+          timeline: formData.timeline,
+          postalCode: formData.postalCode,
+        },
         source: 'quote-wizard-page',
         timestamp: new Date().toISOString(),
       };
@@ -216,16 +359,26 @@ const Devis = () => {
         body: JSON.stringify(dataToSend),
       });
 
-      const result = await response.json();
+      // Vérifier si la réponse contient du JSON avant de parser
+      let result = null;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          result = await response.json();
+        } catch (parseError) {
+          console.error('Erreur parsing JSON:', parseError);
+          throw new Error('Réponse du serveur invalide');
+        }
+      }
 
       if (response.ok) {
         setSubmitStatus({
           type: 'success',
-          message: 'Votre demande a été envoyée avec succès ! Nous vous contacterons sous 48h.',
+          message: result?.message || 'Votre demande a été envoyée avec succès ! Nous vous contacterons sous 48h.',
         });
         setIsSuccess(true);
       } else {
-        throw new Error(result.message || 'Erreur lors de l\'envoi');
+        throw new Error(result?.error || result?.message || `Erreur serveur (${response.status})`);
       }
     } catch (error) {
       console.error('Erreur:', error);
@@ -288,33 +441,40 @@ const Devis = () => {
   );
 
   /**
-   * Rendu du contenu selon l'étape
+   * Rendu du contenu selon l'étape ET le service choisi
    */
   const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="space-y-6">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
-                Quel service recherchez-vous ?
-              </h2>
-              <p className="text-gray-500">Sélectionnez le type de service dont vous avez besoin</p>
-            </div>
-            <div className="grid gap-4">
-              {SERVICE_TYPES.map(option => (
-                <OptionCard 
-                  key={option.id} 
-                  option={option} 
-                  field="serviceType"
-                  selected={formData.serviceType === option.id}
-                />
-              ))}
-            </div>
-          </div>
-        );
+    const service = formData.serviceType;
 
-      case 2:
+    // ÉTAPE 1 : Choix du service (toujours pareil)
+    if (currentStep === 1) {
+      return (
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+              Quel service recherchez-vous ?
+            </h2>
+            <p className="text-gray-500">Sélectionnez le type de service dont vous avez besoin</p>
+          </div>
+          <div className="grid gap-4">
+            {SERVICE_TYPES.map(option => (
+              <OptionCard 
+                key={option.id} 
+                option={option} 
+                field="serviceType"
+                selected={formData.serviceType === option.id}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // ==========================================
+    // FLUX CONCEPTION & INSTALLATION
+    // ==========================================
+    if (service === 'conception-installation') {
+      if (currentStep === 2) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -335,8 +495,9 @@ const Devis = () => {
             </div>
           </div>
         );
+      }
 
-      case 3:
+      if (currentStep === 3) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -357,8 +518,9 @@ const Devis = () => {
             </div>
           </div>
         );
+      }
 
-      case 4:
+      if (currentStep === 4) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -379,8 +541,9 @@ const Devis = () => {
             </div>
           </div>
         );
+      }
 
-      case 5:
+      if (currentStep === 5) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -401,8 +564,9 @@ const Devis = () => {
             </div>
           </div>
         );
+      }
 
-      case 6:
+      if (currentStep === 6) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
@@ -423,18 +587,292 @@ const Devis = () => {
             </div>
           </div>
         );
+      }
+    }
 
-      case 7:
+    // ==========================================
+    // FLUX RÉNOVATION
+    // ==========================================
+    if (service === 'renovation') {
+      if (currentStep === 2) {
         return (
           <div className="space-y-6">
             <div className="text-center mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
-                Vos coordonnées
+                Quel type de piscine avez-vous ?
               </h2>
-              <p className="text-gray-500">Pour vous recontacter avec votre devis personnalisé</p>
+              <p className="text-gray-500">Votre piscine existante</p>
             </div>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              {POOL_TYPES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="existingPoolType"
+                  selected={formData.existingPoolType === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 3) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quel est le problème ou besoin ?
+              </h2>
+              <p className="text-gray-500">Sélectionnez le type de rénovation souhaité</p>
+            </div>
+            <div className="grid gap-4">
+              {RENOVATION_PROBLEMS.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="renovationProblem"
+                  selected={formData.renovationProblem === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 4) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quelle est l'urgence ?
+              </h2>
+              <p className="text-gray-500">Cela nous aide à prioriser votre intervention</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {RENOVATION_URGENCY.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="renovationUrgency"
+                  selected={formData.renovationUrgency === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 5) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quel est votre budget estimé ?
+              </h2>
+              <p className="text-gray-500">Une estimation pour dimensionner l'intervention</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {BUDGETS.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="budget"
+                  selected={formData.budget === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // ==========================================
+    // FLUX ENTRETIEN
+    // ==========================================
+    if (service === 'entretien') {
+      if (currentStep === 2) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Type d'intervention souhaité ?
+              </h2>
+              <p className="text-gray-500">Quelle prestation vous intéresse ?</p>
+            </div>
+            <div className="grid gap-4">
+              {ENTRETIEN_TYPES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="entretienType"
+                  selected={formData.entretienType === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 3) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Fréquence souhaitée ?
+              </h2>
+              <p className="text-gray-500">À quelle fréquence souhaitez-vous nos interventions ?</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {ENTRETIEN_FREQUENCY.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="entretienFrequency"
+                  selected={formData.entretienFrequency === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 4) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quand souhaitez-vous démarrer ?
+              </h2>
+              <p className="text-gray-500">Date de début souhaitée</p>
+            </div>
+            <div className="grid gap-4">
+              {TIMELINES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="timeline"
+                  selected={formData.timeline === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // ==========================================
+    // FLUX INSTALLATION GAZON
+    // ==========================================
+    if (service === 'installation-gazon') {
+      if (currentStep === 2) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quel type de gazon ?
+              </h2>
+              <p className="text-gray-500">Naturel, synthétique ou besoin de conseil ?</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {GAZON_TYPES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="gazonType"
+                  selected={formData.gazonType === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 3) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Quelle surface approximative ?
+              </h2>
+              <p className="text-gray-500">Estimez la superficie à couvrir</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {GAZON_SURFACE.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="gazonSurface"
+                  selected={formData.gazonSurface === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 4) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                État du terrain ?
+              </h2>
+              <p className="text-gray-500">Quel type de préparation sera nécessaire ?</p>
+            </div>
+            <div className="grid gap-4">
+              {GAZON_TERRAIN.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="gazonTerrain"
+                  selected={formData.gazonTerrain === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (currentStep === 5) {
+        return (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+                Pour quand souhaitez-vous l'installation ?
+              </h2>
+              <p className="text-gray-500">Délai souhaité</p>
+            </div>
+            <div className="grid gap-4">
+              {TIMELINES.map(option => (
+                <OptionCard 
+                  key={option.id} 
+                  option={option} 
+                  field="timeline"
+                  selected={formData.timeline === option.id}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // ==========================================
+    // DERNIÈRE ÉTAPE : COORDONNÉES (tous services)
+    // ==========================================
+    const isLastStep = currentStep === TOTAL_STEPS;
+    if (isLastStep) {
+      return (
+        <div className="space-y-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0F2A44] mb-2">
+              Vos coordonnées
+            </h2>
+            <p className="text-gray-500">Pour vous recontacter avec votre devis personnalisé</p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -563,10 +1001,10 @@ const Devis = () => {
             </form>
           </div>
         );
-
-      default:
-        return null;
     }
+
+    // Si aucun flux ne correspond (ne devrait pas arriver)
+    return null;
   };
 
   // Page de succès
@@ -690,7 +1128,7 @@ const Devis = () => {
             </AnimatedSection>
 
             {/* Navigation (sauf dernière étape qui a son propre formulaire) */}
-            {currentStep < 7 && (
+            {currentStep < TOTAL_STEPS && (
               <div className="flex justify-between mt-8 pt-6 border-t border-gray-100">
                 <button
                   type="button"

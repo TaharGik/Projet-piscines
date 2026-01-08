@@ -53,14 +53,31 @@ const Hero = () => {
 
   return (
     <section className="relative text-white overflow-hidden">
-      {/* Image de fond - Piscine béton */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/services/piscine-beton.jpg')" }}
-      />
+      {/* Image de fond - Piscine béton - Responsive avec WebP */}
+      <picture className="absolute inset-0">
+        <source 
+          media="(max-width: 768px)" 
+          srcSet="/images/services/piscine-beton-mobile.webp, /images/services/piscine-beton.jpg" 
+          type="image/webp"
+        />
+        <source 
+          media="(min-width: 769px)" 
+          srcSet="/images/services/piscine-beton.webp, /images/services/piscine-beton.jpg" 
+          type="image/webp"
+        />
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/services/piscine-beton.jpg')" }}
+        />
+      </picture>
       
-      {/* Overlay bleu foncé BBH SERVICE - #0F2A44 avec transparence réduite */}
-      <div className="absolute inset-0 bg-[#0F2A44]/60" />
+      {/* Overlay gradient amélioré pour meilleur contraste */}
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: 'linear-gradient(180deg, rgba(15, 42, 68, 0.75) 0%, rgba(15, 42, 68, 0.55) 50%, rgba(15, 42, 68, 0.7) 100%)'
+        }}
+      />
       
       {/* Formes décoratives subtiles */}
       <div className="absolute inset-0 opacity-5">

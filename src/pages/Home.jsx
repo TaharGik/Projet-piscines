@@ -77,14 +77,6 @@ const Home = () => {
     }
   ];
 
-  // Données pour les chiffres clés
-  const keyFigures = [
-    { value: "9", suffix: "ans", label: "d'expérience" },
-    { value: "150", suffix: "+", label: "piscines réalisées" },
-    { value: "98", suffix: "%", label: "clients satisfaits" },
-    { value: "48", suffix: "h", label: "pour un devis" }
-  ];
-
   return (
     <>
       {/* Hero Section */}
@@ -174,25 +166,6 @@ const Home = () => {
               </Link>
             </div>
           </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Section Chiffres clés - Rassurance */}
-      <section className="py-16 bg-[#F3F5F9]">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
-            {keyFigures.map((figure, index) => (
-              <AnimatedSection key={index} animation="zoom-in" delay={index * 100}>
-                <div className="text-center">
-                  <div className="flex items-baseline justify-center gap-1">
-                    <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0F2A44]">{figure.value}</span>
-                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-[#2FB8B3]">{figure.suffix}</span>
-                  </div>
-                  <p className="text-gray-600 mt-2 font-medium">{figure.label}</p>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
         </div>
       </section>
 

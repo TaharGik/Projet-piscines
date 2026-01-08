@@ -14,6 +14,15 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   
+  // Configuration du serveur de développement
+  server: {
+    host: true, // Expose sur le réseau local (0.0.0.0)
+    port: 5173,
+    strictPort: false,
+    open: false,
+    cors: true,
+  },
+  
   // Configuration du build
   build: {
     // Dossier de sortie
@@ -50,13 +59,6 @@ export default defineConfig({
   // Optimisation des dépendances
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
-  },
-  
-  // Configuration du serveur de développement
-  server: {
-    port: 5173,
-    open: true,
-    cors: true,
   },
   
   // Configuration du serveur de preview

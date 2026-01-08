@@ -41,6 +41,12 @@ const SERVICE_TYPES = [
     description: 'Contrat d\'entretien régulier',
     popular: false
   },
+  { 
+    id: 'installation-gazon', 
+    label: 'Installation de Gazon', 
+    description: 'Aménagement paysager et gazon autour de la piscine',
+    popular: false
+  },
 ];
 
 const POOL_TYPES = [
@@ -147,10 +153,75 @@ const QuoteWizard = ({ onComplete, onClose }) => {
   };
 
   /**
-   * Met à jour une valeur du formulaire
+   * Met à jour une valeur du formulaire avec formatage automatique
    */
   const updateField = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    let processedValue = value;
+    
+    // Formatage spécial pour le téléphone
+    if (field === 'phone') {
+      processedValue = formatPhoneNumber(value);
+    }
+    
+    // Formatage spécial pour le code postal
+    if (field === 'postalCode') {
+      processedValue = formatPostalCode(value);
+    }
+    
+    setFormData(prev => ({ ...prev, [field]: processedValue }));
+  };
+
+  /**
+   * formatPhoneNumber - Formate le numéro de téléphone automatiquement
+   * Bloque les lettres, accepte uniquement les chiffres
+   * Formate en 06 12 34 56 78
+   */
+  const formatPhoneNumber = (value) => {
+    const cleaned = value.replace(/\D/g, '');
+    const limited = cleaned.substring(0, 10);
+    
+    if (limited.length === 0) return '';
+    
+    const pairs = limited.match(/.{1,2}/g) || [];
+    return pairs.join(' ');
+  };
+
+  /**
+   * formatPostalCode - Formate le code postal (5 chiffres max)
+   */
+  const formatPostalCode = (value) => {
+    const cleaned = value.replace(/\D/g, '');
+    return cleaned.substring(0, 5);
+  };
+
+  /**
+   * handlePhoneKeyPress - Bloque les caractères non numériques
+   */
+  const handlePhoneKeyPress = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+    
+    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+      return;
+    }
+    
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  /**
+   * handleNumberKeyPress - Bloque les caractères non numériques (pour code postal)
+   */
+  const handleNumberKeyPress = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
+    
+    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+      return;
+    }
+    
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
   };
 
   /**
@@ -289,7 +360,6 @@ ${formData.message || 'Aucun message supplémentaire'}
         </span>
       )}
       <div className="flex items-start gap-4">
-        <span className="text-3xl">{option.icon}</span>
         <div className="flex-1">
           <h3 className={`font-semibold text-lg ${selected ? 'text-blue-700' : 'text-gray-900'}`}>
             {option.label}
@@ -506,10 +576,17 @@ ${formData.message || 'Aucun message supplémentaire'}
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
+                    onKeyDown={handlePhoneKeyPress}
+                    inputMode="numeric"
+                    pattern="[0-9\s]{14}"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="06 12 34 56 78"
+                    autoComplete="tel"
                     required
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    Format : 06 12 34 56 78 (chiffres uniquement)
+                  </p>
                 </div>
               </div>
 
@@ -549,9 +626,17 @@ ${formData.message || 'Aucun message supplémentaire'}
                     type="text"
                     value={formData.postalCode}
                     onChange={(e) => updateField('postalCode', e.target.value)}
+                    onKeyDown={handleNumberKeyPress}
+                    inputMode="numeric"
+                    pattern="[0-9]{5}"
+                    maxLength="5"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="78000"
+                    autoComplete="postal-code"
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    5 chiffres uniquement
+                  </p>
                 </div>
               </div>
 

@@ -230,6 +230,140 @@ Le résultat : une eau cristalline, douce pour la peau, dans un cadre paysager e
       margelles: 'Pierres naturelles locales',
       equipements: ['Zone lagunage 30m²', 'Plantes aquatiques', 'Cascade naturelle', 'Pompe basse consommation']
     }
+  },
+  {
+    id: 8,
+    slug: 'villa-moderne-gazon',
+    name: 'Villa Moderne avec Gazon en Plaques',
+    city: 'Versailles',
+    department: 'Yvelines (78)',
+    type: 'Piscine béton + Aménagement paysager',
+    description: 'Piscine contemporaine à débordement avec installation de gazon naturel en plaques et aménagement complet des extérieurs.',
+    longDescription: `Projet global combinant piscine haut de gamme et aménagement paysager complet pour une villa contemporaine de Versailles.
+
+**La piscine :**
+- Bassin à débordement 10x4m avec bac tampon intégré
+- Revêtement en liner anthracite pour un effet miroir
+- Système de nage à contre-courant
+- Éclairage LED RGB submersible
+
+**L'aménagement paysager :**
+- Installation de 250m² de gazon naturel en plaques (gazon de sport haute résistance)
+- Préparation du terrain avec amendement organique et nivellement précis
+- Plage de piscine en bois composite imitation teck
+- Plantation de 15 bambous non traçants pour créer un brise-vue naturel
+- Massifs de graminées ornementales (Miscanthus, Pennisetum)
+- Système d'arrosage automatique enterré 8 zones
+- Éclairage paysager LED basse consommation
+
+Le gazon a été posé en plaques pour un résultat immédiat. Dès le lendemain de la pose, le jardin était verdoyant et praticable.`,
+    tags: ['debordement', 'beton', 'gazon', 'amenagement-paysager', 'contemporain'],
+    dimensions: '10m x 4m',
+    depth: '1.40m',
+    year: 2024,
+    duration: '6 semaines',
+    budget: '55 000 - 65 000 EUR',
+    imageBefore: '/images/services/Piscines-beton-sur-mesure.jpg',
+    imageAfter: '/images/services/Piscines-beton-sur-mesure.jpg',
+    featured: true,
+    details: {
+      filtration: 'Filtration à sable + électrolyse au sel',
+      revetement: 'Liner anthracite',
+      margelles: 'Bois composite',
+      equipements: ['Nage à contre-courant', 'LED RGB', 'Volet immergé', 'Système d\'arrosage automatique', 'Gazon naturel 250m²', 'Éclairage paysager']
+    }
+  },
+  {
+    id: 9,
+    slug: 'maison-familiale-gazon-synthetique',
+    name: 'Maison Familiale avec Gazon Synthétique',
+    city: 'Saint-Germain-en-Laye',
+    department: 'Yvelines (78)',
+    type: 'Piscine coque + Gazon synthétique',
+    description: 'Piscine familiale avec plage en gazon synthétique haut de gamme pour un entretien minimal.',
+    longDescription: `Solution parfaite pour une famille active qui souhaite profiter de sa piscine sans contraintes d'entretien du gazon.
+
+**La piscine :**
+- Piscine coque polyester 8x4m forme haricot
+- Escalier d'angle intégré avec banquette
+- Profondeur progressive de 1m à 1.80m
+- Couleur bleu caraïbes
+
+**L'aménagement en gazon synthétique :**
+- 180m² de gazon synthétique premium (hauteur brins 35mm)
+- Résistance UV maximale, aspect ultra-réaliste
+- Installation sur géotextile drainant
+- Bordures aluminium pour finitions impeccables
+- Totalement perméable à l'eau (évacuation optimale)
+- Garantie 10 ans décoloration
+
+**Avantages pour la famille :**
+- Plus de tonte, ni arrosage, ni engrais
+- Propre toute l'année (pas de boue)
+- Parfait pour les enfants (surface douce, amortissante)
+- Résistant au chlore et aux éclaboussures
+- Entretien : simple brossage occasionnel
+
+Le gazon synthétique s'est révélé être le choix idéal pour cette famille : aspect verdoyant garanti 365j/an sans aucun effort.`,
+    tags: ['coque', 'gazon-synthetique', 'familial', 'sans-entretien'],
+    dimensions: '8m x 4m',
+    depth: '1.00m a 1.80m',
+    year: 2024,
+    duration: '3 semaines',
+    budget: '35 000 - 45 000 EUR',
+    imageBefore: '/images/services/plusieurs-realisations.png',
+    imageAfter: '/images/services/plusieurs-realisations.png',
+    featured: false,
+    details: {
+      filtration: 'Filtration à sable',
+      revetement: 'Coque polyester bleu caraïbes',
+      margelles: 'Dalles grès cérame ton pierre',
+      equipements: ['Pompe à chaleur', 'Volet roulant solaire', 'Gazon synthétique 180m²', 'Douche solaire', 'Spot LED encastrés']
+    }
+  },
+  {
+    id: 10,
+    slug: 'renovation-avec-plantation',
+    name: 'Rénovation Complète avec Plantation',
+    city: 'Boulogne-Billancourt',
+    department: 'Hauts-de-Seine (92)',
+    type: 'Rénovation + Aménagement végétal',
+    description: 'Rénovation d\'une piscine des années 90 avec création d\'un jardin méditerranéen autour du bassin.',
+    longDescription: `Transformation totale d'une ancienne piscine datant de 1995, avec réaménagement complet des espaces extérieurs.
+
+**Rénovation de la piscine :**
+- Démontage ancien liner fissuré
+- Reprise complète de l'étanchéité
+- Nouveau liner gris clair 75/100ème
+- Remplacement margelles fissurées
+- Nouvelle filtration écologique (pompe variable)
+
+**Aménagement paysager méditerranéen :**
+- Préparation du sol et apport de terre végétale
+- Plantation de 120m² de gazon résistant sécheresse
+- 8 oliviers centenaires en pots XXL
+- Massifs de lavandes (50 plants)
+- 12 palmiers Trachycarpus fortunei
+- 20 agapanthes blanches et bleues
+- Paillage minéral décoratif (pouzzolane)
+- Goutte-à-goutte pour plantes méditerraneennes
+
+L'objectif était de créer une ambiance sud de la France en plein Hauts-de-Seine. Mission accomplie : avec ses oliviers, lavandes et palmiers, cette piscine rénovée respire la Provence.`,
+    tags: ['renovation', 'mediterraneen', 'plantation', 'gazon', 'olivier'],
+    dimensions: '9m x 4m',
+    depth: '1.50m',
+    year: 2023,
+    duration: '5 semaines',
+    budget: '28 000 - 35 000 EUR',
+    imageBefore: '/images/services/plusieurs-realisations.png',
+    imageAfter: '/images/services/plusieurs-realisations.png',
+    featured: false,
+    details: {
+      filtration: 'Pompe à vitesse variable + UV',
+      revetement: 'Liner gris clair 75/100',
+      margelles: 'Pierre reconstituée beige',
+      equipements: ['Robot nettoyeur', 'Éclairage LED blanc', 'Système d\'arrosage goutte-à-goutte', 'Gazon résistant sécheresse', 'Plantes méditerranéennes']
+    }
   }
 ];
 

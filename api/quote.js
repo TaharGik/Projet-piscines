@@ -178,6 +178,10 @@ async function sendEmails(formData) {
     projectType: formData.projectType, // Validé contre une liste blanche
     message: sanitizeString(formData.message),
   };
+
+  // Récupérer les données wizard si présentes
+  const wizardData = formData.wizardData || {};
+  const hasWizardData = Object.keys(wizardData).length > 0;
   
   const projectTypeLabels = {
     'nouvelle-piscine': 'Nouvelle piscine',
@@ -189,9 +193,10 @@ async function sendEmails(formData) {
   try {
     // Email 1 : Notification à l'entreprise
     const notificationEmail = {
-      sender: { name: 'Aqua Prestige - Site Web', email: 'noreply@aqua-prestige.fr' },
+      sender: { name: 'BBH Service - Site Web', email: 'bbhservice25@gmail.com' },
       to: [{ email: toEmail }],
-      subject: `🏊 Nouvelle demande de devis - ${sanitizedData.name}`,
+      replyTo: { email: sanitizedData.email, name: sanitizedData.name },
+      subject: `Nouvelle demande de devis - ${sanitizedData.name}`,
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 20px; border-radius: 10px 10px 0 0;">
@@ -235,12 +240,48 @@ async function sendEmails(formData) {
               ${sanitizedData.message.replace(/\n/g, '<br>')}
             </div>
             
+            ${hasWizardData ? `
+            <h2 style="color: #1e40af; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-top: 20px;">
+              Détails du wizard
+            </h2>
+            <table style="width: 100%; border-collapse: collapse; background: white; padding: 15px; border-radius: 8px;">
+              ${wizardData.serviceType ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Service :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.serviceType)}</td>
+              </tr>` : ''}
+              ${wizardData.poolType ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Type piscine :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.poolType)}</td>
+              </tr>` : ''}
+              ${wizardData.dimensions ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Dimensions :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.dimensions)}</td>
+              </tr>` : ''}
+              ${wizardData.terrain ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Terrain :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.terrain)}</td>
+              </tr>` : ''}
+              ${wizardData.budget ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Budget :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.budget)}</td>
+              </tr>` : ''}
+              ${wizardData.timeline ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Délai souhaité :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.timeline)}</td>
+              </tr>` : ''}
+              ${wizardData.postalCode ? `<tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #64748b;">Code postal :</td>
+                <td style="padding: 8px 0;">${sanitizeString(wizardData.postalCode)}</td>
+              </tr>` : ''}
+            </table>
+            ` : ''}
+            
             <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px;">
               <strong>⏰ Rappel :</strong> Répondre sous 48h pour maintenir notre engagement qualité.
             </div>
           </div>
           <div style="background: #1e293b; color: #94a3b8; padding: 15px; text-align: center; border-radius: 0 0 10px 10px; font-size: 12px;">
-            Email généré automatiquement depuis le site Aqua Prestige
+            Email généré automatiquement depuis le site BBH Service
           </div>
         </div>
       `,
@@ -248,13 +289,14 @@ async function sendEmails(formData) {
     
     // Email 2 : Confirmation au client
     const confirmationEmail = {
-      sender: { name: 'Aqua Prestige', email: 'noreply@aqua-prestige.fr' },
+      sender: { name: 'BBH Service', email: 'bbhservice25@gmail.com' },
       to: [{ email: sanitizedData.email, name: sanitizedData.name }],
+      replyTo: { email: toEmail },
       subject: '✅ Votre demande de devis a bien été reçue - Aqua Prestige',
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0;">Aqua Prestige</h1>
+          <div style="background: linear-gradient(135deg, #0F2A44, #1a3a5c); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
+            <h1 style="color: white; margin: 0;">BBH Service</h1>
             <p style="color: #93c5fd; margin: 10px 0 0 0;">Piscines sur mesure en Île-de-France</p>
           </div>
           <div style="background: white; padding: 30px; border: 1px solid #e2e8f0;">
@@ -275,13 +317,13 @@ async function sendEmails(formData) {
             
             <p style="color: #475569; line-height: 1.6;">
               En attendant, n'hésitez pas à consulter nos 
-              <a href="https://www.aqua-prestige.fr/realisations" style="color: #2563eb;">réalisations</a> 
+              <a href="https://piscines-idf.vercel.app/realisations" style="color: #2FB8B3;">réalisations</a> 
               pour découvrir notre savoir-faire.
             </p>
             
             <p style="color: #475569; line-height: 1.6;">
               À très bientôt,<br>
-              <strong>L'équipe Aqua Prestige</strong>
+              <strong>L'équipe BBH Service</strong>
             </p>
           </div>
           <div style="background: #1e293b; color: #94a3b8; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
@@ -370,10 +412,16 @@ export default async function handler(req, res) {
     
     const { captchaToken, ...formData } = req.body;
     
-    // Vérifier le CAPTCHA
-    const captchaValid = await verifyCaptcha(captchaToken);
-    if (!captchaValid) {
-      return res.status(400).json({ error: 'Vérification CAPTCHA échouée. Veuillez réessayer.' });
+    // Vérifier le CAPTCHA (seulement si configuré)
+    const hcaptchaSecret = process.env.HCAPTCHA_SECRET_KEY;
+    if (hcaptchaSecret) {
+      const captchaValid = await verifyCaptcha(captchaToken);
+      if (!captchaValid) {
+        return res.status(400).json({ error: 'Vérification CAPTCHA échouée. Veuillez réessayer.' });
+      }
+    } else {
+      // Mode dev : captcha non configuré, on accepte sans vérification
+      console.warn('⚠️ HCAPTCHA_SECRET_KEY non configurée - captcha désactivé');
     }
     
     // Valider les données

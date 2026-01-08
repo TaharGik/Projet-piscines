@@ -53,6 +53,24 @@ export const services = [
     ],
     icon: 'calendar',
     image: '/images/services/petite-fille-jouant-dans-une-piscine-dans-un-jardin-d-ete.jpg'
+  },
+  {
+    id: 4,
+    slug: 'installation-gazon',
+    title: 'Installation de Gazon et Amenagement Paysager',
+    shortDescription: 'Sublimez les abords de votre piscine avec un gazon impeccable et un amenagement paysager sur mesure.',
+    description: 'Pour completer votre projet de piscine, BBH SERVICE propose l\'installation de gazon et l\'amenagement des espaces autour de votre bassin. Transformez votre jardin en un veritable havre de paix, avec une pelouse verdoyante et des amenagements harmonieux.',
+    longDescription: 'Une piscine exceptionnelle merite un ecrin a la hauteur. Notre service d\'installation de gazon et d\'amenagement paysager vous permet de beneficier d\'une solution complete, du bassin jusqu\'aux moindres details de votre espace exterieur.\n\nNos prestations incluent :\n\n• Preparation du terrain (terrassement, nivellement, drainage)\n• Installation de gazon naturel en rouleaux ou en plaques\n• Pose de gazon synthetique haut de gamme (option sans entretien)\n• Amenagement de plages et terrasses autour de la piscine\n• Plantation de vegetaux adaptes (haies, arbustes, massifs)\n• Creation d\'allees et chemins d\'acces\n• Installation de systemes d\'arrosage automatique\n• Conseil en choix de plantes resistantes au chlore\n\nQue vous preferiez le charme naturel d\'une vraie pelouse ou la praticite d\'un gazon synthetique, nous vous accompagnons dans le choix de la solution la mieux adaptee a votre usage, votre climat et votre budget.\n\nAvec BBH SERVICE, beneficiez d\'un interlocuteur unique pour l\'ensemble de votre projet : piscine et espaces verts.',
+    advantages: [
+      'Gazon naturel ou synthetique',
+      'Preparation complete du terrain',
+      'Amenagement des abords de piscine',
+      'Systeme d\'arrosage automatique',
+      'Conseil en plantation adaptee',
+      'Interlocuteur unique pour tout le projet'
+    ],
+    icon: 'grass',
+    image: '/images/services/installation-gazon.jpg'
   }
 ];
 

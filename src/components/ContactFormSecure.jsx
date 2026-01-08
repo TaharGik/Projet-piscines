@@ -75,17 +75,82 @@ const ContactForm = () => {
   ];
 
   /**
-   * handleChange - Gère les changements dans les champs
+   * handleChange - Gère les changements dans les champs avec validation
    */
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
+    let processedValue = value;
+    
+    // Formatage spécial pour le téléphone
+    if (name === 'phone') {
+      processedValue = formatPhoneNumber(value);
+    }
+    
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: processedValue,
     }));
+    
     // Efface l'erreur du champ modifié
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  /**
+   * formatPhoneNumber - Formate le numéro de téléphone automatiquement
+   * Bloque les lettres, accepte uniquement les chiffres
+   * Formate en 06 12 34 56 78
+   */
+  const formatPhoneNumber = (value) => {
+    // Supprime tous les caractères non numériques
+    const cleaned = value.replace(/\D/g, '');
+    
+    // Limite à 10 chiffres
+    const limited = cleaned.substring(0, 10);
+    
+    // Formate par paires : 06 12 34 56 78
+    if (limited.length === 0) return '';
+    
+    const pairs = limited.match(/.{1,2}/g) || [];
+    return pairs.join(' ');
+  };
+
+  /**
+   * handlePhoneKeyPress - Bloque les caractères non numériques
+   */
+  const handlePhoneKeyPress = (e) => {
+    // Autorise: chiffres, Backspace, Delete, Tab, Escape, Enter, flèches
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+    
+    if (allowedKeys.includes(e.key)) {
+      return; // Autorise ces touches
+    }
+    
+    // Autorise Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+    if (e.ctrlKey || e.metaKey) {
+      return;
+    }
+    
+    // Bloque tout ce qui n'est pas un chiffre
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  /**
+   * handleNumberKeyPress - Bloque les caractères non numériques (pour code postal, etc.)
+   */
+  const handleNumberKeyPress = (e) => {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
+    
+    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+      return;
+    }
+    
+    if (!/[0-9]/.test(e.key)) {
+      e.preventDefault();
     }
   };
 
@@ -385,10 +450,14 @@ const ContactForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
+            onKeyDown={handlePhoneKeyPress}
+            inputMode="numeric"
+            pattern="[0-9\s]{14}"
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all ${
               errors.phone ? 'border-red-500 bg-red-50' : 'border-gray-300'
             }`}
             placeholder="06 12 34 56 78"
+            autoComplete="tel"
             required
           />
           {errors.phone && (

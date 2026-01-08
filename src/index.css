@@ -611,6 +611,377 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ========================================
+   FORMULAIRES - UX OPTIMISÉE
+   ======================================== */
+
+/* Champs de formulaire avec validation visuelle */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="search"],
+textarea,
+select {
+  border: 2px solid #E5E7EB;
+  padding: 16px;
+  font-size: 16px; /* Important pour éviter le zoom iOS */
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0;
+  font-family: 'Lato', sans-serif;
+  color: var(--color-primary);
+  background-color: white;
+  width: 100%;
+}
+
+/* Focus state amélioré */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(47, 184, 179, 0.1);
+  background-color: #F9FAFB;
+  transform: translateY(-1px);
+}
+
+/* Placeholder plus lisible */
+input::placeholder,
+textarea::placeholder {
+  color: #9CA3AF;
+  font-weight: 400;
+  opacity: 1;
+}
+
+/* Labels améliorés */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #1F2937;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+label .required {
+  color: #EF4444;
+  margin-left: 4px;
+}
+
+/* États de validation */
+input.valid,
+textarea.valid,
+select.valid {
+  border-color: #10B981;
+  background-color: #F0FDF4;
+}
+
+input.error,
+textarea.error,
+select.error {
+  border-color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+/* Icônes de validation */
+.form-field {
+  position: relative;
+}
+
+.form-field input.valid::after,
+.form-field textarea.valid::after {
+  content: '✓';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #10B981;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Textarea auto-resize */
+textarea {
+  min-height: 120px;
+  max-height: 300px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+/* Select custom styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%232FB8B3' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+select:focus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23269E9A' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Messages d'erreur */
+.error-message {
+  color: #EF4444;
+  font-size: 13px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Messages de succès */
+.success-message {
+  color: #10B981;
+  font-size: 13px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Boutons de formulaire avec états de chargement */
+button.btn-submit {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(47, 184, 179, 0.4);
+}
+
+button.btn-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Loading state */
+button.btn-submit.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+button.btn-submit.loading::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-left: -10px;
+  margin-top: -10px;
+  border: 2px solid white;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Effet ripple au clic */
+button.btn-submit::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button.btn-submit:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Disabled state */
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #F3F4F6;
+}
+
+/* ========================================
+   FIN FORMULAIRES
+   ======================================== */
+
+/* ========================================
+   MENU HAMBURGER - ANIMATIONS FLUIDES
+   ======================================== */
+
+/* Animation de l'icône hamburger vers X */
+@keyframes hamburgerTopOpen {
+  0% { transform: rotate(0) translateY(0); }
+  50% { transform: rotate(0) translateY(8px); }
+  100% { transform: rotate(45deg) translateY(8px); }
+}
+
+@keyframes hamburgerTopClose {
+  0% { transform: rotate(45deg) translateY(8px); }
+  50% { transform: rotate(0) translateY(8px); }
+  100% { transform: rotate(0) translateY(0); }
+}
+
+@keyframes hamburgerMiddleFade {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes hamburgerBottomOpen {
+  0% { transform: rotate(0) translateY(0); }
+  50% { transform: rotate(0) translateY(-8px); }
+  100% { transform: rotate(-45deg) translateY(-8px); }
+}
+
+@keyframes hamburgerBottomClose {
+  0% { transform: rotate(-45deg) translateY(-8px); }
+  50% { transform: rotate(0) translateY(-8px); }
+  100% { transform: rotate(0) translateY(0); }
+}
+
+/* Menu mobile avec slide-in */
+@keyframes menuSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes menuSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Animation des items du menu */
+@keyframes menuItemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Overlay du menu */
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Classes pour le menu mobile */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 85%;
+  max-width: 400px;
+  height: 100vh;
+  background: white;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.mobile-menu.active {
+  right: 0;
+  animation: menuSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 999;
+  backdrop-filter: blur(0px);
+}
+
+.mobile-menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  animation: overlayFadeIn 0.4s ease forwards;
+}
+
+/* Items du menu avec animation échelonnée */
+.mobile-menu-item {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.mobile-menu.active .mobile-menu-item {
+  animation: menuItemSlideIn 0.3s ease forwards;
+}
+
+.mobile-menu.active .mobile-menu-item:nth-child(1) { animation-delay: 0.1s; }
+.mobile-menu.active .mobile-menu-item:nth-child(2) { animation-delay: 0.15s; }
+.mobile-menu.active .mobile-menu-item:nth-child(3) { animation-delay: 0.2s; }
+.mobile-menu.active .mobile-menu-item:nth-child(4) { animation-delay: 0.25s; }
+.mobile-menu.active .mobile-menu-item:nth-child(5) { animation-delay: 0.3s; }
+.mobile-menu.active .mobile-menu-item:nth-child(6) { animation-delay: 0.35s; }
+.mobile-menu.active .mobile-menu-item:nth-child(7) { animation-delay: 0.4s; }
+
+/* Highlight de la page active */
+.mobile-menu-item.active {
+  color: var(--color-secondary);
+  background: linear-gradient(90deg, rgba(47, 184, 179, 0.1) 0%, transparent 100%);
+  border-left: 4px solid var(--color-secondary);
+  padding-left: 16px;
+}
+
+/* ========================================
+   FIN MENU HAMBURGER
+   ======================================== */
+
+/* ========================================
    UTILITAIRES MOBILE-FRIENDLY
    ======================================== */
 
