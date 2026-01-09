@@ -12,6 +12,7 @@ import { Link, NavLink } from 'react-router-dom';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [sloganWaveActive, setSloganWaveActive] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Effet vague sur le slogan pendant 30 secondes à l'arrivée
   useEffect(() => {
@@ -19,6 +20,15 @@ const Header = () => {
       setSloganWaveActive(false);
     }, 30000);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Détection du scroll pour changer l'opacité du header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
@@ -35,29 +45,37 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-soft sticky top-0 z-50">
-      {/* Bandeau contact supérieur - Visible uniquement desktop */}
-      <div className="hidden lg:block bg-[#F3F5F9] border-b border-[#E5E7EB]">
+    <header className={`backdrop-blur-md sticky top-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/95 shadow-soft' : 'bg-white/95 shadow-soft'
+    }`}>
+      {/* Bandeau contact supérieur - Masqué */}
+      <div className="hidden">
         <div className="container-custom">
           <div className="flex justify-between items-center py-2 text-sm">
             <div className="flex items-center gap-6">
               <a 
                 href="tel:+33640123456" 
-                className="flex items-center gap-2 text-[#0F2A44] hover:text-[#2FB8B3] transition-colors font-medium"
+                className={`flex items-center gap-2 transition-colors font-medium ${
+                  isScrolled ? 'text-[#0F2A44] hover:text-[#2FB8B3]' : 'text-white hover:text-[#2FB8B3]'
+                }`}
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
                 06 40 12 34 56
               </a>
-              <span className="flex items-center gap-2 text-[#6B7280]">
+              <span className={`flex items-center gap-2 ${
+                isScrolled ? 'text-[#6B7280]' : 'text-white/80'
+              }`}>
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                 </svg>
                 Île-de-France
               </span>
             </div>
-            <div className="flex items-center gap-2 text-[#6B7280]">
+            <div className={`flex items-center gap-2 ${
+              isScrolled ? 'text-[#6B7280]' : 'text-white/80'
+            }`}>
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
               </svg>

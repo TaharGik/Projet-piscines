@@ -70,6 +70,21 @@ export default {
         'soft': '0 2px 8px rgba(15, 42, 68, 0.08)',
         'card': '0 4px 12px rgba(15, 42, 68, 0.1)',
       },
+      keyframes: {
+        'slow-bounce': {
+          '0%, 100%': {
+            transform: 'translateY(0)',
+            animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)',
+          },
+          '50%': {
+            transform: 'translateY(-15px)',
+            animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)',
+          },
+        },
+      },
+      animation: {
+        'slow-bounce': 'slow-bounce 2s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
