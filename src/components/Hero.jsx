@@ -71,11 +71,11 @@ const Hero = () => {
         />
       </picture>
       
-      {/* Overlay gradient amélioré pour meilleur contraste */}
+      {/* Overlay gradient amélioré pour lecture sur mobile */}
       <div 
         className="absolute inset-0" 
         style={{
-          background: 'linear-gradient(180deg, rgba(15, 42, 68, 0.75) 0%, rgba(15, 42, 68, 0.55) 50%, rgba(15, 42, 68, 0.7) 100%)'
+          background: 'linear-gradient(180deg, rgba(15, 42, 68, 0.6) 0%, rgba(15, 42, 68, 0.4) 50%, rgba(15, 42, 68, 0.55) 100%)'
         }}
       />
       
@@ -86,7 +86,7 @@ const Hero = () => {
       </div>
       
       <div className="container-custom relative z-10">
-        <div className="py-16 sm:py-20 md:py-32 lg:py-40">
+        <div className="py-12 sm:py-20 md:py-32 lg:py-40">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
             {/* Badge - Plus petit sur mobile */}
             <div 
@@ -117,7 +117,7 @@ const Hero = () => {
                   <span className="water-title-text" style={{ color: '#ffffff', letterSpacing: '-0.01em' }}>
                     Piscines premium
                     {isWaveActive && (
-                      <svg className="inline-block w-6 h-6 mx-2 -mt-1" viewBox="0 0 24 24">
+                      <svg className="inline-block w-5 h-5 mx-1 -mt-1 opacity-70" viewBox="0 0 24 24">
                         <defs>
                           <linearGradient id="dropGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                             <stop offset="0%" stopColor="#99DFEC" />
@@ -224,7 +224,7 @@ const Hero = () => {
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
-              {/* Version mobile - 1 bouton + 1 lien texte discret */}
+              {/* Version mobile - 1 bouton + 1 bouton outline + réassurance compacte */}
               <div className="sm:hidden flex flex-col items-center gap-3">
                 <Link 
                   to="/devis"
@@ -234,13 +234,37 @@ const Hero = () => {
                 </Link>
                 <Link 
                   to="/realisations" 
-                  className="inline-flex items-center gap-2 text-white/90 hover:text-white font-sans font-medium text-sm transition-all duration-200 group"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-white/80 text-white hover:bg-white hover:text-[#0F2A44] font-sans font-semibold text-sm px-6 py-3 rounded-lg transition-all duration-300 group w-full max-w-xs"
                 >
                   Voir nos réalisations
                   <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
+                
+                {/* Réassurance compacte sous les CTA */}
+                <div className="flex items-center gap-3 text-white/90 text-xs mt-2 px-4">
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="font-medium">48h</span>
+                  </span>
+                  <span className="text-white/50">•</span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="font-medium">Décennale</span>
+                  </span>
+                  <span className="text-white/50">•</span>
+                  <span className="flex items-center gap-1">
+                    <svg className="w-3.5 h-3.5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                    </svg>
+                    <span className="font-medium">+15 ans</span>
+                  </span>
+                </div>
               </div>
               
               {/* Version desktop - 2 gros boutons */}

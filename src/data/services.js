@@ -70,7 +70,7 @@ export const services = [
       'Interlocuteur unique pour tout le projet'
     ],
     icon: 'grass',
-    image: '/images/services/installation-gazon.jpg'
+    image: '/images/services/gazon1.png'
   }
 ];
 

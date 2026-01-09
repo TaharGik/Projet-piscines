@@ -75,8 +75,8 @@ Site web Single Page Application (SPA) pour une entreprise spécialisée dans la
 ### 2.3 Proposition de valeur
 
 - **15+ années d'expérience**
-- **250+ piscines réalisées**
-- **98% de clients satisfaits**
+- **50+ piscines réalisées**
+- **100% de clients satisfaits**
 - **Garantie décennale**
 - **Accompagnement personnalisé**
 - **Matériaux premium**

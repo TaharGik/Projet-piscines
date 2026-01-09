@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
@@ -7,18 +7,20 @@ import ScrollToTopButton from './components/ScrollToTopButton';
 import ScrollToTop from './components/ScrollToTop';
 import Loader from './components/Loader';
 import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import Projects from './pages/Projects';
-import ProjectDetail from './pages/ProjectDetail';
-import FAQ from './pages/FAQ';
-import Contact from './pages/Contact';
-import Devis from './pages/Devis';
-import MentionsLegales from './pages/MentionsLegales';
-import Confidentialite from './pages/Confidentialite';
-import NotFound from './pages/NotFound';
 import useGoogleAnalytics from './hooks/useGoogleAnalytics';
 import './App.css';
+
+// Lazy loading des routes secondaires pour améliorer les performances
+const About = lazy(() => import('./pages/About'));
+const Services = lazy(() => import('./pages/Services'));
+const Projects = lazy(() => import('./pages/Projects'));
+const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Devis = lazy(() => import('./pages/Devis'));
+const MentionsLegales = lazy(() => import('./pages/MentionsLegales'));
+const Confidentialite = lazy(() => import('./pages/Confidentialite'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 /**
  * Composant principal de l'application
@@ -41,20 +43,26 @@ function App() {
       <ScrollToTop />
       <Header />
       <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/a-propos" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/realisations" element={<Projects />} />
-          <Route path="/realisations/:slug" element={<ProjectDetail />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/devis" element={<Devis />} />
-          <Route path="/mentions-legales" element={<MentionsLegales />} />
-          <Route path="/confidentialite" element={<Confidentialite />} />
-          {/* Route 404 - doit être en dernier */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={
+          <div className="min-h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2FB8B3]"></div>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/a-propos" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/realisations" element={<Projects />} />
+            <Route path="/realisations/:slug" element={<ProjectDetail />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/devis" element={<Devis />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
+            <Route path="/confidentialite" element={<Confidentialite />} />
+            {/* Route 404 - doit être en dernier */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </main>
       <Footer />
       

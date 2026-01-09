@@ -5,16 +5,22 @@
  * Cette fonction gère :
  * - Validation des champs du formulaire
  * - Vérification du CAPTCHA (hCaptcha)
- * - Rate limiting (anti-spam)
+ * - Rate limiting (anti-spam) avec Vercel KV
  * - Sanitisation des entrées (anti-XSS)
  * - Envoi d'emails via Brevo (ex-Sendinblue)
  * 
  * Déployée automatiquement sur Vercel dans /api/quote
  */
 
-// Store simple pour le rate limiting (en mémoire - reset au redéploiement)
-// En production, utiliser Redis ou Upstash pour persistance
-const rateLimitStore = new Map();
+import { kv } from '@vercel/kv';
+
+// Logger conditionnel - logs uniquement en développement
+const isDev = process.env.NODE_ENV !== 'production';
+const logger = {
+  log: (...args) => isDev && console.log(...args),
+  warn: (...args) => isDev && console.warn(...args),
+  error: (...args) => console.error(...args), // Toujours logger les erreurs
+};
 
 /**
  * Configuration centralisée
@@ -114,30 +120,41 @@ function sanitizeString(str) {
 }
 
 /**
- * Vérifie le rate limit pour une IP
+ * Vérifie le rate limit pour une IP avec Vercel KV (Redis)
  * @param {string} ip - Adresse IP du client
- * @returns {boolean} - true si la requête est autorisée
+ * @returns {Promise<boolean>} - true si la requête est autorisée
  */
-function checkRateLimit(ip) {
+async function checkRateLimit(ip) {
+  const key = `ratelimit:${ip}`;
   const now = Date.now();
   const windowStart = now - CONFIG.RATE_LIMIT_WINDOW_MS;
   
-  // Nettoyer les anciennes entrées
-  if (rateLimitStore.has(ip)) {
-    const requests = rateLimitStore.get(ip).filter(time => time > windowStart);
-    rateLimitStore.set(ip, requests);
+  try {
+    // Récupérer les timestamps des requêtes récentes
+    const requests = await kv.get(key) || [];
     
-    if (requests.length >= CONFIG.RATE_LIMIT_MAX) {
+    // Filtrer les requêtes dans la fenêtre de temps
+    const recentRequests = requests.filter(time => time > windowStart);
+    
+    // Vérifier si la limite est dépassée
+    if (recentRequests.length >= CONFIG.RATE_LIMIT_MAX) {
       return false;
     }
     
-    requests.push(now);
-    rateLimitStore.set(ip, requests);
-  } else {
-    rateLimitStore.set(ip, [now]);
+    // Ajouter la nouvelle requête
+    recentRequests.push(now);
+    
+    // Sauvegarder avec expiration (fenêtre de temps)
+    await kv.set(key, recentRequests, {
+      px: CONFIG.RATE_LIMIT_WINDOW_MS // Expire après la fenêtre de temps
+    });
+    
+    return true;
+  } catch (error) {
+    // En cas d'erreur KV, on autorise (fail-open pour éviter de bloquer le service)
+    logger.error('❌ Erreur rate limit KV:', error.message);
+    return true;
   }
-  
-  return true;
 }
 
 /**
@@ -177,7 +194,7 @@ async function verifyCaptcha(token) {
   
   const secret = process.env.HCAPTCHA_SECRET_KEY;
   if (!secret) {
-    console.error('❌ HCAPTCHA_SECRET_KEY non configurée');
+    logger.error('❌ HCAPTCHA_SECRET_KEY non configurée');
     return false;
   }
   
@@ -189,17 +206,17 @@ async function verifyCaptcha(token) {
     });
     
     if (!response.ok) {
-      console.error('❌ Erreur HTTP vérification CAPTCHA:', response.status);
+      logger.error('❌ Erreur HTTP vérification CAPTCHA:', response.status);
       return false;
     }
     
     const data = await response.json();
     if (!data.success) {
-      console.warn('⚠️ CAPTCHA invalide:', data['error-codes']);
+      logger.warn('⚠️ CAPTCHA invalide:', data['error-codes']);
     }
     return data.success === true;
   } catch (error) {
-    console.error('❌ Erreur vérification CAPTCHA:', error.message);
+    logger.error('❌ Erreur vérification CAPTCHA:', error.message);
     return false;
   }
 }
@@ -367,7 +384,7 @@ async function sendEmailViaBrevo(emailData, apiKey, retries = 2) {
       
       // Retry sur erreurs serveur (5xx) si tentatives restantes
       if (response.status >= 500 && retries > 0) {
-        console.warn(`⚠️ ${errorMsg} - Tentative ${3 - retries}/3`);
+        logger.warn(`⚠️ ${errorMsg} - Tentative ${3 - retries}/3`);
         await new Promise(resolve => setTimeout(resolve, 1000)); // Attendre 1s
         return sendEmailViaBrevo(emailData, apiKey, retries - 1);
       }
@@ -378,7 +395,7 @@ async function sendEmailViaBrevo(emailData, apiKey, retries = 2) {
     return response.json();
   } catch (error) {
     if (retries > 0 && error.message.includes('Timeout')) {
-      console.warn(`⚠️ Timeout Brevo - Tentative ${3 - retries}/3`);
+      logger.warn(`⚠️ Timeout Brevo - Tentative ${3 - retries}/3`);
       return sendEmailViaBrevo(emailData, apiKey, retries - 1);
     }
     throw error;
@@ -395,12 +412,12 @@ async function sendEmails(formData) {
   const toEmail = CONFIG.DEFAULT_CONTACT_EMAIL;
   
   if (!apiKey) {
-    console.error('❌ BREVO_API_KEY non configurée');
+    logger.error('❌ BREVO_API_KEY non configurée');
     return false;
   }
   
   if (!toEmail) {
-    console.error('❌ CONTACT_EMAIL non configuré');
+    logger.error('❌ CONTACT_EMAIL non configuré');
     return false;
   }
   
@@ -422,143 +439,198 @@ async function sendEmails(formData) {
   // Générer le résumé business du projet
   const projectSummary = generateProjectSummary(wizardData);
   
+  // Générer ID unique de demande + timestamp
+  const requestId = `DEV-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+  const timestamp = new Date().toLocaleString('fr-FR', { 
+    timeZone: 'Europe/Paris',
+    dateStyle: 'full',
+    timeStyle: 'short'
+  });
+  
+  // Déterminer l'urgence
+  const isUrgent = wizardData.timeline && ['moins-2-mois', 'urgent'].includes(wizardData.timeline);
+  const urgencyBadge = isUrgent 
+    ? '<span style="background: #dc2626; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 14px; display: inline-block; box-shadow: 0 2px 4px rgba(220,38,38,0.3);">URGENT - Moins de 2 mois</span>'
+    : '<span style="background: #059669; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 14px; display: inline-block;">Délai standard</span>';
+  
   try {
     // Email 1 : Notification à l'entreprise
     const notificationEmail = {
       sender: { name: 'BBH Service - Site Web', email: 'bbhservice25@gmail.com' },
       to: [{ email: toEmail }],
       replyTo: { email: sanitizedData.email, name: sanitizedData.name },
-      subject: `Nouvelle demande de devis - ${sanitizedData.name}`,
+      subject: `${isUrgent ? '[URGENT] ' : ''}Nouveau devis #${requestId.split('-')[2]} - ${sanitizedData.name}`,
       htmlContent: `
-        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 650px; margin: 0 auto; background: #f8fafc;">
-          <!-- Header -->
-          <div style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 24px; border-radius: 12px 12px 0 0;">
-            <h1 style="color: white; margin: 0; font-size: 24px;">🏊 Nouvelle demande de devis</h1>
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 680px; margin: 0 auto; background: #ffffff;">
+          
+          <!-- ==================== HEADER PREMIUM ==================== -->
+          <div style="background: linear-gradient(135deg, #0F2A44 0%, #1a4d7a 100%); padding: 32px 24px; text-align: center;">
+            <div style="background: white; display: inline-block; padding: 12px 24px; border-radius: 8px; margin-bottom: 16px;">
+              <h1 style="margin: 0; color: #0F2A44; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">BBH SERVICE</h1>
+              <p style="margin: 4px 0 0 0; color: #2FB8B3; font-size: 13px; font-weight: 600;">EXPERT PISCINES PREMIUM</p>
+            </div>
+            <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 14px;">Nouvelle demande de devis reçue</p>
+            <p style="color: rgba(255,255,255,0.7); margin: 4px 0 0 0; font-size: 12px;">${timestamp}</p>
           </div>
           
-          <!-- Corps du mail -->
-          <div style="background: white; padding: 0;">
-            
-            ${hasWizardData && projectSummary ? `
-            <!-- ========== RÉSUMÉ DU PROJET (Priorité #1) ========== -->
-            <div style="background: linear-gradient(135deg, #10b981, #059669); padding: 20px; margin: 0;">
-              <h2 style="color: white; margin: 0 0 12px 0; font-size: 18px;">📊 Résumé du projet</h2>
-              <div style="background: rgba(255, 255, 255, 0.95); padding: 16px; border-radius: 8px; border-left: 5px solid #10b981;">
-                <p style="margin: 0; font-size: 15px; line-height: 1.8; color: #1f2937;">
-                  ${projectSummary}
-                </p>
+          <!-- ==================== URGENCE & ID (Priorité #1) ==================== -->
+          <div style="background: ${isUrgent ? '#fef2f2' : '#f0fdf4'}; padding: 20px 24px; border-bottom: 3px solid ${isUrgent ? '#dc2626' : '#059669'};">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+              <div>
+                ${urgencyBadge}
+              </div>
+              <div style="text-align: right;">
+                <p style="margin: 0; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">ID Demande</p>
+                <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: 700; color: #0F2A44; font-family: 'Courier New', monospace;">${requestId}</p>
               </div>
             </div>
-            ` : ''}
+          </div>
+          
+          ${hasWizardData && projectSummary ? `
+          <!-- ==================== RÉSUMÉ PROJET (Priorité #2) ==================== -->
+          <div style="background: linear-gradient(135deg, #2FB8B3 0%, #269E9A 100%); padding: 24px; margin: 0;">
+            <h2 style="color: white; margin: 0 0 14px 0; font-size: 17px; font-weight: 700; letter-spacing: -0.3px;">RÉSUMÉ DU PROJET</h2>
+            <div style="background: rgba(255, 255, 255, 0.98); padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+              <p style="margin: 0; font-size: 16px; line-height: 1.8; color: #1f2937; font-weight: 500;">
+                ${projectSummary}
+              </p>
+            </div>
+          </div>
+          ` : ''}
+          
+          <!-- ==================== CONTACT CLIENT (Priorité #3) ==================== -->
+          <div style="padding: 28px 24px; background: #f8fafc;">
+            <h2 style="color: #0F2A44; margin: 0 0 18px 0; font-size: 17px; font-weight: 700; letter-spacing: -0.3px; border-bottom: 3px solid #2FB8B3; padding-bottom: 10px;">
+              INFORMATIONS CLIENT
+            </h2>
             
-            <!-- ========== INFORMATIONS DU CONTACT (Priorité #2) ========== -->
-            <div style="padding: 24px; background: #f8fafc;">
-              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
-                👤 Informations du contact
-              </h2>
-              <table style="width: 100%; border-collapse: collapse; background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <!-- Boutons CTA en haut -->
+            <div style="margin: 0 0 20px 0; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="tel:${sanitizedData.phone}" style="flex: 1; min-width: 200px; background: #2FB8B3; color: white; text-decoration: none; padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 15px; text-align: center; display: block; box-shadow: 0 2px 8px rgba(47,184,179,0.3); transition: all 0.2s;">
+                APPELER ${sanitizedData.phone}
+              </a>
+              <a href="mailto:${sanitizedData.email}" style="flex: 1; min-width: 200px; background: #0F2A44; color: white; text-decoration: none; padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 15px; text-align: center; display: block; box-shadow: 0 2px 8px rgba(15,42,68,0.3);">
+                ENVOYER EMAIL
+              </a>
+            </div>
+            
+            <!-- Informations détaillées -->
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <table style="width: 100%; border-collapse: collapse;">
                 <tr>
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569; width: 140px;">Nom</td>
-                  <td style="padding: 10px 0; font-size: 15px;"><strong>${sanitizedData.name}</strong></td>
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; width: 140px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Nom</td>
+                  <td style="padding: 12px 0; font-size: 17px; font-weight: 700; color: #0F2A44;">${sanitizedData.name}</td>
                 </tr>
                 <tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📧 Email</td>
-                  <td style="padding: 10px 0;"><a href="mailto:${sanitizedData.email}" style="color: #2563eb; text-decoration: none; font-weight: 500;">${sanitizedData.email}</a></td>
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Téléphone</td>
+                  <td style="padding: 12px 0;"><a href="tel:${sanitizedData.phone}" style="color: #2FB8B3; text-decoration: none; font-weight: 700; font-size: 18px;">${sanitizedData.phone}</a></td>
                 </tr>
                 <tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📞 Téléphone</td>
-                  <td style="padding: 10px 0;"><a href="tel:${sanitizedData.phone}" style="color: #2563eb; text-decoration: none; font-weight: 600; font-size: 16px;">${sanitizedData.phone}</a></td>
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Email</td>
+                  <td style="padding: 12px 0;"><a href="mailto:${sanitizedData.email}" style="color: #2563eb; text-decoration: none; font-weight: 500;">${sanitizedData.email}</a></td>
                 </tr>
                 <tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">📍 Ville</td>
-                  <td style="padding: 10px 0;"><strong>${sanitizedData.city || 'Non renseignée'}</strong></td>
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Ville</td>
+                  <td style="padding: 12px 0; font-weight: 600; color: #0F2A44; font-size: 15px;">${sanitizedData.city || 'Non renseignée'}</td>
                 </tr>
                 <tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Type de projet</td>
-                  <td style="padding: 10px 0;">
-                    <span style="background: #dbeafe; color: #1e40af; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 14px; display: inline-block;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Type</td>
+                  <td style="padding: 12px 0;">
+                    <span style="background: linear-gradient(135deg, #2FB8B3, #269E9A); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; display: inline-block; box-shadow: 0 2px 4px rgba(47,184,179,0.3);">
                       ${getLabel('projectType', sanitizedData.projectType)}
                     </span>
                   </td>
                 </tr>
               </table>
             </div>
-            
-            <!-- ========== MESSAGE CLIENT (Priorité #3) ========== -->
-            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
-              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
-                💬 Message du client
-              </h2>
-              <div style="background: #fff7ed; padding: 18px; border-radius: 8px; border-left: 5px solid #f59e0b; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                <p style="margin: 0; color: #78350f; line-height: 1.7; font-size: 15px; white-space: pre-wrap;">${sanitizedData.message.replace(/\n/g, '<br>')}</p>
-              </div>
+          </div>
+          
+          <!-- ==================== MESSAGE CLIENT (Priorité #4) ==================== -->
+          <div style="padding: 0 24px 28px 24px; background: #f8fafc;">
+            <h2 style="color: #0F2A44; margin: 0 0 18px 0; font-size: 17px; font-weight: 700; letter-spacing: -0.3px; border-bottom: 3px solid #2FB8B3; padding-bottom: 10px;">
+              MESSAGE DU CLIENT
+            </h2>
+            <div style="background: #fffbeb; padding: 24px; border-radius: 10px; border-left: 5px solid #f59e0b; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;">
+              <div style="position: absolute; top: 16px; left: 16px; font-size: 48px; opacity: 0.1; color: #f59e0b;">"</div>
+              <p style="margin: 0; color: #92400e; line-height: 1.8; font-size: 15px; white-space: pre-wrap; font-style: italic; padding-left: 32px;">${sanitizedData.message.replace(/\n/g, '<br>')}</p>
             </div>
-            
-            ${hasWizardData ? `
-            <!-- ========== DÉTAILS TECHNIQUES (Priorité #4) ========== -->
-            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
-              <h2 style="color: #1e40af; margin: 0 0 16px 0; font-size: 18px; border-bottom: 3px solid #3b82f6; padding-bottom: 8px;">
-                🔧 Détails du projet
-              </h2>
-              <table style="width: 100%; border-collapse: collapse; background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                ${wizardData.serviceType ? `<tr>
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569; width: 180px;">Service demandé</td>
-                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('serviceType', wizardData.serviceType)}</td>
-                </tr>` : ''}
-                ${wizardData.poolType ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Type de piscine</td>
-                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('poolType', wizardData.poolType)}</td>
-                </tr>` : ''}
-                ${wizardData.dimensions ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Dimensions</td>
-                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('dimensions', wizardData.dimensions)}</td>
-                </tr>` : ''}
-                ${wizardData.terrain ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Terrain</td>
-                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('terrain', wizardData.terrain)}</td>
-                </tr>` : ''}
-                ${wizardData.budget ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Budget estimé</td>
-                  <td style="padding: 10px 0; color: #1f2937;"><strong style="color: #059669; font-size: 15px;">${getLabel('budget', wizardData.budget)}</strong></td>
-                </tr>` : ''}
-                ${wizardData.timeline ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Délai souhaité</td>
-                  <td style="padding: 10px 0; color: #1f2937;">${getLabel('timeline', wizardData.timeline)}</td>
-                </tr>` : ''}
-                ${wizardData.postalCode ? `<tr style="border-top: 1px solid #e2e8f0;">
-                  <td style="padding: 10px 0; font-weight: 600; color: #475569;">Code postal</td>
-                  <td style="padding: 10px 0; color: #1f2937;"><strong>${sanitizeString(wizardData.postalCode)}</strong></td>
-                </tr>` : ''}
-              </table>
+          </div>
+          
+          ${hasWizardData && (wizardData.budget || Object.keys(wizardData).length > 2) ? `
+          <!-- ==================== BUDGET & DÉTAILS (Priorité #5) ==================== -->
+          <div style="padding: 0 24px 28px 24px; background: #f8fafc;">
+            ${wizardData.budget ? `
+            <!-- Budget mis en avant -->
+            <div style="background: linear-gradient(135deg, #059669, #047857); padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(5,150,105,0.2);">
+              <p style="margin: 0 0 8px 0; color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">BUDGET ESTIMÉ</p>
+              <p style="margin: 0; color: white; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">${getLabel('budget', wizardData.budget)}</p>
             </div>
             ` : ''}
             
-            <!-- ========== ACTIONS RECOMMANDÉES (CTA) ========== -->
-            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
-              <div style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                <h3 style="color: white; margin: 0 0 12px 0; font-size: 16px;">📞 Action recommandée</h3>
-                <p style="color: #e9d5ff; margin: 0; line-height: 1.6; font-size: 14px;">
-                  <strong style="color: white;">Contacter le client par téléphone dans les 48h</strong> pour qualifier le projet, 
-                  poser des questions complémentaires et programmer une visite technique si nécessaire.
-                </p>
-              </div>
+            <h2 style="color: #0F2A44; margin: 0 0 18px 0; font-size: 17px; font-weight: 700; letter-spacing: -0.3px; border-bottom: 3px solid #2FB8B3; padding-bottom: 10px;">
+              DÉTAILS TECHNIQUES
+            </h2>
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+              <table style="width: 100%; border-collapse: collapse;">
+                ${wizardData.serviceType ? `<tr>
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; width: 180px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Service</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 600; font-size: 15px;">${getLabel('serviceType', wizardData.serviceType)}</td>
+                </tr>` : ''}
+                ${wizardData.poolType ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Piscine</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 600; font-size: 15px;">${getLabel('poolType', wizardData.poolType)}</td>
+                </tr>` : ''}
+                ${wizardData.dimensions ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Dimensions</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 500;">${getLabel('dimensions', wizardData.dimensions)}</td>
+                </tr>` : ''}
+                ${wizardData.terrain ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Terrain</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 500;">${getLabel('terrain', wizardData.terrain)}</td>
+                </tr>` : ''}
+                ${wizardData.timeline ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Délai</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 600; font-size: 15px;">${getLabel('timeline', wizardData.timeline)}</td>
+                </tr>` : ''}
+                ${wizardData.postalCode ? `<tr style="border-top: 1px solid #e2e8f0;">
+                  <td style="padding: 12px 0; font-weight: 600; color: #64748b; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Code postal</td>
+                  <td style="padding: 12px 0; color: #0F2A44; font-weight: 700; font-size: 16px;">${sanitizeString(wizardData.postalCode)}</td>
+                </tr>` : ''}
+              </table>
             </div>
-            
-            <!-- ========== RAPPEL ENGAGEMENT ========== -->
-            <div style="padding: 0 24px 24px 24px; background: #f8fafc;">
-              <div style="background: #fef3c7; padding: 16px; border-radius: 8px; border-left: 5px solid #f59e0b;">
-                <p style="margin: 0; color: #78350f; font-size: 14px;">
-                  <strong>⏰ Rappel :</strong> Notre engagement qualité : réponse sous 48h maximum pour maintenir la satisfaction client.
-                </p>
-              </div>
+          </div>
+          ` : ''}
+          
+          <!-- ==================== ACTION RECOMMANDÉE (CTA) ==================== -->
+          <div style="padding: 0 24px 28px 24px; background: #f8fafc;">
+            <div style="background: linear-gradient(135deg, #7c3aed, #6d28d9); padding: 24px; border-radius: 12px; box-shadow: 0 6px 16px rgba(124,58,237,0.25);">
+              <h3 style="color: white; margin: 0 0 14px 0; font-size: 18px; font-weight: 700;">PROCHAINE ÉTAPE</h3>
+              <p style="color: #e9d5ff; margin: 0 0 18px 0; line-height: 1.7; font-size: 15px;">
+                <strong style="color: white;">Contactez ${sanitizedData.name} dans les 48h</strong> pour :
+              </p>
+              <ul style="color: #e9d5ff; margin: 0; padding-left: 20px; line-height: 1.8; font-size: 14px;">
+                <li>Qualifier précisément le projet</li>
+                <li>Poser les questions techniques complémentaires</li>
+                <li>Programmer une visite sur site si nécessaire</li>
+                <li>Établir un devis personnalisé</li>
+              </ul>
             </div>
-            
           </div>
           
-          <!-- Footer -->
-          <div style="background: #1e293b; color: #94a3b8; padding: 20px; text-align: center; border-radius: 0 0 12px 12px;">
-            <p style="margin: 0; font-size: 12px;">
-              Email généré automatiquement depuis le site BBH Service
+          <!-- ==================== RAPPEL ENGAGEMENT ==================== -->
+          <div style="padding: 0 24px 32px 24px; background: #f8fafc;">
+            <div style="background: #fef3c7; padding: 18px 20px; border-radius: 10px; border-left: 5px solid #f59e0b; box-shadow: 0 2px 6px rgba(0,0,0,0.05);">
+              <p style="margin: 0; color: #92400e; font-size: 14px; line-height: 1.6;">
+                <strong style="color: #78350f;">Engagement qualité BBH Service :</strong> Réponse sous 48h maximum pour garantir la satisfaction client et maximiser le taux de conversion.
+              </p>
+            </div>
+          </div>
+          
+          <!-- ==================== FOOTER PREMIUM ==================== -->
+          <div style="background: linear-gradient(135deg, #0F2A44, #1a4d7a); padding: 28px 24px; text-align: center;">
+            <p style="margin: 0 0 8px 0; color: rgba(255,255,255,0.7); font-size: 11px; text-transform: uppercase; letter-spacing: 1px;">Email généré automatiquement</p>
+            <p style="margin: 0; color: rgba(255,255,255,0.5); font-size: 12px;">
+              BBH Service © ${new Date().getFullYear()} - Site web professionnel
             </p>
           </div>
         </div>
@@ -570,7 +642,7 @@ async function sendEmails(formData) {
       sender: { name: 'BBH Service', email: 'bbhservice25@gmail.com' },
       to: [{ email: sanitizedData.email, name: sanitizedData.name }],
       replyTo: { email: toEmail },
-      subject: '✅ Votre demande de devis a bien été reçue - Aqua Prestige',
+      subject: 'Votre demande de devis a bien été reçue - BBH Service',
       htmlContent: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #0F2A44, #1a3a5c); padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
@@ -588,7 +660,7 @@ async function sendEmails(formData) {
             </p>
             
             <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-              <h3 style="color: #0369a1; margin-top: 0;">📋 Récapitulatif de votre demande</h3>
+              <h3 style="color: #0369a1; margin-top: 0;">Récapitulatif de votre demande</h3>
               <p style="margin: 5px 0;"><strong>Type de projet :</strong> ${getLabel('projectType', sanitizedData.projectType)}</p>
               <p style="margin: 5px 0;"><strong>Ville :</strong> ${sanitizedData.city || 'Non renseignée'}</p>
             </div>
@@ -605,7 +677,7 @@ async function sendEmails(formData) {
             </p>
           </div>
           <div style="background: #1e293b; color: #94a3b8; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
-            <p style="margin: 0 0 10px 0;">📞 06 40 12 34 56 | 📧 bbhservice25@gmail.com</p>
+            <p style="margin: 0 0 10px 0;">Tél : 06 40 12 34 56 | Email : bbhservice25@gmail.com</p>
             <p style="margin: 0; font-size: 12px;">
               Cet email a été envoyé suite à votre demande sur notre site web.
             </p>
@@ -620,11 +692,11 @@ async function sendEmails(formData) {
       sendEmailViaBrevo(confirmationEmail, apiKey),
     ]);
     
-    console.log('✅ Emails envoyés avec succès:', { to: toEmail, client: sanitizedData.email });
+    logger.log('✅ Emails envoyés avec succès:', { to: toEmail, client: sanitizedData.email });
     return true;
     
   } catch (error) {
-    console.error('❌ Erreur envoi emails:', error.message);
+    logger.error('❌ Erreur envoi emails:', error.message);
     return false;
   }
 }
@@ -682,15 +754,16 @@ export default async function handler(req, res) {
                'unknown';
     
     // Log de la requête (sans données sensibles)
-    console.log('📬 Nouvelle demande de devis', { 
+    logger.log('📬 Nouvelle demande de devis', { 
       ip, 
       timestamp: new Date().toISOString(),
       hasWizardData: !!req.body?.wizardData,
     });
     
-    // Vérifier le rate limit
-    if (!checkRateLimit(ip)) {
-      console.warn('⚠️ Rate limit dépassé:', ip);
+    // Vérifier le rate limit (async avec Vercel KV)
+    const rateLimitOk = await checkRateLimit(ip);
+    if (!rateLimitOk) {
+      logger.warn('⚠️ Rate limit dépassé:', ip);
       return res.status(429).json({ 
         error: 'Trop de requêtes. Veuillez réessayer dans quelques minutes.',
         retryAfter: Math.ceil(CONFIG.RATE_LIMIT_WINDOW_MS / 1000),
@@ -710,22 +783,22 @@ export default async function handler(req, res) {
       // Token fourni + secret configuré → vérification obligatoire
       const captchaValid = await verifyCaptcha(captchaToken);
       if (!captchaValid) {
-        console.warn('⚠️ CAPTCHA invalide:', ip);
+        logger.warn('⚠️ CAPTCHA invalide:', ip);
         return res.status(400).json({ error: 'Vérification CAPTCHA échouée. Veuillez réessayer.' });
       }
-      console.log('✅ CAPTCHA validé');
+      logger.log('✅ CAPTCHA validé');
     } else if (!hcaptchaSecret) {
       // Secret non configuré → mode dev, on accepte
-      console.warn('⚠️ HCAPTCHA_SECRET_KEY non configurée - captcha désactivé');
+      logger.warn('⚠️ HCAPTCHA_SECRET_KEY non configurée - captcha désactivé');
     } else if (!captchaToken) {
       // Secret configuré mais pas de token → provient du wizard, on accepte
-      console.log('ℹ️ Requête sans captcha (wizard) - acceptée');
+      logger.log('ℹ️ Requête sans captcha (wizard) - acceptée');
     }
     
     // Valider les données
     const validation = validateFormData(formData);
     if (!validation.valid) {
-      console.warn('⚠️ Validation échouée:', validation.errors);
+      logger.warn('⚠️ Validation échouée:', validation.errors);
       return res.status(400).json({ 
         error: 'Données invalides',
         details: validation.errors,
@@ -735,19 +808,19 @@ export default async function handler(req, res) {
     // Envoyer les emails
     const emailSent = await sendEmails(formData);
     if (!emailSent) {
-      console.error('❌ Échec envoi email');
+      logger.error('❌ Échec envoi email');
       return res.status(500).json({ error: 'Erreur lors de l\'envoi. Veuillez réessayer.' });
     }
     
     // Succès
-    console.log('✅ Devis traité avec succès');
+    logger.log('✅ Devis traité avec succès');
     return res.status(200).json({ 
       success: true,
       message: 'Votre demande a bien été envoyée. Nous vous répondrons sous 48h.',
     });
     
   } catch (error) {
-    console.error('❌ Erreur API quote:', error.message, error.stack);
+    logger.error('❌ Erreur API quote:', error.message, error.stack);
     return res.status(500).json({ error: 'Erreur serveur. Veuillez réessayer.' });
   }
 }

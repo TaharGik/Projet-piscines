@@ -328,7 +328,9 @@ ${formData.message || 'Aucun message supplémentaire'}
       }
 
     } catch (error) {
-      console.error('Erreur:', error);
+      if (import.meta.env.DEV) {
+        console.error('Erreur:', error);
+      }
       setSubmitStatus({
         type: 'error',
         message: error.message || 'Une erreur est survenue. Veuillez réessayer.',

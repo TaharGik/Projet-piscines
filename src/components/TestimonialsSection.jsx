@@ -13,7 +13,12 @@ const TestimonialsSection = ({ limit, showGoogleBadge = true }) => {
       {/* Badge Google Reviews */}
       {showGoogleBadge && (
         <div className="text-center mb-12">
-          <div className="inline-flex items-center bg-white rounded-2xl shadow-lg px-8 py-6 border border-gray-100">
+          <a 
+            href="https://share.google/OsIy4RelCUa4Es5v9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center bg-white rounded-2xl shadow-lg px-8 py-6 border border-gray-100 transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer"
+          >
             <div className="flex items-center mr-6">
               <svg className="w-10 h-10 mr-3" viewBox="0 0 24 24" fill="none">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -50,7 +55,7 @@ const TestimonialsSection = ({ limit, showGoogleBadge = true }) => {
               <div className="text-sm text-gray-600 mb-1">Clients satisfaits</div>
               <div className="text-2xl font-bold text-green-600">98%</div>
             </div>
-          </div>
+          </a>
         </div>
       )}
 

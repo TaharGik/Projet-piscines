@@ -179,7 +179,7 @@ const Home = () => {
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up" delay={200}>
-            <ServicesSection limit={3} />
+            <ServicesSection limit={4} />
           </AnimatedSection>
           <AnimatedSection animation="fade-up" delay={400}>
             <div className="text-center mt-12">

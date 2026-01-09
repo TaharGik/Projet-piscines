@@ -366,7 +366,9 @@ const Devis = () => {
         try {
           result = await response.json();
         } catch (parseError) {
-          console.error('Erreur parsing JSON:', parseError);
+          if (import.meta.env.DEV) {
+            console.error('Erreur parsing JSON:', parseError);
+          }
           throw new Error('Réponse du serveur invalide');
         }
       }
@@ -381,7 +383,9 @@ const Devis = () => {
         throw new Error(result?.error || result?.message || `Erreur serveur (${response.status})`);
       }
     } catch (error) {
-      console.error('Erreur:', error);
+      if (import.meta.env.DEV) {
+        console.error('Erreur:', error);
+      }
       setSubmitStatus({
         type: 'error',
         message: error.message || 'Une erreur est survenue. Veuillez réessayer.',
