@@ -81,11 +81,11 @@ const Hero = () => {
       />
 
       <div className="container-custom relative z-10">
-        <div className="flex items-center min-h-screen py-2 sm:py-24">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 w-full">
+        <div className="flex items-center min-h-screen pt-0 pb-16 sm:py-24">
+          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 w-full -mt-12 sm:mt-0">
             {/* Badge premium turquoise */}
             <div 
-              className={`inline-flex items-center px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-xs sm:text-sm mb-2 sm:mb-8 transition-all duration-500 ${
+              className={`inline-flex items-center px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-xs sm:text-sm mb-1 sm:mb-8 transition-all duration-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
@@ -97,7 +97,7 @@ const Hero = () => {
             
             {/* Titre principal avec effet vague */}
             <h1 
-              className={`font-heading font-extrabold leading-[1.1] mb-3 sm:mb-8 transition-all duration-500 delay-100 ${
+              className={`font-heading font-extrabold leading-[1.1] mb-5 sm:mb-8 transition-all duration-500 delay-100 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } ${autoWaveEnded ? 'cursor-pointer' : ''}`}
               style={{ 
@@ -159,7 +159,7 @@ const Hero = () => {
             
             {/* Features clés - Liste horizontale compacte */}
             <div 
-              className={`flex flex-wrap justify-center items-center gap-3 sm:gap-6 mb-4 sm:mb-10 transition-all duration-500 delay-200 ${
+              className={`flex flex-wrap justify-center items-center gap-3 sm:gap-6 mb-7 sm:mb-10 transition-all duration-500 delay-200 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}
             >
