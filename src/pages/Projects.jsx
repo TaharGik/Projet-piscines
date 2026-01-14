@@ -100,7 +100,7 @@ const Projects = () => {
             <>
               {/* Grille équilibrée - masonry-like */}
               <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {filteredProjects.map((project, index) => (
+                {filteredProjects.map((project) => (
                   <div key={project.id} className="w-full">
                     <ProjectCard 
                       project={project}

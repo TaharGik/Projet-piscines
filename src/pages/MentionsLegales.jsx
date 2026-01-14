@@ -1,4 +1,5 @@
 import useSEO from '../hooks/useSEO';
+import { CONTACT, COMPANY } from '../utils/constants';
 
 /**
  * Page Mentions Légales
@@ -29,14 +30,14 @@ const MentionsLegales = () => {
             <div className="mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Éditeur du site</h2>
               <div className="bg-gray-50 rounded-lg p-6">
-                <p className="mb-2"><strong>Raison sociale :</strong> BBH SERVICE</p>
+                <p className="mb-2"><strong>Raison sociale :</strong> {COMPANY.name}</p>
                 <p className="mb-2"><strong>Forme juridique :</strong> [À compléter - Ex: SARL, SAS, Auto-entrepreneur]</p>
                 <p className="mb-2"><strong>Capital social :</strong> [À compléter]</p>
-                <p className="mb-2"><strong>Siège social :</strong> 10 Pl. des Tilleuls</p>
+                <p className="mb-2"><strong>Siège social :</strong> {CONTACT.address.fullAddress}</p>
                 <p className="mb-2"><strong>SIRET :</strong> [Numéro SIRET à compléter]</p>
                 <p className="mb-2"><strong>RCS :</strong> [Numéro RCS à compléter]</p>
-                <p className="mb-2"><strong>Téléphone :</strong> <a href="tel:+33640123456" className="text-blue-600 hover:underline">06 40 12 34 56</a></p>
-                <p className="mb-2"><strong>Email :</strong> <a href="mailto:bbhservice25@gmail.com" className="text-blue-600 hover:underline">bbhservice25@gmail.com</a></p>
+                <p className="mb-2"><strong>Téléphone :</strong> <a href={`tel:${CONTACT.phoneHref}`} className="text-blue-600 hover:underline">{CONTACT.phone}</a></p>
+                <p className="mb-2"><strong>Email :</strong> <a href={`mailto:${CONTACT.email}`} className="text-blue-600 hover:underline">{CONTACT.email}</a></p>
                 <p className="mb-0"><strong>Directeur de la publication :</strong> [Nom du dirigeant à compléter]</p>
               </div>
             </div>
@@ -72,7 +73,7 @@ const MentionsLegales = () => {
                 Les informations contenues sur ce site sont aussi précises que possibles et le site est 
                 périodiquement remis à jour, mais peut toutefois contenir des inexactitudes, des omissions 
                 ou des lacunes. Si vous constatez une lacune, erreur ou ce qui parait être un dysfonctionnement, 
-                merci de bien vouloir le signaler par email à l'adresse <a href="mailto:bbhservice25@gmail.com" className="text-blue-600 hover:underline">bbhservice25@gmail.com</a>.
+                merci de bien vouloir le signaler par email à l'adresse <a href={`mailto:${CONTACT.email}`} className="text-blue-600 hover:underline">{CONTACT.email}</a>.
               </p>
               <p className="text-gray-600">
                 BBH SERVICE ne pourra être tenue responsable des dommages directs et indirects causés au 

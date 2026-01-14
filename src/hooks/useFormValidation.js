@@ -1,4 +1,11 @@
 import { useState, useCallback } from 'react';
+import { 
+  formatPhoneNumber, 
+  formatPostalCode, 
+  capitalizeName,
+  patterns,
+  errorMessages 
+} from '../utils/formatters';
 
 /**
  * Hook de validation de formulaire en temps réel
@@ -24,75 +31,48 @@ const useFormValidation = (initialValues = {}, validationRules = {}) => {
 
   /**
    * Règles de validation prédéfinies
+   * Utilise les patterns et messages centralisés
    */
   const validators = {
     required: (value) => {
-      return value && value.trim() !== '' ? null : 'Ce champ est requis';
+      return value && value.trim() !== '' ? null : errorMessages.required;
     },
 
     email: (value) => {
       if (!value) return null;
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(value) ? null : 'Email invalide';
+      return patterns.email.test(value) ? null : errorMessages.emailInvalid;
     },
 
     phone: (value) => {
       if (!value) return null;
-      // Accepte 06/07 suivi de 8 chiffres
-      const phoneRegex = /^0[67](\s?\d{2}){4}$/;
       const cleanPhone = value.replace(/\s/g, '');
-      return phoneRegex.test(cleanPhone) ? null : 'Téléphone invalide (ex: 06 12 34 56 78)';
+      return patterns.phoneFR.test(cleanPhone) ? null : errorMessages.phoneInvalid;
     },
 
     postalCode: (value) => {
       if (!value) return null;
-      const postalRegex = /^[0-9]{5}$/;
-      return postalRegex.test(value) ? null : 'Code postal invalide (5 chiffres)';
+      return patterns.postalCodeFR.test(value) ? null : errorMessages.postalCodeInvalid;
     },
 
     minLength: (min) => (value) => {
       if (!value) return null;
-      return value.length >= min ? null : `Minimum ${min} caractères`;
+      return value.length >= min ? null : errorMessages.minLength(min);
     },
 
     maxLength: (max) => (value) => {
       if (!value) return null;
-      return value.length <= max ? null : `Maximum ${max} caractères`;
+      return value.length <= max ? null : errorMessages.maxLength(max);
     }
   };
 
   /**
    * Formate automatiquement certains champs
+   * Utilise les formatters centralisés
    */
   const formatters = {
-    phone: (value) => {
-      // Supprime tous les caractères non numériques
-      let cleaned = value.replace(/\D/g, '');
-      
-      // Limite à 10 chiffres
-      cleaned = cleaned.substring(0, 10);
-      
-      // Formate par paires : 06 12 34 56 78
-      if (cleaned.length > 0) {
-        const pairs = cleaned.match(/.{1,2}/g) || [];
-        return pairs.join(' ');
-      }
-      return cleaned;
-    },
-
-    postalCode: (value) => {
-      // Supprime tout sauf les chiffres et limite à 5
-      return value.replace(/\D/g, '').substring(0, 5);
-    },
-
-    name: (value) => {
-      // Capitalise la première lettre de chaque mot
-      return value
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-    }
+    phone: formatPhoneNumber,
+    postalCode: formatPostalCode,
+    name: capitalizeName,
   };
 
   /**
@@ -124,7 +104,7 @@ const useFormValidation = (initialValues = {}, validationRules = {}) => {
     }
 
     return null;
-  }, [validationRules]);
+  }, [validationRules, validators]);
 
   /**
    * Gère le changement de valeur d'un champ
@@ -147,7 +127,7 @@ const useFormValidation = (initialValues = {}, validationRules = {}) => {
         [fieldName]: error
       }));
     }
-  }, [touched, validateField]);
+  }, [touched, validateField, formatters]);
 
   /**
    * Gère la perte de focus d'un champ (blur)

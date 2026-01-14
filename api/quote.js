@@ -6,13 +6,19 @@
  * - Validation des champs du formulaire
  * - Vérification du CAPTCHA (hCaptcha)
  * - Rate limiting (anti-spam) avec Vercel KV
- * - Sanitisation des entrées (anti-XSS)
+ * - Sanitisation des entrées (anti-XSS) - MODULE DÉDIÉ
  * - Envoi d'emails via Brevo (ex-Sendinblue)
  * 
  * Déployée automatiquement sur Vercel dans /api/quote
  */
 
 import { kv } from '@vercel/kv';
+import { sanitizeString, sanitizeWithLineBreaks, sanitizeFormData } from './sanitizer.js';
+
+// Patterns de validation - SYNCHRONISÉS avec src/utils/validation.js
+const EMAIL_PATTERN = /^[a-z0-9._+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+const PHONE_PATTERN = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+const POSTAL_CODE_PATTERN = /^\d{5}$/;
 
 // Logger conditionnel - logs uniquement en développement
 const isDev = process.env.NODE_ENV !== 'production';
@@ -103,24 +109,63 @@ const LABELS = {
   },
 };
 
+// Fallback rate limiting en mémoire (si Vercel KV indisponible)
+// Note: Ne persiste que durant la durée de vie de la fonction (cold start)
+const inMemoryRateLimits = new Map();
+
 /**
- * Sanitize une chaîne pour prévenir les attaques XSS
- * @param {string} str - Chaîne à sanitiser
- * @returns {string} - Chaîne sanitisée
+ * Nettoie les entrées expirées du rate limiting en mémoire
  */
-function sanitizeString(str) {
-  if (typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .trim();
+function cleanupInMemoryRateLimits() {
+  const now = Date.now();
+  const windowStart = now - CONFIG.RATE_LIMIT_WINDOW_MS;
+  
+  for (const [ip, requests] of inMemoryRateLimits.entries()) {
+    const recentRequests = requests.filter(time => time > windowStart);
+    
+    if (recentRequests.length === 0) {
+      inMemoryRateLimits.delete(ip);
+    } else {
+      inMemoryRateLimits.set(ip, recentRequests);
+    }
+  }
 }
 
 /**
- * Vérifie le rate limit pour une IP avec Vercel KV (Redis)
+ * Rate limiting en mémoire (fallback)
+ * @param {string} ip - Adresse IP du client
+ * @returns {boolean} - true si la requête est autorisée
+ */
+function checkRateLimitInMemory(ip) {
+  const now = Date.now();
+  const windowStart = now - CONFIG.RATE_LIMIT_WINDOW_MS;
+  
+  // Récupérer les requêtes existantes
+  const requests = inMemoryRateLimits.get(ip) || [];
+  
+  // Filtrer les requêtes dans la fenêtre de temps
+  const recentRequests = requests.filter(time => time > windowStart);
+  
+  // Vérifier si la limite est dépassée
+  if (recentRequests.length >= CONFIG.RATE_LIMIT_MAX) {
+    logger.warn(`⚠️ Rate limit dépassé (in-memory) pour ${ip}: ${recentRequests.length} requêtes`);
+    return false;
+  }
+  
+  // Ajouter la nouvelle requête
+  recentRequests.push(now);
+  inMemoryRateLimits.set(ip, recentRequests);
+  
+  // Nettoyer périodiquement (1 chance sur 10)
+  if (Math.random() < 0.1) {
+    cleanupInMemoryRateLimits();
+  }
+  
+  return true;
+}
+
+/**
+ * Vérifie le rate limit pour une IP avec Vercel KV (Redis) + fallback en mémoire
  * @param {string} ip - Adresse IP du client
  * @returns {Promise<boolean>} - true si la requête est autorisée
  */
@@ -130,7 +175,7 @@ async function checkRateLimit(ip) {
   const windowStart = now - CONFIG.RATE_LIMIT_WINDOW_MS;
   
   try {
-    // Récupérer les timestamps des requêtes récentes
+    // Récupérer les timestamps des requêtes récentes depuis KV
     const requests = await kv.get(key) || [];
     
     // Filtrer les requêtes dans la fenêtre de temps
@@ -138,6 +183,7 @@ async function checkRateLimit(ip) {
     
     // Vérifier si la limite est dépassée
     if (recentRequests.length >= CONFIG.RATE_LIMIT_MAX) {
+      logger.warn(`⚠️ Rate limit dépassé (KV) pour ${ip}: ${recentRequests.length} requêtes`);
       return false;
     }
     
@@ -151,9 +197,9 @@ async function checkRateLimit(ip) {
     
     return true;
   } catch (error) {
-    // En cas d'erreur KV, on autorise (fail-open pour éviter de bloquer le service)
-    logger.error('❌ Erreur rate limit KV:', error.message);
-    return true;
+    // FALLBACK: Utiliser rate limiting en mémoire si KV échoue
+    logger.warn('⚠️ Vercel KV indisponible, utilisation du fallback en mémoire:', error.message);
+    return checkRateLimitInMemory(ip);
   }
 }
 
@@ -239,16 +285,14 @@ function validateFormData(data) {
   }
   
   // Validation de l'email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!data.email || !emailRegex.test(data.email)) {
+  if (!data.email || !EMAIL_PATTERN.test(data.email.trim().toLowerCase())) {
     errors.push('Email invalide');
   } else if (data.email.length > 254) { // RFC 5321
     errors.push('Email trop long');
   }
   
   // Validation du téléphone (format français)
-  const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
-  if (!data.phone || !phoneRegex.test(data.phone.replace(/\s/g, ''))) {
+  if (!data.phone || !PHONE_PATTERN.test(data.phone.trim())) {
     errors.push('Numéro de téléphone invalide (format français attendu)');
   }
   
@@ -421,16 +465,14 @@ async function sendEmails(formData) {
     return false;
   }
   
-  // Sanitiser les données utilisateur avant insertion dans le HTML
-  const sanitizedData = {
-    name: sanitizeString(formData.name),
-    email: sanitizeString(formData.email),
-    phone: sanitizeString(formData.phone),
-    city: sanitizeString(formData.city || ''),
-    projectType: formData.projectType, // Validé contre une liste blanche
-    message: sanitizeString(formData.message),
-  };
-
+  // Sanitiser les données utilisateur avec le module dédié (protection XSS renforcée)
+  let sanitizedData;
+  try {
+    sanitizedData = sanitizeFormData(formData);
+  } catch (error) {
+    logger.error('❌ Erreur sanitisation:', error.message);
+    return false;
+  }
 
   // Récupérer les données wizard si présentes
   const wizardData = formData.wizardData || {};
@@ -552,7 +594,7 @@ async function sendEmails(formData) {
             </h2>
             <div style="background: #fffbeb; padding: 24px; border-radius: 10px; border-left: 5px solid #f59e0b; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: relative;">
               <div style="position: absolute; top: 16px; left: 16px; font-size: 48px; opacity: 0.1; color: #f59e0b;">"</div>
-              <p style="margin: 0; color: #92400e; line-height: 1.8; font-size: 15px; white-space: pre-wrap; font-style: italic; padding-left: 32px;">${sanitizedData.message.replace(/\n/g, '<br>')}</p>
+              <p style="margin: 0; color: #92400e; line-height: 1.8; font-size: 15px; white-space: pre-wrap; font-style: italic; padding-left: 32px;">${sanitizeWithLineBreaks(formData.message)}</p>
             </div>
           </div>
           

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Loader BBH SERVICE - Simple et professionnel
@@ -34,6 +35,8 @@ const Loader = ({ onLoadComplete }) => {
           <img 
             src="/images/logo/LogoBBH.png" 
             alt="BBH SERVICE" 
+            width="160"
+            height="80"
             className="h-20 md:h-24 w-auto mx-auto opacity-0 animate-fade-in-up"
             style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
           />

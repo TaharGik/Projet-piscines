@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { createPortal } from 'react-dom';
 import ImageCarousel from './ImageCarousel';
 
@@ -90,6 +91,8 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   <img 
                     src={project.imageBefore} 
                     alt={`${project.name} - Avant`}
+                    width="800"
+                    height="600"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -104,6 +107,8 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   <img 
                     src={project.imageAfter} 
                     alt={`${project.name} - Après`}
+                    width="800"
+                    height="600"
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-4 left-4 bg-[#0F2A44] text-white px-3 py-1 rounded-full text-sm font-medium">

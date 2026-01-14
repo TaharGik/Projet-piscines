@@ -42,7 +42,7 @@ function App() {
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Header />
-      <main className="flex-grow">
+      <main id="main-content" role="main" className="flex-grow">
         <Suspense fallback={
           <div className="min-h-screen flex items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2FB8B3]"></div>

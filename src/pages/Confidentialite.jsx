@@ -1,4 +1,5 @@
 import useSEO from '../hooks/useSEO';
+import { CONTACT, COMPANY } from '../utils/constants';
 
 /**
  * Page Politique de Confidentialité
@@ -146,7 +147,7 @@ const Confidentialite = () => {
                 </div>
               </div>
               <p className="text-gray-600 mt-6">
-                Pour exercer ces droits, contactez-nous à : <a href="mailto:bbhservice25@gmail.com" className="text-blue-600 hover:underline">bbhservice25@gmail.com</a>
+                Pour exercer ces droits, contactez-nous à : <a href={`mailto:${CONTACT.email}`} className="text-blue-600 hover:underline">{CONTACT.email}</a>
               </p>
             </div>
 

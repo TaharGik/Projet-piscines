@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { CONTACT } from '../utils/constants';
 
 /**
  * Header BBH SERVICE
@@ -11,7 +12,7 @@ import { Link, NavLink } from 'react-router-dom';
  */
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [sloganWaveActive, setSloganWaveActive] = useState(true);
+  const [_sloganWaveActive, setSloganWaveActive] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Effet vague sur le slogan pendant 30 secondes à l'arrivée
@@ -54,7 +55,7 @@ const Header = () => {
           <div className="flex justify-between items-center py-2 text-sm">
             <div className="flex items-center gap-6">
               <a 
-                href="tel:+33640123456" 
+                href={`tel:${CONTACT.phoneHref}`}
                 className={`flex items-center gap-2 transition-colors font-medium ${
                   isScrolled ? 'text-[#0F2A44] hover:text-[#2FB8B3]' : 'text-white hover:text-[#2FB8B3]'
                 }`}
@@ -62,7 +63,7 @@ const Header = () => {
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
-                06 40 12 34 56
+                {CONTACT.phone}
               </a>
               <span className={`flex items-center gap-2 ${
                 isScrolled ? 'text-[#6B7280]' : 'text-white/80'
@@ -92,10 +93,13 @@ const Header = () => {
             to="/" 
             className="flex items-center group" 
             onClick={handleLogoClick}
+            aria-label="Retour à l'accueil BBH SERVICE"
           >
             <img 
               src="/images/logo/LogoBBH.png" 
               alt="BBH SERVICE - Expert Piscines" 
+              width="160"
+              height="64"
               className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
             />
             <div className="hidden sm:flex flex-col ml-3 border-l-2 border-secondary/30 pl-3">
@@ -128,6 +132,7 @@ const Header = () => {
               to="/devis"
               className="btn-primary ml-2 lg:ml-4 flex-shrink-0"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              aria-label="Demander un devis gratuit"
             >
               Devis gratuit
             </Link>
@@ -159,8 +164,9 @@ const Header = () => {
               <a 
                 href="tel:+33640123456" 
                 className="flex items-center justify-center gap-2 w-full py-3 bg-[#2FB8B3] text-white font-semibold rounded-lg hover:bg-[#269E9A] transition-colors min-h-[48px]"
+                aria-label="Appeler BBH SERVICE au 06 40 12 34 56"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
                 </svg>
                 Appeler : 06 40 12 34 56

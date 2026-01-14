@@ -2,6 +2,7 @@ import SectionTitle from '../components/SectionTitle';
 import ContactForm from '../components/ContactFormSecure';
 import AnimatedSection from '../components/AnimatedSection';
 import useSEO from '../hooks/useSEO';
+import { CONTACT } from '../utils/constants';
 
 /**
  * Page Contact
@@ -11,7 +12,7 @@ const Contact = () => {
   // SEO - Meta tags pour la page Contact
   useSEO({
     title: 'Contact - Devis gratuit piscine en Ile-de-France',
-    description: 'Demandez votre devis gratuit pour votre projet piscine. Reponse sous 48h. Contactez BBH SERVICE au 06 40 12 34 56 ou via notre formulaire.',
+    description: `Demandez votre devis gratuit pour votre projet piscine. Reponse sous 48h. Contactez BBH SERVICE au ${CONTACT.phone} ou via notre formulaire.`,
     keywords: 'devis piscine gratuit, contact pisciniste, piscine Ile-de-France, constructeur piscine Paris',
     canonicalUrl: 'https://www.bbhservice.fr/contact',
   });
@@ -74,7 +75,7 @@ const Contact = () => {
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Adresse</div>
-                        <div className="text-gray-600">10 Pl. des Tilleuls, 95310 Saint-Ouen-l'Aumône<br/>Société de construction de piscine</div>
+                        <div className="text-gray-600">{CONTACT.address.fullAddress}<br/>Société de construction de piscine</div>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
@@ -83,7 +84,7 @@ const Contact = () => {
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Téléphone</div>
-                        <a href="tel:+33140123456" className="text-secondary hover:text-[#269E9A] hover:underline font-medium transition-colors">01 40 12 34 56</a>
+                        <a href={`tel:${CONTACT.phoneHref}`} className="text-secondary hover:text-[#269E9A] hover:underline font-medium transition-colors">{CONTACT.phone}</a>
                       </div>
                     </li>
                     <li className="flex items-start space-x-3">
@@ -92,7 +93,7 @@ const Contact = () => {
                       </svg>
                       <div>
                         <div className="font-medium text-gray-900">Email</div>
-                        <a href="mailto:bbhservice25@gmail.com" className="text-secondary hover:text-[#269E9A] hover:underline transition-colors">bbhservice25@gmail.com</a>
+                        <a href={`mailto:${CONTACT.email}`} className="text-secondary hover:text-[#269E9A] hover:underline transition-colors">{CONTACT.email}</a>
                       </div>
                     </li>
                   </ul>
@@ -189,13 +190,13 @@ const Contact = () => {
                 Notre équipe est disponible du lundi au vendredi de 9h à 18h
               </p>
               <a 
-                href="tel:+33140123456" 
+                href={`tel:${CONTACT.phoneHref}`}
                 className="inline-flex items-center bg-[#2FB8B3] hover:bg-[#269E9A] text-white font-semibold px-8 py-4 rounded-lg transition-colors shadow-lg hover:shadow-xl"
               >
                 <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                01 40 12 34 56
+                {CONTACT.phone}
               </a>
             </div>
           </AnimatedSection>

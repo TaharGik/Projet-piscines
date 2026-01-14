@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import OptimizedImage from './OptimizedImage';
 
 /**
  * Composant ImageCarousel - Carrousel d'images interactif
@@ -128,9 +129,11 @@ const ImageCarousel = ({
           >
             {/* Image ou placeholder */}
             {image.src ? (
-              <img
+              <OptimizedImage
                 src={image.src}
                 alt={image.alt || `Image ${index + 1}`}
+                width="1200"
+                height="600"
                 className="w-full h-full object-cover"
                 loading={index === 0 ? 'eager' : 'lazy'}
               />

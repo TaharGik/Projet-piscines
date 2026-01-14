@@ -1,4 +1,6 @@
 ﻿import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import OptimizedImage from './OptimizedImage';
 
 /**
  * ProjectCard BBH SERVICE
@@ -14,9 +16,11 @@ const ProjectCard = ({ project }) => {
       {/* Image du projet */}
       <div className="relative h-64 bg-neutral-light overflow-hidden">
         {project.imageAfter || project.imageBefore ? (
-          <img 
+          <OptimizedImage 
             src={project.imageAfter || project.imageBefore} 
             alt={project.name}
+            width="400"
+            height="256"
             loading="lazy"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
@@ -32,7 +36,7 @@ const ProjectCard = ({ project }) => {
         {/* Badge projet phare - Design premium */}
         {project.featured && (
           <div className="absolute top-4 left-4 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg">
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
             </svg>
             Projet phare
@@ -44,6 +48,7 @@ const ProjectCard = ({ project }) => {
           <Link 
             to={`/realisations/${project.slug}`}
             className="px-6 py-3 bg-white text-primary font-bold rounded-lg hover:bg-secondary hover:text-white transition-colors duration-200 shadow-lg"
+            aria-label={`Voir les détails du projet ${project.name}`}
           >
             Voir le projet
           </Link>
@@ -101,6 +106,7 @@ const ProjectCard = ({ project }) => {
         <Link
           to={`/realisations/${project.slug}`}
           className="md:hidden w-full bg-secondary hover:bg-[#269e9a] text-white py-3 px-4 rounded-lg font-heading font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2 group/btn"
+          aria-label={`En savoir plus sur le projet ${project.name}`}
         >
           <span>En savoir plus</span>
           <svg 
@@ -108,6 +114,7 @@ const ProjectCard = ({ project }) => {
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>

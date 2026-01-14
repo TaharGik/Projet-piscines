@@ -1,5 +1,6 @@
 ﻿import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Composant Hero BBH SERVICE - Optimisé Mobile-First
@@ -11,6 +12,11 @@ import { useState, useEffect } from 'react';
  * - CTA orange vif à fort contraste
  * - Scroll indicator animé
  */
+
+// Constantes de configuration
+const WAVE_AUTO_DURATION_MS = 30000; // 30 secondes
+const WAVE_CLICK_DURATION_MS = 3000;  // 3 secondes
+
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   
@@ -21,11 +27,11 @@ const Hero = () => {
   useEffect(() => {
     Promise.resolve().then(() => setIsLoaded(true));
     
-    // L'effet vague se désactive après 30 secondes
+    // L'effet vague se désactive automatiquement
     const timer = setTimeout(() => {
       setIsWaveActive(false);
       setAutoWaveEnded(true);
-    }, 30000);
+    }, WAVE_AUTO_DURATION_MS);
     
     return () => clearTimeout(timer);
   }, []);
@@ -47,8 +53,8 @@ const Hero = () => {
   const handleTitleClick = () => {
     if (autoWaveEnded && !isWaveActive) {
       setIsWaveActive(true);
-      // Désactive après 3 secondes d'animation
-      setTimeout(() => setIsWaveActive(false), 3000);
+      // Désactive automatiquement
+      setTimeout(() => setIsWaveActive(false), WAVE_CLICK_DURATION_MS);
     }
   };
 
@@ -139,7 +145,7 @@ const Hero = () => {
                   <span className="water-title-text" style={{ color: '#ffffff' }}>
                     Solutions piscines fiables,
                     {isWaveActive && (
-                      <svg className="inline-block w-6 h-6 md:w-8 md:h-8 mx-2 -mt-1" viewBox="0 0 24 24">
+                      <svg className="inline-block w-6 h-6 md:w-8 md:h-8 mx-2 -mt-1" viewBox="0 0 24 24" aria-hidden="true">
                         <defs>
                           <linearGradient id="dropGradientDesktop" x1="0%" y1="0%" x2="0%" y2="100%">
                             <stop offset="0%" stopColor="#99DFEC" />
@@ -164,19 +170,19 @@ const Hero = () => {
               }`}
             >
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                 </svg>
                 <span className="text-white font-medium text-sm sm:text-base">Devis 48h</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
                 </svg>
                 <span className="text-white font-medium text-sm sm:text-base">Garantie décennale</span>
               </div>
               <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#2FB8B3]" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
                 </svg>
                 <span className="text-white font-medium text-sm sm:text-base">Île-de-France</span>
@@ -191,6 +197,7 @@ const Hero = () => {
             >
               <Link 
                 to="/devis"
+                aria-label="Demander un devis gratuit, réponse sous 48 heures"
                 className="inline-flex items-center justify-center bg-[#FF6B35] hover:bg-[#E55A28] text-white font-heading font-bold text-lg sm:text-xl px-10 py-3 sm:px-12 sm:py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-[0_20px_60px_rgba(255,107,53,0.4)] hover:scale-105 transform min-h-[52px] w-full sm:w-auto max-w-md mx-auto"
                 style={{
                   boxShadow: '0 10px 40px rgba(255, 107, 53, 0.3)'
@@ -203,6 +210,7 @@ const Hero = () => {
               <div className="mt-2 sm:mt-6 mb-2 sm:mb-0">
                 <Link 
                   to="/realisations" 
+                  aria-label="Voir toutes nos réalisations de piscines"
                   className="inline-flex items-center gap-2 text-white/90 hover:text-white font-medium text-sm sm:text-base transition-all group"
                 >
                   <span className="border-b border-white/50 group-hover:border-white">Découvrir nos réalisations</span>
@@ -232,5 +240,8 @@ const Hero = () => {
     </section>
   );
 };
+
+// Pas de props pour ce composant, mais on le documente quand même
+Hero.propTypes = {};
 
 export default Hero;

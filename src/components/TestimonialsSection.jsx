@@ -1,4 +1,5 @@
 ﻿import TestimonialCard from './TestimonialCard';
+import PropTypes from 'prop-types';
 import { testimonials } from '../data/testimonials';
 
 const TestimonialsSection = ({ limit, showGoogleBadge = true }) => {

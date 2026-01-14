@@ -1,4 +1,6 @@
 ﻿import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import OptimizedImage from './OptimizedImage';
 
 /**
  * ServiceCard BBH SERVICE
@@ -24,9 +26,11 @@ const ServiceCard = ({ service }) => {
       <div className="h-48 relative overflow-hidden">
         {service.image ? (
           <>
-            <img 
+            <OptimizedImage 
               src={service.image} 
               alt={service.title}
+              width="400"
+              height="192"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>

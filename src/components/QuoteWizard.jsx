@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import logger from '../utils/logger';
+import { formatPhoneNumber, formatPostalCode, handleNumericKeyPress } from '../utils/formatters';
 
 /**
  * Composant QuoteWizard - Parcours de demande de devis en étapes
@@ -172,59 +175,6 @@ const QuoteWizard = ({ onComplete, onClose }) => {
   };
 
   /**
-   * formatPhoneNumber - Formate le numéro de téléphone automatiquement
-   * Bloque les lettres, accepte uniquement les chiffres
-   * Formate en 06 12 34 56 78
-   */
-  const formatPhoneNumber = (value) => {
-    const cleaned = value.replace(/\D/g, '');
-    const limited = cleaned.substring(0, 10);
-    
-    if (limited.length === 0) return '';
-    
-    const pairs = limited.match(/.{1,2}/g) || [];
-    return pairs.join(' ');
-  };
-
-  /**
-   * formatPostalCode - Formate le code postal (5 chiffres max)
-   */
-  const formatPostalCode = (value) => {
-    const cleaned = value.replace(/\D/g, '');
-    return cleaned.substring(0, 5);
-  };
-
-  /**
-   * handlePhoneKeyPress - Bloque les caractères non numériques
-   */
-  const handlePhoneKeyPress = (e) => {
-    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-    
-    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
-      return;
-    }
-    
-    if (!/[0-9]/.test(e.key)) {
-      e.preventDefault();
-    }
-  };
-
-  /**
-   * handleNumberKeyPress - Bloque les caractères non numériques (pour code postal)
-   */
-  const handleNumberKeyPress = (e) => {
-    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
-    
-    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
-      return;
-    }
-    
-    if (!/[0-9]/.test(e.key)) {
-      e.preventDefault();
-    }
-  };
-
-  /**
    * Sélectionne une option et passe à l'étape suivante
    */
   const selectOption = (field, value) => {
@@ -328,12 +278,28 @@ ${formData.message || 'Aucun message supplémentaire'}
       }
 
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Erreur:', error);
+      logger.error('[QuoteWizard] Erreur soumission:', {
+        message: error.message,
+        name: error.name,
+        timestamp: new Date().toISOString()
+      });
+      
+      let userMessage = 'Une erreur est survenue. Veuillez réessayer.';
+      
+      // Messages d'erreur spécifiques selon le type
+      if (error.name === 'TypeError' && !navigator.onLine) {
+        userMessage = 'Problème de connexion. Vérifiez votre réseau et réessayez.';
+      } else if (error.message?.includes('429')) {
+        userMessage = 'Trop de tentatives. Veuillez patienter quelques minutes.';
+      } else if (error.message?.includes('timeout')) {
+        userMessage = 'La requête a pris trop de temps. Vérifiez votre connexion.';
+      } else if (error.message) {
+        userMessage = error.message;
       }
+      
       setSubmitStatus({
         type: 'error',
-        message: error.message || 'Une erreur est survenue. Veuillez réessayer.',
+        message: userMessage,
       });
     } finally {
       setIsSubmitting(false);
@@ -355,6 +321,8 @@ ${formData.message || 'Aucun message supplémentaire'}
           : 'border-gray-200 bg-white hover:bg-gray-50'
         }
       `}
+      aria-label={`Sélectionner l'option ${option.label}`}
+      aria-pressed={selected}
     >
       {option.popular && (
         <span className="absolute -top-2 -right-2 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
@@ -380,7 +348,7 @@ ${formData.message || 'Aucun message supplémentaire'}
           )}
         </div>
         {selected && (
-          <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-5 h-5 text-secondary" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
           </svg>
         )}
@@ -567,6 +535,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                     onChange={(e) => updateField('name', e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Jean Dupont"
+                    autoComplete="name"
                     required
                   />
                 </div>
@@ -578,7 +547,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => updateField('phone', e.target.value)}
-                    onKeyDown={handlePhoneKeyPress}
+                    onKeyDown={handleNumericKeyPress}
                     inputMode="numeric"
                     pattern="[0-9\s]{14}"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -602,6 +571,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                   onChange={(e) => updateField('email', e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="jean.dupont@email.com"
+                  autoComplete="email"
                   required
                 />
               </div>
@@ -617,6 +587,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                     onChange={(e) => updateField('city', e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Versailles"
+                    autoComplete="address-level2"
                     required
                   />
                 </div>
@@ -628,7 +599,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                     type="text"
                     value={formData.postalCode}
                     onChange={(e) => updateField('postalCode', e.target.value)}
-                    onKeyDown={handleNumberKeyPress}
+                    onKeyDown={handleNumericKeyPress}
                     inputMode="numeric"
                     pattern="[0-9]{5}"
                     maxLength="5"
@@ -756,6 +727,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                 type="button"
                 onClick={prevStep}
                 className="px-4 py-2 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition-all"
+                aria-label="Retour à l'étape précédente pour modifier vos choix"
               >
                 ← Modifier
               </button>
@@ -764,6 +736,7 @@ ${formData.message || 'Aucun message supplémentaire'}
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting || !isStepValid()}
+                aria-label="Envoyer ma demande de devis"
                 className={`
                   flex-1 py-3 px-6 rounded-lg font-semibold text-lg transition-all duration-300
                   ${isSubmitting || !isStepValid()
@@ -790,6 +763,11 @@ ${formData.message || 'Aucun message supplémentaire'}
       </div>
     </div>
   );
+};
+
+QuoteWizard.propTypes = {
+  onComplete: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default QuoteWizard;

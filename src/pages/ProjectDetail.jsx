@@ -151,6 +151,8 @@ const ProjectDetail = () => {
                   <img 
                     src={project.imageBefore} 
                     alt={`${project.name} - Avant`}
+                    width="600"
+                    height="320"
                     className="h-64 md:h-80 w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
@@ -167,6 +169,8 @@ const ProjectDetail = () => {
                   <img 
                     src={project.imageAfter} 
                     alt={`${project.name} - Après`}
+                    width="600"
+                    height="320"
                     className="h-64 md:h-80 w-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (

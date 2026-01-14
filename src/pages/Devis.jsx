@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import logger from '../utils/logger';
 import { Link, useNavigate } from 'react-router-dom';
 import useSEO from '../hooks/useSEO';
 import AnimatedSection from '../components/AnimatedSection';
@@ -161,7 +162,7 @@ const GAZON_TERRAIN = [
 ];
 
 const Devis = () => {
-  const navigate = useNavigate();
+  const _navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
@@ -367,7 +368,7 @@ const Devis = () => {
           result = await response.json();
         } catch (parseError) {
           if (import.meta.env.DEV) {
-            console.error('Erreur parsing JSON:', parseError);
+            logger.error('Erreur parsing JSON:', parseError);
           }
           throw new Error('Réponse du serveur invalide');
         }
@@ -383,12 +384,26 @@ const Devis = () => {
         throw new Error(result?.error || result?.message || `Erreur serveur (${response.status})`);
       }
     } catch (error) {
-      if (import.meta.env.DEV) {
-        console.error('Erreur:', error);
+      logger.error('[Devis] Erreur soumission:', {
+        message: error.message,
+        name: error.name,
+        timestamp: new Date().toISOString()
+      });
+      
+      let userMessage = error.message || 'Une erreur est survenue. Veuillez réessayer.';
+      
+      // Messages spécifiques selon le type d'erreur
+      if (error.name === 'TypeError' && !navigator.onLine) {
+        userMessage = 'Problème de connexion. Vérifiez votre réseau.';
+      } else if (error.message?.includes('429')) {
+        userMessage = 'Trop de tentatives. Veuillez patienter quelques minutes.';
+      } else if (error.message?.includes('timeout')) {
+        userMessage = 'La requête a pris trop de temps. Vérifiez votre connexion.';
       }
+      
       setSubmitStatus({
         type: 'error',
-        message: error.message || 'Une erreur est survenue. Veuillez réessayer.',
+        message: userMessage,
       });
     } finally {
       setIsSubmitting(false);

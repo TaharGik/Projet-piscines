@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
+import PropTypes from 'prop-types';
+import logger from '../utils/logger';
 
 /**
  * Composant HCaptcha - Intégration de hCaptcha pour la vérification anti-bot
@@ -77,7 +79,7 @@ const HCaptcha = forwardRef(({
       });
     } catch (error) {
       if (import.meta.env.DEV) {
-        console.error('Erreur rendu hCaptcha:', error);
+        logger.error('Erreur rendu hCaptcha:', error);
       }
     }
   }, [isReady, siteKey, theme, size, onVerify, onExpire, onError]);
@@ -110,5 +112,14 @@ const HCaptcha = forwardRef(({
 });
 
 HCaptcha.displayName = 'HCaptcha';
+
+HCaptcha.propTypes = {
+  siteKey: PropTypes.string.isRequired,
+  onVerify: PropTypes.func.isRequired,
+  onExpire: PropTypes.func,
+  onError: PropTypes.func,
+  theme: PropTypes.oneOf(['light', 'dark']),
+  size: PropTypes.oneOf(['normal', 'compact', 'invisible']),
+};
 
 export default HCaptcha;

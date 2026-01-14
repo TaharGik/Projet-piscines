@@ -1,4 +1,5 @@
 ﻿import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * FAQItem BBH SERVICE

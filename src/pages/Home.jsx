@@ -8,6 +8,7 @@ import ProjectsGrid from '../components/ProjectsGrid';
 import TestimonialsSection from '../components/TestimonialsSection';
 import AnimatedSection from '../components/AnimatedSection';
 import useSEO from '../hooks/useSEO';
+import { LocalBusinessSchema, OrganizationSchema, WebSiteSchema } from '../components/StructuredData';
 
 /**
  * Page d'accueil
@@ -79,6 +80,11 @@ const Home = () => {
 
   return (
     <>
+      {/* Structured Data pour SEO */}
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebSiteSchema />
+      
       {/* Hero Section */}
       <Hero />
       

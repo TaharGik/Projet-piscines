@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import HCaptcha from './HCaptcha';
 import SuccessAnimation from './SuccessAnimation';
+import logger from '../utils/logger';
+import { formatPhoneNumber, handleNumericKeyPress } from '../utils/formatters';
+import { handleFetchResponse, parseError, logError } from '../utils/errorHandler';
+import { validateEmail, validatePhone } from '../utils/validation';
 
 /**
  * Composant ContactForm - Formulaire de contact sécurisé
@@ -99,50 +104,10 @@ const ContactForm = () => {
   };
 
   /**
-   * formatPhoneNumber - Formate le numéro de téléphone automatiquement
-   * Bloque les lettres, accepte uniquement les chiffres
-   * Formate en 06 12 34 56 78
+   * _handleNumberKeyPress - Bloque les caractères non numériques (pour code postal, etc.)
+   * NOTE: Conservé pour usage futur
    */
-  const formatPhoneNumber = (value) => {
-    // Supprime tous les caractères non numériques
-    const cleaned = value.replace(/\D/g, '');
-    
-    // Limite à 10 chiffres
-    const limited = cleaned.substring(0, 10);
-    
-    // Formate par paires : 06 12 34 56 78
-    if (limited.length === 0) return '';
-    
-    const pairs = limited.match(/.{1,2}/g) || [];
-    return pairs.join(' ');
-  };
-
-  /**
-   * handlePhoneKeyPress - Bloque les caractères non numériques
-   */
-  const handlePhoneKeyPress = (e) => {
-    // Autorise: chiffres, Backspace, Delete, Tab, Escape, Enter, flèches
-    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
-    
-    if (allowedKeys.includes(e.key)) {
-      return; // Autorise ces touches
-    }
-    
-    // Autorise Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-    if (e.ctrlKey || e.metaKey) {
-      return;
-    }
-    
-    // Bloque tout ce qui n'est pas un chiffre
-    if (!/[0-9]/.test(e.key)) {
-      e.preventDefault();
-    }
-  };
-
-  /**
-   * handleNumberKeyPress - Bloque les caractères non numériques (pour code postal, etc.)
-   */
-  const handleNumberKeyPress = (e) => {
+  const _handleNumberKeyPress = (e) => {
     const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight'];
     
     if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
@@ -178,18 +143,16 @@ const ContactForm = () => {
     if (!formData.email.trim()) {
       newErrors.email = 'Email requis';
       isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!validateEmail(formData.email)) {
       newErrors.email = 'Email invalide';
       isValid = false;
     }
     
     // Téléphone (format français)
-    const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
-    const cleanPhone = formData.phone.replace(/\s/g, '');
-    if (!cleanPhone) {
+    if (!formData.phone.trim()) {
       newErrors.phone = 'Téléphone requis';
       isValid = false;
-    } else if (!phoneRegex.test(cleanPhone)) {
+    } else if (!validatePhone(formData.phone)) {
       newErrors.phone = 'Numéro invalide (format: 06 12 34 56 78)';
       isValid = false;
     }
@@ -234,8 +197,8 @@ const ContactForm = () => {
     if (IS_DEMO_MODE) {
       setTimeout(() => {
         if (IS_DEV) {
-          console.log('Formulaire soumis (mode démo):', formData);
-          console.warn('⚠️ hCaptcha non configuré. Ajoutez VITE_HCAPTCHA_SITE_KEY dans .env');
+          logger.log('Formulaire soumis (mode démo):', formData);
+          logger.warn('⚠️ hCaptcha non configuré. Ajoutez VITE_HCAPTCHA_SITE_KEY dans .env');
         }
         setStatus({
           type: 'success',
@@ -262,24 +225,8 @@ const ContactForm = () => {
         }),
       });
 
-      // Vérifier si la réponse contient du JSON avant de parser
-      let data = null;
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          data = await response.json();
-        } catch (parseError) {
-          if (IS_DEV) {
-            console.error('Erreur parsing JSON:', parseError);
-          }
-          throw new Error('Réponse du serveur invalide');
-        }
-      }
-
-      if (!response.ok) {
-        // Erreur du serveur
-        throw new Error(data?.error || `Erreur serveur (${response.status})`);
-      }
+      // Utiliser le nouveau handler de réponse qui gère toutes les erreurs
+      const data = await handleFetchResponse(response);
 
       // Succès
       setStatus({
@@ -290,12 +237,24 @@ const ContactForm = () => {
       resetForm();
 
     } catch (error) {
-      if (IS_DEV) {
-        console.error('Erreur envoi formulaire:', error);
-      }
+      // Parser l'erreur pour obtenir un message utilisateur approprié
+      const appError = parseError(error);
+      
+      // Logger l'erreur avec contexte (envoie automatiquement à Sentry en production)
+      logError(appError, {
+        component: 'ContactForm',
+        action: 'submit',
+        formData: { 
+          hasName: !!formData.name, 
+          hasEmail: !!formData.email,
+          projectType: formData.projectType 
+        }
+      });
+      
+      // Afficher le message utilisateur
       setStatus({
         type: 'error',
-        message: error.message || 'Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone.',
+        message: appError.message,
       });
       
       // Reset le captcha en cas d'erreur
@@ -400,6 +359,7 @@ const ContactForm = () => {
             errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'
           }`}
           placeholder="Jean Dupont"
+          autoComplete="name"
           maxLength={100}
           required
         />
@@ -429,6 +389,7 @@ const ContactForm = () => {
               errors.email ? 'border-red-500 bg-red-50' : 'border-gray-300'
             }`}
             placeholder="jean.dupont@email.com"
+            autoComplete="email"
             required
           />
           {errors.email && (
@@ -450,7 +411,7 @@ const ContactForm = () => {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            onKeyDown={handlePhoneKeyPress}
+            onKeyDown={handleNumericKeyPress}
             inputMode="numeric"
             pattern="[0-9\s]{14}"
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all ${
@@ -485,6 +446,7 @@ const ContactForm = () => {
             onChange={handleChange}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent transition-all"
             placeholder="Versailles (78000)"
+            autoComplete="address-level2"
             maxLength={100}
           />
         </div>
@@ -575,10 +537,11 @@ const ContactForm = () => {
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-secondary hover:bg-[#269E9A] hover:shadow-lg transform hover:-translate-y-0.5'
         }`}
+        aria-label="Envoyer le formulaire de contact"
       >
         {status.type === 'loading' ? (
           <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24" aria-hidden="true">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -601,5 +564,8 @@ const ContactForm = () => {
     </>
   );
 };
+
+// Pas de props pour ce composant
+ContactForm.propTypes = {};
 
 export default ContactForm;

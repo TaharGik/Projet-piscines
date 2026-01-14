@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import SectionTitle from '../components/SectionTitle';
 import FAQItem from '../components/FAQItem';
 import useSEO from '../hooks/useSEO';
+import { CONTACT } from '../utils/constants';
+import { FAQPageSchema, BreadcrumbSchema } from '../components/StructuredData';
 
 /**
  * Page FAQ
@@ -103,6 +105,13 @@ const FAQ = () => {
 
   return (
     <>
+      {/* Structured Data pour SEO */}
+      <FAQPageSchema faqs={faqs} />
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', path: '/' },
+        { name: 'FAQ', path: '/faq' }
+      ]} />
+      
       {/* Hero FAQ */}
       <section 
         className="py-20 relative overflow-hidden"

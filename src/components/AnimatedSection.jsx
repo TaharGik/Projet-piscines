@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import useScrollAnimation from '../hooks/useScrollAnimation';
 
 /**
@@ -88,6 +89,13 @@ const AnimatedSection = ({
       {children}
     </div>
   );
+};
+
+AnimatedSection.propTypes = {
+  children: PropTypes.node.isRequired,
+  animation: PropTypes.oneOf(['fade-up', 'fade-down', 'fade-left', 'fade-right', 'zoom-in', 'zoom-out']),
+  delay: PropTypes.number,
+  className: PropTypes.string,
 };
 
 export default AnimatedSection;

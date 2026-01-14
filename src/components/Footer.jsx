@@ -1,4 +1,5 @@
 ﻿import { Link } from 'react-router-dom';
+import { CONTACT, SOCIAL, COMPANY } from '../utils/constants';
 
 /**
  * Footer BBH SERVICE
@@ -110,10 +111,10 @@ const Footer = () => {
             <ul className="space-y-3 text-sm font-sans text-white/70">
               <li>Île-de-France et alentours</li>
               <li>
-                <a href="tel:+33640123456" className="hover:text-[#2FB8B3] transition-colors duration-200">06 40 12 34 56</a>
+                <a href={`tel:${CONTACT.phoneHref}`} className="hover:text-[#2FB8B3] transition-colors duration-200">{CONTACT.phone}</a>
               </li>
               <li>
-                <a href="mailto:bbhservice25@gmail.com" className="hover:text-[#2FB8B3] transition-colors duration-200">bbhservice25@gmail.com</a>
+                <a href={`mailto:${CONTACT.email}`} className="hover:text-[#2FB8B3] transition-colors duration-200">{CONTACT.email}</a>
               </li>
               <li>Lun-Sam: 9h-18h</li>
             </ul>

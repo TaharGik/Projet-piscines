@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * Contexte pour gérer l'état du QuoteWizard globalement
@@ -6,6 +7,7 @@ import { createContext, useContext, useState } from 'react';
  */
 const QuoteWizardContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useQuoteWizard = () => {
   const context = useContext(QuoteWizardContext);
   if (!context) {
@@ -27,4 +29,9 @@ export const QuoteWizardProvider = ({ children }) => {
   );
 };
 
-export default QuoteWizardContext;
+QuoteWizardProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+// Note: Ne pas utiliser export default pour éviter l'erreur react-refresh
+// Importer avec: import { useQuoteWizard, QuoteWizardProvider } from './context/QuoteWizardContext'

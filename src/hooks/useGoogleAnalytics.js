@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import logger from '../utils/logger';
 
 /**
  * Hook personnalisé pour Google Analytics 4 (GA4)
@@ -42,7 +43,7 @@ const useGoogleAnalytics = () => {
     // Si pas de tracking ID configuré, on ne fait rien
     if (!GA_MEASUREMENT_ID) {
       if (IS_DEV) {
-        console.warn('⚠️ Google Analytics non configuré. Ajoutez VITE_GA_TRACKING_ID dans votre fichier .env');
+        logger.warn('⚠️ Google Analytics non configuré. Ajoutez VITE_GA_TRACKING_ID dans votre fichier .env');
       }
       return;
     }
@@ -71,7 +72,7 @@ const useGoogleAnalytics = () => {
     });
 
     if (IS_DEV) {
-      console.log('✅ Google Analytics initialisé:', GA_MEASUREMENT_ID);
+      logger.log('✅ Google Analytics initialisé:', GA_MEASUREMENT_ID);
     }
   }, [GA_MEASUREMENT_ID]);
 
@@ -90,7 +91,7 @@ const useGoogleAnalytics = () => {
     });
 
     if (IS_DEV) {
-      console.log('📊 GA4 - Page vue:', location.pathname);
+      logger.log('📊 GA4 - Page vue:', location.pathname);
     }
   }, [location, GA_MEASUREMENT_ID]);
 
@@ -109,14 +110,14 @@ const useGoogleAnalytics = () => {
   const trackEvent = (eventName, params = {}) => {
     if (!GA_MEASUREMENT_ID || !window.gtag) {
       if (IS_DEV) {
-        console.log('📊 [Mode dev] Événement:', eventName, params);
+        logger.log('📊 [Mode dev] Événement:', eventName, params);
       }
       return;
     }
 
     window.gtag('event', eventName, params);
     if (IS_DEV) {
-      console.log('📊 GA4 - Événement:', eventName, params);
+      logger.log('📊 GA4 - Événement:', eventName, params);
     }
   };
 

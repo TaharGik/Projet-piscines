@@ -1,4 +1,6 @@
-﻿/**
+﻿import PropTypes from 'prop-types';
+
+/**
  * SectionTitle BBH SERVICE
  * Conforme à la charte : Montserrat pour les titres, Lato pour le sous-titre
  * Couleurs : #0F2A44 (primaire)
@@ -16,6 +18,12 @@ const SectionTitle = ({ title, subtitle, centered = true }) => {
       )}
     </div>
   );
+};
+
+SectionTitle.propTypes = {
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+  centered: PropTypes.bool,
 };
 
 export default SectionTitle;

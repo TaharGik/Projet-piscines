@@ -1,4 +1,6 @@
-﻿/**
+﻿import PropTypes from 'prop-types';
+
+/**
  * TestimonialCard BBH SERVICE
  * Conforme à la charte :
  * - Design sobre, ombres légères

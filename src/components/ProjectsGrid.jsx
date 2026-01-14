@@ -1,5 +1,7 @@
 ﻿import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { projects } from '../data/projects';
+import OptimizedImage from './OptimizedImage';
 
 /**
  * Composant ProjectsGrid - Grille de projets avec disposition asymétrique
@@ -35,9 +37,11 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
           >
             <div className="relative h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-neutral-light">
               {first.imageAfter || first.imageBefore ? (
-                <img 
+                <OptimizedImage 
                   src={first.imageAfter || first.imageBefore} 
                   alt={first.name}
+                  width="800"
+                  height="450"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
@@ -68,9 +72,11 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
             >
               <div className="relative h-[200px] md:h-[240px] rounded-xl overflow-hidden bg-neutral-light">
                 {second.imageAfter || second.imageBefore ? (
-                  <img 
+                  <OptimizedImage 
                     src={second.imageAfter || second.imageBefore} 
                     alt={second.name}
+                    width="500"
+                    height="350"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
@@ -119,9 +125,11 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
           >
             <div className="relative h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-neutral-light">
               {third.imageAfter || third.imageBefore ? (
-                <img 
+                <OptimizedImage 
                   src={third.imageAfter || third.imageBefore} 
                   alt={third.name}
+                  width="500"
+                  height="450"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
@@ -160,9 +168,11 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
           >
             <div className="relative h-[240px] rounded-xl overflow-hidden bg-neutral-light">
               {project.imageAfter || project.imageBefore ? (
-                <img 
+                <OptimizedImage 
                   src={project.imageAfter || project.imageBefore} 
                   alt={project.name}
+                  width="400"
+                  height="240"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
@@ -181,6 +191,12 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
       </div>
     </>
   );
+};
+
+ProjectsGrid.propTypes = {
+  limit: PropTypes.number,
+  featured: PropTypes.bool,
+  asymmetric: PropTypes.bool,
 };
 
 export default ProjectsGrid;

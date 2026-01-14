@@ -4,6 +4,7 @@ import SectionTitle from '../components/SectionTitle';
 import ServiceCard from '../components/ServiceCard';
 import { services } from '../data/services';
 import useSEO from '../hooks/useSEO';
+import { BreadcrumbSchema, ServiceSchema } from '../components/StructuredData';
 
 /**
  * Page Services
@@ -36,6 +37,12 @@ const Services = () => {
 
   return (
     <>
+      {/* Structured Data pour SEO */}
+      <BreadcrumbSchema items={[
+        { name: 'Accueil', path: '/' },
+        { name: 'Services', path: '/services' }
+      ]} />
+      
       {/* Hero Services */}
       <section 
         className="py-20 relative overflow-hidden"
@@ -75,6 +82,8 @@ const Services = () => {
                       <img 
                         src={service.image} 
                         alt={service.title}
+                        width="600"
+                        height="320"
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                       />
                     </div>

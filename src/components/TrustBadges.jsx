@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 /**
  * Section Trust Badges - Badges de confiance et certifications
  * Affiche les assurances, certifications et garanties de l'entreprise
