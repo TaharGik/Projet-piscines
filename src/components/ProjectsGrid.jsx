@@ -29,11 +29,11 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
     
     return (
       <>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {/* Grande image à gauche - Verticale */}
           <Link 
             to={`/realisations/${first.slug}`}
-            className="group"
+            className="group flex flex-col h-full"
           >
             <div className="relative h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-neutral-light">
               {first.imageAfter || first.imageBefore ? (
@@ -49,34 +49,29 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
                   <span className="text-primary/50 text-sm font-sans">Photo du projet</span>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              {/* Info overlay en bas au hover */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="font-heading text-base font-bold text-white">{first.name}</h3>
-                <p className="font-sans text-white/80 text-sm line-clamp-1">{first.description}</p>
-              </div>
+              {/* Overlay sombre au survol uniquement */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             {/* Description sous l'image */}
-            <div className="mt-3">
-              <h3 className="font-heading text-base font-semibold text-primary group-hover:text-secondary transition-colors">{first.name}</h3>
-              <p className="font-sans text-primary/60 text-sm line-clamp-2">{first.description}</p>
+            <div className="mt-4 flex-1">
+              <h3 className="font-heading text-lg font-semibold text-primary group-hover:text-secondary transition-colors">{first.name}</h3>
+              <p className="font-sans text-primary/60 text-sm mt-2 line-clamp-2">{first.description}</p>
             </div>
           </Link>
 
           {/* Colonne du milieu - Petite image + En savoir plus */}
-          <div className="flex flex-col">
+          <div className="flex flex-col h-full">
             <Link 
               to={`/realisations/${second.slug}`}
-              className="group"
+              className="group flex flex-col flex-1"
             >
-              <div className="relative h-[200px] md:h-[240px] rounded-xl overflow-hidden bg-neutral-light">
+              <div className="relative h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-neutral-light">
                 {second.imageAfter || second.imageBefore ? (
                   <OptimizedImage 
                     src={second.imageAfter || second.imageBefore} 
                     alt={second.name}
                     width="500"
-                    height="350"
+                    height="450"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 ) : (
@@ -84,44 +79,21 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
                     <span className="text-primary/50 text-sm font-sans">Photo du projet</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                
-                {/* Info overlay en bas au hover */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                  <h3 className="font-heading text-base font-bold text-white">{second.name}</h3>
-                  <p className="font-sans text-white/80 text-sm line-clamp-1">{second.description}</p>
-                </div>
+                {/* Overlay sombre au survol uniquement */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               {/* Description sous l'image */}
-              <div className="mt-3">
-                <h3 className="font-heading text-base font-semibold text-primary group-hover:text-secondary transition-colors">{second.name}</h3>
-                <p className="font-sans text-primary/60 text-sm line-clamp-2">{second.description}</p>
+              <div className="mt-4 flex-1">
+                <h3 className="font-heading text-lg font-semibold text-primary group-hover:text-secondary transition-colors">{second.name}</h3>
+                <p className="font-sans text-primary/60 text-sm mt-2 line-clamp-2">{second.description}</p>
               </div>
             </Link>
-
-            {/* Lien "En savoir plus" */}
-            <div className="flex items-center justify-center mt-6">
-              <Link 
-                to="/realisations"
-                className="font-sans text-[#2FB8B3] hover:text-[#269E9A] font-medium transition-colors duration-200 flex items-center gap-2 group"
-              >
-                <span>En savoir plus</span>
-                <svg 
-                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
           </div>
 
           {/* Grande image à droite - Verticale */}
           <Link 
             to={`/realisations/${third.slug}`}
-            className="group"
+            className="group flex flex-col h-full"
           >
             <div className="relative h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-neutral-light">
               {third.imageAfter || third.imageBefore ? (
@@ -137,18 +109,13 @@ const ProjectsGrid = ({ limit, featured, asymmetric = true }) => {
                   <span className="text-primary/50 text-sm font-sans">Photo du projet</span>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              {/* Info overlay en bas au hover */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <h3 className="font-heading text-base font-bold text-white">{third.name}</h3>
-                <p className="font-sans text-white/80 text-sm line-clamp-1">{third.description}</p>
-              </div>
+              {/* Overlay sombre au survol uniquement */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
             {/* Description sous l'image */}
-            <div className="mt-3">
-              <h3 className="font-heading text-base font-semibold text-primary group-hover:text-secondary transition-colors">{third.name}</h3>
-              <p className="font-sans text-primary/60 text-sm line-clamp-2">{third.description}</p>
+            <div className="mt-4 flex-1">
+              <h3 className="font-heading text-lg font-semibold text-primary group-hover:text-secondary transition-colors">{third.name}</h3>
+              <p className="font-sans text-primary/60 text-sm mt-2 line-clamp-2">{third.description}</p>
             </div>
           </Link>
         </div>

@@ -115,36 +115,48 @@ const TrustBadges = ({ variant = 'default', className = '' }) => {
   }
 
   return (
-    <div className={`bg-white ${className}`}>
+    <div className={`bg-gray-50 py-16 ${className}`}>
       <div className="container-custom">
+        {/* Titre et sous-titre de section */}
         <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-            Vos garanties et notre engagement
-          </h3>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Assurances, certifications et garanties pour vous offrir une sérénité totale
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-primary mb-4">
+            Certifications & Garanties
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Assurances, labels et SAV pour des travaux en toute sérénité
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        {/* Grille responsive des badges */}
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {badges.map((badge) => (
-            <div key={badge.id} className="text-center group">
-              <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center border-2 transition-all duration-300 group-hover:scale-105 ${getColorClasses(badge.color)}`}>
+            <li 
+              key={badge.id} 
+              className="flex items-center gap-4 group cursor-pointer"
+            >
+              {/* Icône */}
+              <div className={`w-14 h-14 flex-shrink-0 rounded-xl flex items-center justify-center border-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-md ${getColorClasses(badge.color)}`}>
                 {badge.icon}
               </div>
-              <h4 className="font-semibold text-primary text-sm mb-1">{badge.title}</h4>
-              <p className="text-xs text-gray-600 mb-1">{badge.subtitle}</p>
-              <p className="text-xs text-gray-500">{badge.description}</p>
-            </div>
+              {/* Texte */}
+              <div className="flex-1 min-w-0">
+                <h3 className="font-heading font-semibold text-primary text-base leading-tight mb-1 group-hover:text-secondary transition-colors duration-300">
+                  {badge.title}
+                </h3>
+                <p className="text-sm text-gray-600 leading-tight">
+                  {badge.subtitle}
+                </p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ul>
 
         {/* Message de réassurance */}
-        <div className="text-center mt-12 bg-[#F3F5F9] rounded-2xl p-8">
-          <h4 className="text-xl font-semibold text-primary mb-3">
+        <div className="text-center mt-12 bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-sm">
+          <h3 className="text-xl font-heading font-semibold text-primary mb-3">
             Votre tranquillité d'esprit, notre priorité
-          </h4>
-          <p className="text-gray-600 max-w-3xl mx-auto">
+          </h3>
+          <p className="text-gray-600 leading-relaxed">
             Chaque installation est couverte par nos assurances et certifications. 
             Notre équipe qualifiée vous accompagne de A à Z avec un service après-vente réactif 
             et des garanties étendues sur tous nos travaux.

@@ -150,4 +150,14 @@ export const testimonials = [
   }
 ];
 
+/**
+ * Fonction pour obtenir des témoignages aléatoires
+ * @param {number} count - Nombre de témoignages à retourner
+ * @returns {Array} Tableau de témoignages aléatoires
+ */
+export const getRandomTestimonials = (count = 6) => {
+  const shuffled = [...testimonials].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+};
+
 export default testimonials;

@@ -230,7 +230,7 @@ const Home = () => {
 
       {/* Section Trust Badges - Assurances et Garanties */}
       <AnimatedSection animation="fade-up">
-        <TrustBadges variant="horizontal" className="border-t border-b" />
+        <TrustBadges variant="horizontal" />
       </AnimatedSection>
 
       {/* Section Témoignages */}
@@ -243,7 +243,7 @@ const Home = () => {
             />
           </AnimatedSection>
           <AnimatedSection animation="fade-up" delay={200}>
-            <TestimonialsSection limit={3} />
+            <TestimonialsSection limit={3} randomize={true} />
           </AnimatedSection>
           <AnimatedSection animation="fade-up" delay={400}>
             <div className="text-center mt-8">

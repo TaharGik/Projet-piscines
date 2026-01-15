@@ -34,7 +34,7 @@ Le projet a été livré dans les délais impartis, permettant aux étudiants de
     year: 2018,
     duration: '8 mois',
     budget: 'Sur devis',
-    imageBefore: '/images/projects/realisation1.png',
+    imageBefore: '/images/projects/realisation1-avant.png',
     imageAfter: '/images/projects/realisation1.png',
     featured: true,
     details: {
@@ -63,8 +63,8 @@ Le système de chauffage par pompe à chaleur Inverter assure une température c
     year: 2018,
     duration: '5 mois',
     budget: 'Sur devis',
-    imageBefore: '/images/projects/realisation2.jpg',
-    imageAfter: '/images/projects/realisation3.jpg',
+    imageBefore: '/images/projects/realisation2-avant.png',
+    imageAfter: '/images/projects/realisation2.jpg',
     featured: true,
     details: {
       filtration: 'Electrolyseur au sel haut de gamme',
@@ -75,32 +75,33 @@ Le système de chauffage par pompe à chaleur Inverter assure une température c
   },
   {
     id: 3,
-    slug: 'maison-architecte',
-    name: 'Maison d\'Architecte',
-    city: 'Boulogne-Billancourt',
+    slug: 'maison-familiale-meudon',
+    name: 'Maison familiale à Meudon',
+    city: 'Meudon',
     department: 'Hauts-de-Seine (92)',
-    type: 'Piscine intérieure',
-    description: 'Piscine intérieure de 10x4m dans une extension contemporaine. Système de déshumidification intégré et baie vitrée motorisée.',
-    longDescription: `Ce projet d'exception a été réalisé dans une maison d'architecte contemporaine. Le client souhaitait profiter de sa piscine toute l'année, d'où le choix d'une piscine intérieure.
+    type: 'Piscine extérieure résidentielle',
+    description: 'Piscine 8x4m avec liner bleu dans le jardin d\'une maison familiale. Plage en margelles grises et volet roulant automatique.',
+    longDescription: `Réalisation d'une piscine familiale dans le jardin d'une maison à Meudon. Le projet a été conçu pour optimiser l'espace disponible tout en créant un véritable lieu de vie extérieur.
 
-L'extension de 80m² a été conçue en étroite collaboration avec l'architecte du client. Elle comprend le bassin de 10x4m, une zone de détente et un local technique.
+Le bassin rectangulaire de 8x4m en béton armé est équipé d'un liner bleu classique. La plage en margelles grises anthracite apporte une touche moderne et s'harmonise parfaitement avec la maison.
 
-Le système de déshumidification Zodiac assure un confort optimal et protège le bâti de l'humidité. La baie vitrée motorisée de 8m de large peut s'ouvrir entièrement en été.
-Le chauffage par échangeur thermique raccordé à la chaudière de la maison permet de maintenir l'eau à 28°C en permanence.`,
-    tags: ['interieure', 'contemporain', 'déshumidification', 'baie vitrée'],
-    dimensions: '10m x 4m',
-    depth: '1.40m uniforme',
-    year: 2022,
-    duration: '6 mois',
-    budget: '150 000 - 180 000 EUR',
-    imageBefore: '/images/services/piscine-interieur.jpg',
-    imageAfter: '/images/services/piscine-interieur.jpg',
+Le système de filtration à cartouche assure une eau cristalline avec un entretien minimal. La pompe à chaleur permet de profiter de la piscine d'avril à octobre.
+
+Le volet roulant automatique garantit la sécurité des enfants et facilite l'entretien quotidien. L'éclairage LED subaquatique blanc prolonge les plaisirs de la baignade en soirée.`,
+    tags: ['résidentielle', 'familiale', 'jardin', 'volet roulant'],
+    dimensions: '8m x 4m',
+    depth: '1.20m à 1.50m',
+    year: 2023,
+    duration: '3 mois',
+    budget: '35 000 - 45 000 EUR',
+    imageBefore: '/images/projects/realisation3-avant.png',
+    imageAfter: '/images/projects/realisation3.png',
     featured: true,
     details: {
-      filtration: 'Ozone + chlore residuel',
-      revetement: 'Carrelage blanc grand format',
-      margelles: 'Dallage interieur assorti',
-      equipements: ['Deshumidificateur Zodiac', 'Baie vitree motorisee', 'Chauffage echangeur', 'Nage a contre-courant']
+      filtration: 'Filtration à cartouche + chlore',
+      revetement: 'Liner bleu 75/100ème',
+      margelles: 'Margelles grises anthracite',
+      equipements: ['Pompe à chaleur', 'Volet roulant automatique', 'Éclairage LED blanc', 'Échelle inox', 'Local technique hors-sol']
     }
   },
   {

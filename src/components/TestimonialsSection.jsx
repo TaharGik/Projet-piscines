@@ -1,9 +1,18 @@
 ﻿import TestimonialCard from './TestimonialCard';
 import PropTypes from 'prop-types';
-import { testimonials } from '../data/testimonials';
+import { testimonials, getRandomTestimonials } from '../data/testimonials';
+import { useState, useEffect } from 'react';
 
-const TestimonialsSection = ({ limit, showGoogleBadge = true }) => {
-  const displayedTestimonials = limit ? testimonials.slice(0, limit) : testimonials;
+const TestimonialsSection = ({ limit, showGoogleBadge = true, randomize = false }) => {
+  const [displayedTestimonials, setDisplayedTestimonials] = useState([]);
+  
+  useEffect(() => {
+    if (randomize) {
+      setDisplayedTestimonials(getRandomTestimonials(limit || 6));
+    } else {
+      setDisplayedTestimonials(limit ? testimonials.slice(0, limit) : testimonials);
+    }
+  }, [limit, randomize]);
   
   // Calculer la note moyenne
   const averageRating = testimonials.reduce((acc, t) => acc + t.rating, 0) / testimonials.length;
